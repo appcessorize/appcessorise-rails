@@ -1,0 +1,70 @@
+<% content_for :title, "Payment Failed - Appcessorise" %>
+
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-red-50 py-12">
+  <%= render 'shared/navigation' %>
+
+  <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
+    <div class="bg-white rounded-2xl shadow-xl overflow-hidden text-center p-12">
+      <!-- Error Icon -->
+      <div class="w-24 h-24 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+        <svg class="w-12 h-12 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </div>
+
+      <!-- Error Message -->
+      <h1 class="text-4xl font-bold text-gray-900 mb-4">Payment Failed</h1>
+      <p class="text-lg text-gray-600 mb-8">
+        We couldn't process your payment. Please try again or use a different payment method.
+      </p>
+
+      <!-- Common Reasons -->
+      <div class="bg-gray-50 rounded-xl p-6 mb-8 text-left">
+        <h2 class="text-lg font-bold text-gray-900 mb-3">Common reasons for payment failure:</h2>
+        <ul class="space-y-2 text-gray-600">
+          <li class="flex items-start">
+            <svg class="w-5 h-5 text-gray-400 mt-0.5 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"/>
+            </svg>
+            <span>Insufficient funds in your account</span>
+          </li>
+          <li class="flex items-start">
+            <svg class="w-5 h-5 text-gray-400 mt-0.5 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"/>
+            </svg>
+            <span>Incorrect card details or expired card</span>
+          </li>
+          <li class="flex items-start">
+            <svg class="w-5 h-5 text-gray-400 mt-0.5 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"/>
+            </svg>
+            <span>Transaction declined by your bank</span>
+          </li>
+          <li class="flex items-start">
+            <svg class="w-5 h-5 text-gray-400 mt-0.5 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"/>
+            </svg>
+            <span>Network or connection issue</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <%= link_to new_checkout_path, class: "px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition transform hover:scale-105 shadow-lg" do %>
+          Try Again
+        <% end %>
+        <%= link_to products_path, class: "px-8 py-3 bg-white border-2 border-gray-300 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition" do %>
+          Back to Products
+        <% end %>
+      </div>
+
+      <!-- Help -->
+      <div class="mt-8 pt-8 border-t border-gray-200">
+        <p class="text-sm text-gray-500">
+          Need help? <%= link_to "Contact our support team", about_path, class: "text-blue-600 hover:underline" %>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

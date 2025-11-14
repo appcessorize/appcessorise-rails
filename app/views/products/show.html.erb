@@ -1,0 +1,276 @@
+<% content_for :title, "Premium Phone Case - Appcessorise" %>
+
+<div class="min-h-screen bg-white">
+  <%= render 'shared/navigation' %>
+
+  <div class="pt-6">
+    <!-- Breadcrumb -->
+    <nav aria-label="Breadcrumb" class="mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+      <ol role="list" class="flex items-center space-x-2 text-sm">
+        <li>
+          <%= link_to "Home", root_path, class: "font-medium text-gray-500 hover:text-gray-900 transition" %>
+        </li>
+        <li>
+          <svg viewBox="0 0 16 20" width="16" height="20" fill="currentColor" aria-hidden="true" class="h-5 w-4 text-gray-300">
+            <path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
+          </svg>
+        </li>
+        <li>
+          <%= link_to "Products", products_path, class: "font-medium text-gray-500 hover:text-gray-900 transition" %>
+        </li>
+        <li>
+          <svg viewBox="0 0 16 20" width="16" height="20" fill="currentColor" aria-hidden="true" class="h-5 w-4 text-gray-300">
+            <path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
+          </svg>
+        </li>
+        <li class="font-medium text-gray-900" aria-current="page">Premium Phone Case</li>
+      </ol>
+    </nav>
+
+    <!-- Image gallery -->
+    <div class="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-8 lg:px-8">
+      <!-- Main large image (visible on mobile) -->
+      <div class="aspect-4/5 w-full overflow-hidden rounded-lg bg-gradient-to-br from-blue-100 to-blue-200 sm:rounded-lg lg:aspect-3/4 lg:col-start-3 lg:row-span-2">
+        <div class="flex h-full items-center justify-center">
+          <span class="text-9xl">📱</span>
+        </div>
+      </div>
+
+      <!-- Side images (hidden on mobile) -->
+      <div class="hidden lg:block aspect-3/4 w-full overflow-hidden rounded-lg bg-gradient-to-br from-purple-100 to-purple-200 lg:col-start-1 lg:row-span-2">
+        <div class="flex h-full items-center justify-center">
+          <span class="text-8xl">📱</span>
+        </div>
+      </div>
+      <div class="hidden lg:block aspect-3/2 w-full overflow-hidden rounded-lg bg-gradient-to-br from-blue-50 to-purple-50 lg:col-start-2">
+        <div class="flex h-full items-center justify-center">
+          <span class="text-7xl">📱</span>
+        </div>
+      </div>
+      <div class="hidden lg:block aspect-3/2 w-full overflow-hidden rounded-lg bg-gradient-to-br from-purple-50 to-blue-50 lg:col-start-2 lg:row-start-2">
+        <div class="flex h-full items-center justify-center">
+          <span class="text-7xl">📱</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product info -->
+    <div class="mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16">
+      <div class="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
+        <h1 class="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Premium Phone Case</h1>
+
+        <% if @custom_text.present? %>
+          <div class="mt-4 p-4 bg-blue-50 border-2 border-blue-200 rounded-lg">
+            <p class="text-lg font-semibold text-blue-900">Custom Text: <%= @custom_text %></p>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- Options -->
+      <div class="mt-4 lg:row-span-3 lg:mt-0">
+        <h2 class="sr-only">Product information</h2>
+        <p class="text-3xl tracking-tight text-gray-900">$29.99</p>
+
+        <!-- Reviews -->
+        <div class="mt-6">
+          <h3 class="sr-only">Reviews</h3>
+          <div class="flex items-center">
+            <div class="flex items-center text-yellow-400">
+              <%= "⭐" * 5 %>
+            </div>
+            <p class="sr-only">5 out of 5 stars</p>
+            <a href="#" class="ml-3 text-sm font-medium text-blue-600 hover:text-blue-500 transition">127 reviews</a>
+          </div>
+        </div>
+
+        <form class="mt-10">
+          <!-- Colors -->
+          <div>
+            <h3 class="text-sm font-medium text-gray-900">Color</h3>
+
+            <fieldset aria-label="Choose a color" class="mt-4">
+              <div class="flex items-center gap-x-3">
+                <label class="relative flex cursor-pointer items-center justify-center rounded-full">
+                  <input type="radio" name="color" value="blue" checked class="sr-only" />
+                  <span class="h-8 w-8 rounded-full bg-blue-600 ring-2 ring-offset-2 ring-blue-600"></span>
+                </label>
+                <label class="relative flex cursor-pointer items-center justify-center rounded-full">
+                  <input type="radio" name="color" value="purple" class="sr-only" />
+                  <span class="h-8 w-8 rounded-full bg-purple-600 hover:ring-2 hover:ring-offset-2 hover:ring-purple-400 transition"></span>
+                </label>
+                <label class="relative flex cursor-pointer items-center justify-center rounded-full">
+                  <input type="radio" name="color" value="black" class="sr-only" />
+                  <span class="h-8 w-8 rounded-full bg-gray-900 hover:ring-2 hover:ring-offset-2 hover:ring-gray-400 transition"></span>
+                </label>
+              </div>
+            </fieldset>
+          </div>
+
+          <!-- Models -->
+          <div class="mt-10">
+            <div class="flex items-center justify-between">
+              <h3 class="text-sm font-medium text-gray-900">Model</h3>
+              <a href="#" class="text-sm font-medium text-blue-600 hover:text-blue-500 transition">Compatibility guide</a>
+            </div>
+
+            <fieldset aria-label="Choose a model" class="mt-4">
+              <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">
+                <label class="group relative flex cursor-pointer items-center justify-center rounded-lg border border-gray-300 bg-white px-3 py-3 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1">
+                  <input type="radio" name="model" value="iphone-14" class="sr-only" />
+                  <span>iPhone 14</span>
+                  <span class="pointer-events-none absolute -inset-px rounded-lg border-2 border-transparent group-has-[:checked]:border-blue-600" aria-hidden="true"></span>
+                </label>
+                <label class="group relative flex cursor-pointer items-center justify-center rounded-lg border border-gray-300 bg-white px-3 py-3 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1">
+                  <input type="radio" name="model" value="iphone-14-pro" checked class="sr-only" />
+                  <span>iPhone 14 Pro</span>
+                  <span class="pointer-events-none absolute -inset-px rounded-lg border-2 border-transparent group-has-[:checked]:border-blue-600" aria-hidden="true"></span>
+                </label>
+                <label class="group relative flex cursor-pointer items-center justify-center rounded-lg border border-gray-300 bg-white px-3 py-3 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1">
+                  <input type="radio" name="model" value="iphone-15" class="sr-only" />
+                  <span>iPhone 15</span>
+                  <span class="pointer-events-none absolute -inset-px rounded-lg border-2 border-transparent group-has-[:checked]:border-blue-600" aria-hidden="true"></span>
+                </label>
+                <label class="group relative flex cursor-pointer items-center justify-center rounded-lg border border-gray-300 bg-white px-3 py-3 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1">
+                  <input type="radio" name="model" value="iphone-15-pro" class="sr-only" />
+                  <span>iPhone 15 Pro</span>
+                  <span class="pointer-events-none absolute -inset-px rounded-lg border-2 border-transparent group-has-[:checked]:border-blue-600" aria-hidden="true"></span>
+                </label>
+              </div>
+            </fieldset>
+          </div>
+
+          <%= link_to new_checkout_path(product_name: "Premium Phone Case", product_price: 29.99, quantity: 1), class: "mt-10 flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-3.5 text-base font-bold text-white shadow-lg shadow-blue-500/30 hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition transform hover:scale-[1.02]" do %>
+            Buy Now - $29.99
+          <% end %>
+
+          <!-- Shipping Info -->
+          <div class="mt-6 text-center">
+            <p class="text-sm text-gray-500">
+              <svg class="inline-block w-5 h-5 mr-1 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              Free shipping on orders over $50
+            </p>
+          </div>
+        </form>
+      </div>
+
+      <div class="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pr-8 lg:pt-6 lg:pb-16">
+        <!-- Description and details -->
+        <div>
+          <h3 class="sr-only">Description</h3>
+
+          <div class="space-y-6">
+            <p class="text-base text-gray-900">
+              Experience ultimate protection without sacrificing style. Our Premium Phone Case combines military-grade drop protection with a sleek, minimalist design that complements your device perfectly.
+            </p>
+            <p class="text-base text-gray-900">
+              Crafted from high-quality materials with precision-engineered air pockets, this case absorbs impact while maintaining a slim profile. The raised bezels protect your screen and camera, while the responsive buttons provide tactile feedback.
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-10">
+          <h3 class="text-sm font-bold text-gray-900 mb-4">Key Features</h3>
+
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div class="flex items-start space-x-3">
+              <div class="flex-shrink-0">
+                <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-400 rounded-lg flex items-center justify-center">
+                  <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                  </svg>
+                </div>
+              </div>
+              <div>
+                <h4 class="font-medium text-gray-900">Military-Grade Protection</h4>
+                <p class="text-sm text-gray-600">Tested to withstand drops from up to 12 feet</p>
+              </div>
+            </div>
+
+            <div class="flex items-start space-x-3">
+              <div class="flex-shrink-0">
+                <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-400 rounded-lg flex items-center justify-center">
+                  <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                  </svg>
+                </div>
+              </div>
+              <div>
+                <h4 class="font-medium text-gray-900">Wireless Charging</h4>
+                <p class="text-sm text-gray-600">Fully compatible with all Qi chargers</p>
+              </div>
+            </div>
+
+            <div class="flex items-start space-x-3">
+              <div class="flex-shrink-0">
+                <div class="w-10 h-10 bg-gradient-to-br from-green-500 to-green-400 rounded-lg flex items-center justify-center">
+                  <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                  </svg>
+                </div>
+              </div>
+              <div>
+                <h4 class="font-medium text-gray-900">Raised Bezels</h4>
+                <p class="text-sm text-gray-600">Extra protection for screen and camera</p>
+              </div>
+            </div>
+
+            <div class="flex items-start space-x-3">
+              <div class="flex-shrink-0">
+                <div class="w-10 h-10 bg-gradient-to-br from-orange-500 to-orange-400 rounded-lg flex items-center justify-center">
+                  <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                  </svg>
+                </div>
+              </div>
+              <div>
+                <h4 class="font-medium text-gray-900">Slim Design</h4>
+                <p class="text-sm text-gray-600">Only 2mm thin, fits in your pocket</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-10">
+          <h2 class="text-sm font-bold text-gray-900 mb-4">What's Included</h2>
+
+          <ul role="list" class="space-y-3">
+            <li class="flex items-center text-gray-700">
+              <svg class="w-5 h-5 mr-3 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <span>Premium Phone Case</span>
+            </li>
+            <li class="flex items-center text-gray-700">
+              <svg class="w-5 h-5 mr-3 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <span>Microfiber cleaning cloth</span>
+            </li>
+            <li class="flex items-center text-gray-700">
+              <svg class="w-5 h-5 mr-3 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <span>Screen protector installation kit</span>
+            </li>
+            <li class="flex items-center text-gray-700">
+              <svg class="w-5 h-5 mr-3 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <span>1-year warranty certificate</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Warranty Banner -->
+        <div class="mt-10 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 p-6 text-white">
+          <h3 class="text-lg font-bold mb-2">1-Year Warranty Included</h3>
+          <p class="text-sm text-blue-100">
+            We stand behind our products. If anything goes wrong within the first year, we'll replace it for free. No questions asked.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

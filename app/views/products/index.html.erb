@@ -1,0 +1,208 @@
+<% content_for :title, "Products - Appcessorise" %>
+
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
+  <%= render 'shared/navigation' %>
+
+  <!-- Hero Section -->
+  <div class="bg-gradient-to-r from-blue-600 to-purple-600 py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h1 class="text-4xl sm:text-5xl font-extrabold text-white mb-4">
+        Our Collection
+      </h1>
+      <p class="text-lg sm:text-xl text-blue-100 max-w-2xl mx-auto">
+        Discover premium accessories crafted for those who appreciate quality and style
+      </p>
+    </div>
+  </div>
+
+  <!-- Products Grid -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <!-- Sample Product 1 -->
+      <%= link_to product_path("1"), class: "group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 block" do %>
+        <div class="relative bg-gradient-to-br from-blue-100 to-blue-200 h-72 flex items-center justify-center overflow-hidden">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent"></div>
+          <span class="text-8xl group-hover:scale-110 transition-transform duration-300">📱</span>
+          <div class="absolute top-4 right-4">
+            <span class="bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold">New</span>
+          </div>
+        </div>
+        <div class="p-6">
+          <div class="flex items-start justify-between mb-3">
+            <div>
+              <h3 class="text-xl font-bold text-gray-900 mb-1">Premium Phone Case</h3>
+              <div class="flex items-center">
+                <div class="flex text-yellow-400">
+                  ⭐⭐⭐⭐⭐
+                </div>
+                <span class="text-sm text-gray-500 ml-2">(127 reviews)</span>
+              </div>
+            </div>
+          </div>
+          <p class="text-gray-600 mb-4 leading-relaxed text-sm">
+            Military-grade protection meets elegant design. Wireless charging compatible with precision cutouts.
+          </p>
+          <div class="flex items-center space-x-2 mb-4 text-sm">
+            <span class="px-2 py-1 bg-green-100 text-green-700 rounded-lg font-medium">In Stock</span>
+            <span class="px-2 py-1 bg-gray-100 text-gray-700 rounded-lg">Free Shipping</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <div>
+              <span class="text-3xl font-bold text-gray-900">$29.99</span>
+              <span class="text-lg text-gray-400 line-through ml-2">$49.99</span>
+            </div>
+            <span class="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-500 text-white rounded-xl font-semibold transition shadow-lg">
+              View Details
+            </span>
+          </div>
+          <div class="mt-4 pt-4 border-t border-gray-100 space-y-2">
+            <div class="flex items-center text-sm text-gray-600">
+              <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+              </svg>
+              <span>Military-grade protection</span>
+            </div>
+            <div class="flex items-center text-sm text-gray-600">
+              <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+              </svg>
+              <span>Wireless charging compatible</span>
+            </div>
+            <div class="flex items-center text-sm text-gray-600">
+              <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+              </svg>
+              <span>1-year warranty included</span>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
+      <!-- Sample Product 2 -->
+      <div class="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+        <div class="relative bg-gradient-to-br from-purple-100 to-purple-200 h-72 flex items-center justify-center overflow-hidden">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent"></div>
+          <span class="text-8xl group-hover:scale-110 transition-transform duration-300">🎧</span>
+          <div class="absolute top-4 right-4">
+            <span class="bg-purple-600 text-white px-3 py-1 rounded-full text-sm font-semibold">Best Seller</span>
+          </div>
+        </div>
+        <div class="p-6">
+          <div class="flex items-start justify-between mb-3">
+            <div>
+              <h3 class="text-xl font-bold text-gray-900 mb-1">Wireless Earbuds Pro</h3>
+              <div class="flex items-center">
+                <div class="flex text-yellow-400">
+                  ⭐⭐⭐⭐⭐
+                </div>
+                <span class="text-sm text-gray-500 ml-2">(342 reviews)</span>
+              </div>
+            </div>
+          </div>
+          <p class="text-gray-600 mb-4 leading-relaxed text-sm">
+            Crystal-clear audio with active noise cancellation. 30-hour battery life for all-day listening.
+          </p>
+          <div class="flex items-center space-x-2 mb-4 text-sm">
+            <span class="px-2 py-1 bg-green-100 text-green-700 rounded-lg font-medium">In Stock</span>
+            <span class="px-2 py-1 bg-gray-100 text-gray-700 rounded-lg">Free Shipping</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <div>
+              <span class="text-3xl font-bold text-gray-900">$89.99</span>
+            </div>
+            <button class="px-6 py-3 bg-gradient-to-r from-purple-600 to-purple-500 text-white rounded-xl font-semibold hover:from-purple-700 hover:to-purple-600 transition transform hover:scale-105 shadow-lg">
+              Add to Cart
+            </button>
+          </div>
+          <div class="mt-4 pt-4 border-t border-gray-100 space-y-2">
+            <div class="flex items-center text-sm text-gray-600">
+              <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+              </svg>
+              <span>Active noise cancellation</span>
+            </div>
+            <div class="flex items-center text-sm text-gray-600">
+              <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+              </svg>
+              <span>30-hour battery life</span>
+            </div>
+            <div class="flex items-center text-sm text-gray-600">
+              <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+              </svg>
+              <span>Water-resistant design</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sample Product 3 -->
+      <div class="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+        <div class="relative bg-gradient-to-br from-green-100 to-green-200 h-72 flex items-center justify-center overflow-hidden">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent"></div>
+          <span class="text-8xl group-hover:scale-110 transition-transform duration-300">⌚</span>
+        </div>
+        <div class="p-6">
+          <div class="flex items-start justify-between mb-3">
+            <div>
+              <h3 class="text-xl font-bold text-gray-900 mb-1">Smart Watch Band</h3>
+              <div class="flex items-center">
+                <div class="flex text-yellow-400">
+                  ⭐⭐⭐⭐⭐
+                </div>
+                <span class="text-sm text-gray-500 ml-2">(89 reviews)</span>
+              </div>
+            </div>
+          </div>
+          <p class="text-gray-600 mb-4 leading-relaxed text-sm">
+            Premium leather band with stainless steel clasp. Compatible with all major smartwatch brands.
+          </p>
+          <div class="flex items-center space-x-2 mb-4 text-sm">
+            <span class="px-2 py-1 bg-green-100 text-green-700 rounded-lg font-medium">In Stock</span>
+            <span class="px-2 py-1 bg-gray-100 text-gray-700 rounded-lg">Free Shipping</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <div>
+              <span class="text-3xl font-bold text-gray-900">$39.99</span>
+            </div>
+            <button class="px-6 py-3 bg-gradient-to-r from-green-600 to-green-500 text-white rounded-xl font-semibold hover:from-green-700 hover:to-green-600 transition transform hover:scale-105 shadow-lg">
+              Add to Cart
+            </button>
+          </div>
+          <div class="mt-4 pt-4 border-t border-gray-100 space-y-2">
+            <div class="flex items-center text-sm text-gray-600">
+              <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+              </svg>
+              <span>Genuine leather material</span>
+            </div>
+            <div class="flex items-center text-sm text-gray-600">
+              <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+              </svg>
+              <span>Universal compatibility</span>
+            </div>
+            <div class="flex items-center text-sm text-gray-600">
+              <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+              </svg>
+              <span>Multiple color options</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA Section -->
+  <div class="bg-white py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-gray-900 mb-4">Can't find what you're looking for?</h2>
+      <p class="text-lg text-gray-600 mb-8">Contact our team and we'll help you find the perfect accessory</p>
+      <%= link_to about_path, class: "inline-block px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-bold hover:from-blue-700 hover:to-purple-700 transition transform hover:scale-105 shadow-lg" do %>
+        Contact Us
+      <% end %>
+    </div>
+  </div>
+</div>

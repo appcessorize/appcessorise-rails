@@ -1,0 +1,295 @@
+<% content_for :title, "API Documentation - Appcessorise" %>
+
+<div class="min-h-screen bg-[oklch(98%_0_0)]">
+  <%= render 'shared/navigation' %>
+
+  <!-- Hero Section -->
+  <div class="bg-[oklch(14%_0.005_285.823)] py-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h1 class="text-4xl sm:text-5xl font-light text-[oklch(92%_0.004_286.32)] mb-6">
+        <span class="font-bold">API</span> Documentation
+      </h1>
+      <p class="text-lg sm:text-xl text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_80%,transparent)] font-light">
+        Integrate custom product mockups and ordering into your application
+      </p>
+    </div>
+  </div>
+
+  <!-- API Documentation Content -->
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+
+    <!-- Getting Started -->
+    <div class="bg-white rounded-2xl shadow-lg border border-[oklch(88%_0_0)] p-8 sm:p-12 mb-12">
+      <div class="flex items-center justify-center mb-8">
+        <div class="w-16 h-16 bg-[oklch(14%_0.005_285.823)] rounded-xl flex items-center justify-center">
+          <span class="text-[oklch(92%_0.004_286.32)] text-3xl">🔑</span>
+        </div>
+      </div>
+      <h2 class="text-3xl sm:text-4xl font-light text-[oklch(21%_0.006_285.885)] mb-6 text-center">
+        <span class="font-bold">Getting</span> Started
+      </h2>
+      <div class="prose prose-lg max-w-none text-[color-mix(in_oklab,oklch(21%_0.006_285.885)_70%,transparent)] space-y-4 font-light">
+        <p class="text-center leading-relaxed">
+          To use the Appcessorise API, you'll need an API key. Include this key in the <code class="bg-[oklch(95%_0_0)] px-2 py-1 rounded">X-API-Key</code> header with every request.
+        </p>
+
+        <div class="bg-[oklch(95%_0_0)] rounded-xl p-6 my-6">
+          <h3 class="text-xl font-semibold text-[oklch(21%_0.006_285.885)] mb-3">Your API Password</h3>
+          <div class="bg-white border border-[oklch(88%_0_0)] rounded-lg p-4 font-mono text-sm">
+            <span class="text-[oklch(14%_0.005_285.823)] font-semibold"><%= @api_password %></span>
+          </div>
+          <p class="text-sm mt-3 text-[color-mix(in_oklab,oklch(21%_0.006_285.885)_60%,transparent)]">
+            For affiliate tracking, append your affiliate code: <code class="bg-white px-2 py-1 rounded"><%= @api_password %>_AFF-000001</code>
+          </p>
+        </div>
+
+        <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 my-6">
+          <p class="text-sm text-blue-800">
+            <strong>Base URL:</strong> <code class="bg-white px-2 py-1 rounded">https://your-domain.com/api/v1</code>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- API Endpoints -->
+    <div class="space-y-8">
+
+      <!-- Mockups Endpoint -->
+      <div class="bg-white rounded-2xl shadow-lg border border-[oklch(88%_0_0)] p-8">
+        <div class="flex items-center space-x-3 mb-6">
+          <span class="px-3 py-1 bg-green-100 text-green-800 rounded-lg font-mono text-sm font-semibold">POST</span>
+          <code class="text-lg font-mono text-[oklch(21%_0.006_285.885)]">/api/v1/mockups</code>
+        </div>
+
+        <h3 class="text-2xl font-semibold text-[oklch(21%_0.006_285.885)] mb-4">Generate Product Mockup</h3>
+        <p class="text-[color-mix(in_oklab,oklch(21%_0.006_285.885)_70%,transparent)] leading-relaxed font-light mb-6">
+          Create a mockup of a product with a custom image uploaded by your user.
+        </p>
+
+        <h4 class="text-lg font-semibold text-[oklch(21%_0.006_285.885)] mb-3">Request Headers</h4>
+        <div class="bg-[oklch(95%_0_0)] rounded-lg p-4 mb-6 font-mono text-sm overflow-x-auto">
+          <pre>Content-Type: application/json
+X-API-Key: <%= @api_password %>_AFF-000001</pre>
+        </div>
+
+        <h4 class="text-lg font-semibold text-[oklch(21%_0.006_285.885)] mb-3">Request Body</h4>
+        <div class="bg-[oklch(95%_0_0)] rounded-lg p-4 mb-6 font-mono text-sm overflow-x-auto">
+          <pre>{
+  "product_id": 71,
+  "variant_id": 4012,
+  "image_url": "https://example.com/user-image.jpg",
+  "shipping_address": {
+    "country": "US",
+    "state": "CA",
+    "zip": "90210"
+  },
+  "third_party_app_name": "YourApp",
+  "third_party_order_id": "order_123"
+}</pre>
+        </div>
+
+        <h4 class="text-lg font-semibold text-[oklch(21%_0.006_285.885)] mb-3">Response (200 OK)</h4>
+        <div class="bg-[oklch(95%_0_0)] rounded-lg p-4 font-mono text-sm overflow-x-auto">
+          <pre>{
+  "success": true,
+  "mockup_id": "abc123def456",
+  "mockup_image_url": "https://example.com/mockups/generated.jpg",
+  "product_name": "Unisex Staple T-Shirt",
+  "base_price": 19.99,
+  "estimated_shipping": 5.99,
+  "total_price": 25.98,
+  "checkout_url": "https://your-domain.com/checkout/abc123def456"
+}</pre>
+        </div>
+      </div>
+
+      <!-- Orders Endpoint -->
+      <div class="bg-white rounded-2xl shadow-lg border border-[oklch(88%_0_0)] p-8">
+        <div class="flex items-center space-x-3 mb-6">
+          <span class="px-3 py-1 bg-green-100 text-green-800 rounded-lg font-mono text-sm font-semibold">POST</span>
+          <code class="text-lg font-mono text-[oklch(21%_0.006_285.885)]">/api/v1/orders</code>
+        </div>
+
+        <h3 class="text-2xl font-semibold text-[oklch(21%_0.006_285.885)] mb-4">Create Order</h3>
+        <p class="text-[color-mix(in_oklab,oklch(21%_0.006_285.885)_70%,transparent)] leading-relaxed font-light mb-6">
+          Create an order after payment has been processed. Requires a valid mockup_id from the mockups endpoint.
+        </p>
+
+        <h4 class="text-lg font-semibold text-[oklch(21%_0.006_285.885)] mb-3">Request Headers</h4>
+        <div class="bg-[oklch(95%_0_0)] rounded-lg p-4 mb-6 font-mono text-sm overflow-x-auto">
+          <pre>Content-Type: application/json
+X-API-Key: <%= @api_password %>_AFF-000001</pre>
+        </div>
+
+        <h4 class="text-lg font-semibold text-[oklch(21%_0.006_285.885)] mb-3">Request Body</h4>
+        <div class="bg-[oklch(95%_0_0)] rounded-lg p-4 mb-6 font-mono text-sm overflow-x-auto">
+          <pre>{
+  "mockup_id": "abc123def456",
+  "payment_intent_id": "pi_stripe_payment_id",
+  "shipping_address": {
+    "name": "John Doe",
+    "email": "john@example.com",
+    "address1": "123 Main St",
+    "address2": "Apt 4B",
+    "city": "Los Angeles",
+    "state": "CA",
+    "zip": "90210",
+    "country": "US",
+    "phone": "+1234567890"
+  }
+}</pre>
+        </div>
+
+        <h4 class="text-lg font-semibold text-[oklch(21%_0.006_285.885)] mb-3">Response (201 Created)</h4>
+        <div class="bg-[oklch(95%_0_0)] rounded-lg p-4 font-mono text-sm overflow-x-auto">
+          <pre>{
+  "success": true,
+  "order_number": "APP-20240001",
+  "printful_order_id": 12345678,
+  "estimated_delivery": "2024-12-01",
+  "tracking_url": null
+}</pre>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Error Codes -->
+    <div class="bg-white rounded-2xl shadow-lg border border-[oklch(88%_0_0)] p-8 mt-12">
+      <h2 class="text-3xl font-light text-[oklch(21%_0.006_285.885)] mb-6">
+        <span class="font-bold">Error</span> Codes
+      </h2>
+      <div class="space-y-4">
+        <div class="border-l-4 border-red-500 pl-4">
+          <code class="text-lg font-mono text-red-600 font-semibold">401 Unauthorized</code>
+          <p class="text-[color-mix(in_oklab,oklch(21%_0.006_285.885)_70%,transparent)] mt-1">Missing or invalid API key</p>
+        </div>
+        <div class="border-l-4 border-orange-500 pl-4">
+          <code class="text-lg font-mono text-orange-600 font-semibold">400 Bad Request</code>
+          <p class="text-[color-mix(in_oklab,oklch(21%_0.006_285.885)_70%,transparent)] mt-1">Missing required parameters or invalid request format</p>
+        </div>
+        <div class="border-l-4 border-yellow-500 pl-4">
+          <code class="text-lg font-mono text-yellow-600 font-semibold">404 Not Found</code>
+          <p class="text-[color-mix(in_oklab,oklch(21%_0.006_285.885)_70%,transparent)] mt-1">Resource not found (e.g., invalid mockup_id)</p>
+        </div>
+        <div class="border-l-4 border-purple-500 pl-4">
+          <code class="text-lg font-mono text-purple-600 font-semibold">422 Unprocessable Entity</code>
+          <p class="text-[color-mix(in_oklab,oklch(21%_0.006_285.885)_70%,transparent)] mt-1">Validation error or unable to process request</p>
+        </div>
+        <div class="border-l-4 border-gray-500 pl-4">
+          <code class="text-lg font-mono text-gray-600 font-semibold">500 Internal Server Error</code>
+          <p class="text-[color-mix(in_oklab,oklch(21%_0.006_285.885)_70%,transparent)] mt-1">Server error - contact support if this persists</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Integration Flow -->
+    <div class="bg-white rounded-2xl shadow-lg border border-[oklch(88%_0_0)] p-8 mt-12">
+      <h2 class="text-3xl font-light text-[oklch(21%_0.006_285.885)] mb-6 text-center">
+        <span class="font-bold">Integration</span> Flow
+      </h2>
+      <div class="space-y-6">
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0">
+            <div class="w-10 h-10 bg-[oklch(14%_0.005_285.823)] rounded-full flex items-center justify-center text-[oklch(92%_0.004_286.32)] font-bold">
+              1
+            </div>
+          </div>
+          <div>
+            <h4 class="text-xl font-semibold text-[oklch(21%_0.006_285.885)] mb-2">User Uploads Image</h4>
+            <p class="text-[color-mix(in_oklab,oklch(21%_0.006_285.885)_70%,transparent)] leading-relaxed font-light">
+              Your application allows users to upload a custom image for their product
+            </p>
+          </div>
+        </div>
+
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0">
+            <div class="w-10 h-10 bg-[oklch(14%_0.005_285.823)] rounded-full flex items-center justify-center text-[oklch(92%_0.004_286.32)] font-bold">
+              2
+            </div>
+          </div>
+          <div>
+            <h4 class="text-xl font-semibold text-[oklch(21%_0.006_285.885)] mb-2">Generate Mockup</h4>
+            <p class="text-[color-mix(in_oklab,oklch(21%_0.006_285.885)_70%,transparent)] leading-relaxed font-light">
+              Call POST /api/v1/mockups with the image URL and product details to generate a mockup
+            </p>
+          </div>
+        </div>
+
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0">
+            <div class="w-10 h-10 bg-[oklch(14%_0.005_285.823)] rounded-full flex items-center justify-center text-[oklch(92%_0.004_286.32)] font-bold">
+              3
+            </div>
+          </div>
+          <div>
+            <h4 class="text-xl font-semibold text-[oklch(21%_0.006_285.885)] mb-2">Show Preview & Checkout</h4>
+            <p class="text-[color-mix(in_oklab,oklch(21%_0.006_285.885)_70%,transparent)] leading-relaxed font-light">
+              Display the mockup to your user or redirect them to our checkout URL
+            </p>
+          </div>
+        </div>
+
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0">
+            <div class="w-10 h-10 bg-[oklch(14%_0.005_285.823)] rounded-full flex items-center justify-center text-[oklch(92%_0.004_286.32)] font-bold">
+              4
+            </div>
+          </div>
+          <div>
+            <h4 class="text-xl font-semibold text-[oklch(21%_0.006_285.885)] mb-2">Process Payment</h4>
+            <p class="text-[color-mix(in_oklab,oklch(21%_0.006_285.885)_70%,transparent)] leading-relaxed font-light">
+              Handle payment through Stripe (or use our checkout URL)
+            </p>
+          </div>
+        </div>
+
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0">
+            <div class="w-10 h-10 bg-[oklch(14%_0.005_285.823)] rounded-full flex items-center justify-center text-[oklch(92%_0.004_286.32)] font-bold">
+              5
+            </div>
+          </div>
+          <div>
+            <h4 class="text-xl font-semibold text-[oklch(21%_0.006_285.885)] mb-2">Create Order</h4>
+            <p class="text-[color-mix(in_oklab,oklch(21%_0.006_285.885)_70%,transparent)] leading-relaxed font-light">
+              Call POST /api/v1/orders with the mockup_id and shipping details to fulfill the order
+            </p>
+          </div>
+        </div>
+
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0">
+            <div class="w-10 h-10 bg-[oklch(14%_0.005_285.823)] rounded-full flex items-center justify-center text-[oklch(92%_0.004_286.32)] font-bold">
+              6
+            </div>
+          </div>
+          <div>
+            <h4 class="text-xl font-semibold text-[oklch(21%_0.006_285.885)] mb-2">Order Fulfillment</h4>
+            <p class="text-[color-mix(in_oklab,oklch(21%_0.006_285.885)_70%,transparent)] leading-relaxed font-light">
+              We handle production and shipping. Tracking updates are sent via webhooks (optional)
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Support CTA -->
+    <div class="bg-[oklch(14%_0.005_285.823)] rounded-2xl shadow-lg p-8 sm:p-12 text-center mt-12">
+      <h2 class="text-3xl font-light text-[oklch(92%_0.004_286.32)] mb-4">
+        <span class="font-bold">Need</span> Help?
+      </h2>
+      <p class="text-lg text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_80%,transparent)] font-light mb-8 max-w-2xl mx-auto">
+        Have questions about the API? Need help with integration? We're here to support you.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <%= link_to "Contact Support", contact_path, class: "btn-secondary-daisy" %>
+        <%= link_to "View Products", products_path, class: "btn-primary-daisy" %>
+      </div>
+    </div>
+
+  </div>
+
+  <%= render 'shared/footer' %>
+</div>

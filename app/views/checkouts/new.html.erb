@@ -1,0 +1,271 @@
+<% content_for :title, "Checkout - Appcessorise" %>
+
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 py-12">
+  <%= render 'shared/navigation' %>
+
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+    <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+      <!-- Header -->
+      <div class="bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-6">
+        <h1 class="text-3xl font-bold text-white">Secure Checkout</h1>
+        <p class="text-blue-100 mt-2">Complete your purchase securely with Stripe</p>
+      </div>
+
+      <div class="p-8">
+        <!-- Order Summary -->
+        <div class="bg-gray-50 rounded-xl p-6 mb-8">
+          <h2 class="text-xl font-bold text-gray-900 mb-4">Order Summary</h2>
+          <div class="space-y-3">
+            <div class="flex justify-between">
+              <span class="text-gray-600">Product:</span>
+              <span class="font-semibold text-gray-900"><%= @product_name %></span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-gray-600">Price:</span>
+              <span class="font-semibold text-gray-900">$<%= sprintf("%.2f", @product_price) %></span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-gray-600">Quantity:</span>
+              <span class="font-semibold text-gray-900"><%= @quantity %></span>
+            </div>
+            <div class="border-t border-gray-200 pt-3 mt-3">
+              <div class="flex justify-between">
+                <span class="text-lg font-bold text-gray-900">Total:</span>
+                <span class="text-2xl font-bold text-blue-600">$<%= sprintf("%.2f", @product_price * @quantity) %></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Payment Form -->
+        <div>
+          <h2 class="text-xl font-bold text-gray-900 mb-4">Payment Information</h2>
+
+          <form id="payment-form" data-client-secret="<%= @payment_intent.client_secret %>">
+            <!-- Loading State -->
+            <div id="card-loading" class="mb-4">
+              <label class="block text-sm font-semibold text-gray-700 mb-2">
+                Card Number
+              </label>
+              <div class="px-3 py-3 border border-gray-300 rounded-lg bg-gray-50 animate-pulse">
+                <div class="h-6 bg-gray-200 rounded w-3/4"></div>
+              </div>
+              <div class="grid grid-cols-2 gap-4 mt-4">
+                <div>
+                  <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    Expiry Date
+                  </label>
+                  <div class="px-3 py-3 border border-gray-300 rounded-lg bg-gray-50 animate-pulse">
+                    <div class="h-6 bg-gray-200 rounded w-1/2"></div>
+                  </div>
+                </div>
+                <div>
+                  <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    CVC
+                  </label>
+                  <div class="px-3 py-3 border border-gray-300 rounded-lg bg-gray-50 animate-pulse">
+                    <div class="h-6 bg-gray-200 rounded w-1/3"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card Fields (hidden until loaded) -->
+            <div id="card-fields" class="hidden">
+              <!-- Card Number -->
+              <div class="mb-4">
+                <label for="card-number" class="block text-sm font-semibold text-gray-700 mb-2">
+                  Card Number
+                </label>
+                <div id="card-number" class="px-3 py-3 border border-gray-300 rounded-lg bg-white focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200 transition">
+                  <!-- Stripe.js will insert the card number element here -->
+                </div>
+              </div>
+
+              <!-- Expiry and CVC -->
+              <div class="grid grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label for="card-expiry" class="block text-sm font-semibold text-gray-700 mb-2">
+                    Expiry Date
+                  </label>
+                  <div id="card-expiry" class="px-3 py-3 border border-gray-300 rounded-lg bg-white focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200 transition">
+                    <!-- Stripe.js will insert the expiry element here -->
+                  </div>
+                </div>
+                <div>
+                  <label for="card-cvc" class="block text-sm font-semibold text-gray-700 mb-2">
+                    CVC
+                  </label>
+                  <div id="card-cvc" class="px-3 py-3 border border-gray-300 rounded-lg bg-white focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200 transition">
+                    <!-- Stripe.js will insert the CVC element here -->
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Error messages -->
+            <div id="card-errors" class="text-red-600 text-sm mb-4" role="alert"></div>
+
+            <!-- Optional: Affiliate Code -->
+            <div class="mb-6">
+              <label for="affiliate_code" class="block text-sm font-semibold text-gray-700 mb-2">
+                Referral Code (Optional)
+              </label>
+              <input
+                type="text"
+                id="affiliate_code"
+                name="affiliate_code"
+                placeholder="Enter referral code"
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              >
+            </div>
+
+            <!-- Submit Button -->
+            <button
+              type="submit"
+              id="submit-button"
+              disabled
+              class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 rounded-xl font-bold text-lg hover:from-blue-700 hover:to-purple-700 transition transform hover:scale-105 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <span id="button-text">Pay $<%= sprintf("%.2f", @product_price * @quantity) %></span>
+              <span id="spinner" class="hidden">Processing...</span>
+            </button>
+          </form>
+
+          <!-- Security Badge -->
+          <div class="mt-6 flex items-center justify-center space-x-2 text-sm text-gray-500">
+            <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/>
+            </svg>
+            <span>Secured by Stripe - Your payment information is encrypted</span>
+          </div>
+
+          <!-- Test Card Info (only show in test mode) -->
+          <div class="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+            <h3 class="font-semibold text-yellow-800 mb-2">Test Mode - Use these test cards:</h3>
+            <ul class="text-sm text-yellow-700 space-y-1">
+              <li><strong>Success:</strong> 4242 4242 4242 4242</li>
+              <li><strong>Decline:</strong> 4000 0000 0000 0002</li>
+              <li>Use any future expiry date and any 3-digit CVC</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Stripe.js -->
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+  // Initialize Stripe with your publishable key
+  const stripe = Stripe('<%= Rails.configuration.stripe[:publishable_key] %>');
+
+  // Create an instance of Elements
+  const elements = stripe.elements();
+
+  // Define element styles
+  const elementStyles = {
+    base: {
+      fontSize: '16px',
+      color: '#1f2937',
+      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+      lineHeight: '24px',
+      '::placeholder': {
+        color: '#9ca3af'
+      }
+    },
+    invalid: {
+      color: '#dc2626',
+      iconColor: '#dc2626'
+    }
+  };
+
+  const elementOptions = {
+    style: elementStyles
+  };
+
+  // Create and mount individual card elements
+  const cardNumberElement = elements.create('cardNumber', elementOptions);
+  const cardExpiryElement = elements.create('cardExpiry', elementOptions);
+  const cardCvcElement = elements.create('cardCvc', elementOptions);
+
+  cardNumberElement.mount('#card-number');
+  cardExpiryElement.mount('#card-expiry');
+  cardCvcElement.mount('#card-cvc');
+
+  // Show fields and enable button when Stripe Elements are ready
+  const loadingDiv = document.getElementById('card-loading');
+  const cardFieldsDiv = document.getElementById('card-fields');
+  const submitButton = document.getElementById('submit-button');
+
+  let elementsReady = 0;
+  const totalElements = 3;
+
+  function checkAllReady() {
+    elementsReady++;
+    if (elementsReady === totalElements) {
+      // Hide loading skeleton
+      loadingDiv.classList.add('hidden');
+      // Show card fields
+      cardFieldsDiv.classList.remove('hidden');
+      // Enable submit button
+      submitButton.disabled = false;
+    }
+  }
+
+  cardNumberElement.on('ready', checkAllReady);
+  cardExpiryElement.on('ready', checkAllReady);
+  cardCvcElement.on('ready', checkAllReady);
+
+  // Handle real-time validation errors
+  const displayError = document.getElementById('card-errors');
+
+  [cardNumberElement, cardExpiryElement, cardCvcElement].forEach(element => {
+    element.on('change', function(event) {
+      if (event.error) {
+        displayError.textContent = event.error.message;
+      } else {
+        displayError.textContent = '';
+      }
+    });
+  });
+
+  // Handle form submission
+  const form = document.getElementById('payment-form');
+  const buttonText = document.getElementById('button-text');
+  const spinner = document.getElementById('spinner');
+
+  form.addEventListener('submit', async function(event) {
+    event.preventDefault();
+
+    // Disable the button and show spinner
+    submitButton.disabled = true;
+    buttonText.classList.add('hidden');
+    spinner.classList.remove('hidden');
+
+    const clientSecret = form.dataset.clientSecret;
+
+    // Confirm the payment with Stripe
+    const {error, paymentIntent} = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: {
+        card: cardNumberElement,
+      }
+    });
+
+    if (error) {
+      // Show error to customer
+      displayError.textContent = error.message;
+
+      // Re-enable button
+      submitButton.disabled = false;
+      buttonText.classList.remove('hidden');
+      spinner.classList.add('hidden');
+    } else {
+      // Payment successful! Redirect to success page
+      if (paymentIntent.status === 'succeeded') {
+        window.location.href = `/checkout?payment_intent_id=${paymentIntent.id}`;
+      }
+    }
+  });
+</script>

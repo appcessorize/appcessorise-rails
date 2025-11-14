@@ -1,0 +1,53 @@
+<div class="navbar bg-[oklch(98%_0_0)] border-b border-[oklch(88%_0_0)] sticky top-0 z-50 backdrop-blur-sm bg-opacity-90">
+  <div class="navbar-start">
+    <%= link_to root_path, class: "btn btn-ghost text-xl hover:bg-transparent" do %>
+      <div class="avatar placeholder">
+        <div class="bg-[oklch(14%_0.005_285.823)] text-[oklch(92%_0.004_286.32)] rounded-lg w-10 flex items-center justify-center">
+          <span class="text-xl font-bold">A</span>
+        </div>
+      </div>
+      <span class="ml-2 font-bold text-[oklch(21%_0.006_285.885)]">Appcessorise</span>
+    <% end %>
+  </div>
+
+  <div class="navbar-center hidden lg:flex">
+    <ul class="menu menu-horizontal px-1 text-[oklch(21%_0.006_285.885)]">
+      <li><%= link_to "Home", root_path, class: current_page?(root_path) ? 'active' : '' %></li>
+      <li><%= link_to "Products", products_path, class: current_page?(products_path) ? 'active' : '' %></li>
+      <li><%= link_to "About", about_path, class: current_page?(about_path) ? 'active' : '' %></li>
+      <li><%= link_to "Contact", contact_path, class: current_page?(contact_path) ? 'active' : '' %></li>
+    </ul>
+  </div>
+
+  <div class="navbar-end gap-2">
+    <% if user_signed_in? %>
+      <%= link_to dashboard_path, class: "btn btn-ghost gap-2 text-[oklch(21%_0.006_285.885)]" do %>
+        <div class="avatar placeholder">
+          <div class="bg-[oklch(14%_0.005_285.823)] text-[oklch(92%_0.004_286.32)] rounded-full w-8 flex items-center justify-center">
+            <span class="text-xs"><%= current_user.email[0].upcase %></span>
+          </div>
+        </div>
+        <span class="hidden md:inline">Dashboard</span>
+      <% end %>
+      <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "btn btn-ghost btn-sm text-[oklch(21%_0.006_285.885)]" %>
+    <% else %>
+      <%= link_to "Login", new_user_session_path, class: "btn btn-ghost btn-sm text-[oklch(21%_0.006_285.885)]" %>
+      <%= link_to "Sign Up", new_user_registration_path, class: "btn-primary-daisy text-sm px-4 py-2" %>
+    <% end %>
+
+    <!-- Mobile Dropdown -->
+    <div class="dropdown dropdown-end lg:hidden">
+      <div tabindex="0" role="button" class="btn btn-ghost btn-circle text-[oklch(21%_0.006_285.885)]">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </div>
+      <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-[oklch(98%_0_0)] rounded-box w-52 border border-[oklch(88%_0_0)]">
+        <li><%= link_to "Home", root_path %></li>
+        <li><%= link_to "Products", products_path %></li>
+        <li><%= link_to "About", about_path %></li>
+        <li><%= link_to "Contact", contact_path %></li>
+      </ul>
+    </div>
+  </div>
+</div>

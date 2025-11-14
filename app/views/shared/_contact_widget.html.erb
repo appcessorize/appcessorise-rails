@@ -1,0 +1,78 @@
+<!-- Floating Contact Button -->
+<button
+  id="contact-widget-button"
+  class="btn btn-circle btn-lg shadow-2xl fixed hover:scale-110 transition-transform duration-300 bg-[oklch(14%_0.005_285.823)] text-[oklch(92%_0.004_286.32)] border-0"
+  style="bottom: 24px; right: 24px; z-index: 9999;"
+  onclick="contact_modal.showModal()"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+  </svg>
+</button>
+
+<!-- Contact Modal -->
+<dialog id="contact_modal" class="modal">
+  <div class="modal-box">
+    <form method="dialog">
+      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+    </form>
+    <h3 class="font-bold text-lg mb-4">Quick Contact</h3>
+
+    <!-- Success Message (hidden by default) -->
+    <div id="widget-success-message" class="hidden alert alert-success mb-4">
+      <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      <span>Thank you! We'll get back to you soon.</span>
+    </div>
+
+    <%= form_with(model: Contact.new, url: contacts_path, id: "widget-contact-form", class: "space-y-4") do |f| %>
+      <div class="form-control">
+        <%= f.label :email, "Your Email *", class: "label" %>
+        <%= f.email_field :email, required: true, placeholder: "you@example.com", class: "input input-bordered w-full" %>
+      </div>
+
+      <div class="form-control">
+        <%= f.label :message, "Your Message *", class: "label" %>
+        <%= f.text_area :message, rows: 5, required: true, placeholder: "How can we help you?", class: "textarea textarea-bordered w-full" %>
+      </div>
+
+      <div class="modal-action">
+        <button type="button" class="btn" onclick="contact_modal.close()">Cancel</button>
+        <%= f.submit "Send Message", class: "btn-primary-daisy" %>
+      </div>
+    <% end %>
+  </div>
+  <form method="dialog" class="modal-backdrop">
+    <button>close</button>
+  </form>
+</dialog>
+
+<script>
+  function initContactWidget() {
+    const form = document.getElementById('widget-contact-form');
+    const successMessage = document.getElementById('widget-success-message');
+
+    if (!form) return;
+
+    // Handle form submission success
+    form.addEventListener('turbo:submit-end', function(e) {
+      if (e.detail.success) {
+        successMessage?.classList.remove('hidden');
+        form.reset();
+        setTimeout(function() {
+          contact_modal.close();
+          successMessage?.classList.add('hidden');
+        }, 2000);
+      }
+    });
+  }
+
+  // Initialize on page load and Turbo navigation
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initContactWidget);
+  } else {
+    initContactWidget();
+  }
+  document.addEventListener('turbo:load', initContactWidget);
+</script>

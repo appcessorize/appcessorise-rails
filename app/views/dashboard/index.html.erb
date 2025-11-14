@@ -1,0 +1,286 @@
+<% content_for :title, "Dashboard - Appcessorise" %>
+
+<div class="min-h-screen bg-[oklch(98%_0_0)]">
+  <%= render 'shared/navigation' %>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+    <!-- Welcome Header -->
+    <div class="mb-8">
+      <h1 class="text-3xl sm:text-4xl font-light text-[oklch(21%_0.006_285.885)] mb-2">
+        <span class="font-bold">Welcome back</span><% if current_user.email.present? %>, <%= current_user.email.split('@').first.capitalize %><% end %>!
+      </h1>
+      <p class="text-[color-mix(in_oklab,oklch(21%_0.006_285.885)_70%,transparent)] text-lg font-light">Here's what's happening with your account today.</p>
+    </div>
+
+    <!-- User Info Card -->
+    <div class="bg-white rounded-2xl shadow-lg border border-[oklch(88%_0_0)] p-6 sm:p-8 mb-8">
+      <div class="flex items-start justify-between mb-6">
+        <div class="flex items-center space-x-4">
+          <div class="w-16 h-16 bg-[oklch(14%_0.005_285.823)] rounded-xl flex items-center justify-center text-[oklch(92%_0.004_286.32)] text-2xl font-bold shadow-lg">
+            <%= current_user.email[0].upcase %>
+          </div>
+          <div>
+            <h2 class="text-2xl font-semibold text-[oklch(21%_0.006_285.885)]">Account Information</h2>
+            <p class="text-[color-mix(in_oklab,oklch(21%_0.006_285.885)_70%,transparent)]"><%= current_user.email %></p>
+          </div>
+        </div>
+        <%= link_to edit_user_registration_path, class: "px-4 py-2 bg-[oklch(98%_0_0)] hover:bg-[oklch(95%_0_0)] text-[oklch(21%_0.006_285.885)] rounded-lg font-medium transition border border-[oklch(88%_0_0)]" do %>
+          Edit Profile
+        <% end %>
+      </div>
+
+      <div class="grid sm:grid-cols-3 gap-4">
+        <div class="bg-white p-4 rounded-xl border border-[oklch(88%_0_0)]">
+          <div class="text-sm text-[color-mix(in_oklab,oklch(21%_0.006_285.885)_70%,transparent)] mb-1">Role</div>
+          <div class="flex items-center space-x-2">
+            <span class="inline-flex items-center px-3 py-1 rounded-lg text-sm font-semibold <%= case current_user.role
+              when 'admin' then 'bg-[oklch(14%_0.005_285.823)] text-[oklch(92%_0.004_286.32)]'
+              when 'affiliate' then 'bg-[oklch(14%_0.005_285.823)] text-[oklch(92%_0.004_286.32)]'
+              else 'bg-[oklch(14%_0.005_285.823)] text-[oklch(92%_0.004_286.32)]'
+            end %>">
+              <%= current_user.role.titleize %>
+            </span>
+          </div>
+        </div>
+
+        <div class="bg-white p-4 rounded-xl border border-[oklch(88%_0_0)]">
+          <div class="text-sm text-[color-mix(in_oklab,oklch(21%_0.006_285.885)_70%,transparent)] mb-1">Member Since</div>
+          <div class="text-lg font-bold text-[oklch(21%_0.006_285.885)]"><%= current_user.created_at.strftime("%B %Y") %></div>
+        </div>
+
+        <div class="bg-white p-4 rounded-xl border border-[oklch(88%_0_0)]">
+          <div class="text-sm text-[color-mix(in_oklab,oklch(21%_0.006_285.885)_70%,transparent)] mb-1">Account Status</div>
+          <div class="flex items-center space-x-2">
+            <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+            <span class="text-lg font-bold text-[oklch(21%_0.006_285.885)]">Active</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Role-specific Content -->
+    <% if current_user.admin? %>
+      <div class="bg-[oklch(14%_0.005_285.823)] rounded-2xl shadow-lg p-8 mb-8 text-[oklch(92%_0.004_286.32)]">
+        <div class="flex items-start space-x-4 mb-6">
+          <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center text-2xl">
+            👑
+          </div>
+          <div>
+            <h2 class="text-2xl font-bold mb-2">Admin Panel</h2>
+            <p class="text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_80%,transparent)]">You have full system access and can manage all aspects of the platform.</p>
+          </div>
+        </div>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <div class="bg-white/10 backdrop-blur rounded-xl p-4">
+            <div class="text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_80%,transparent)] text-sm mb-1">Total Users</div>
+            <div class="text-3xl font-bold">0</div>
+          </div>
+          <div class="bg-white/10 backdrop-blur rounded-xl p-4">
+            <div class="text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_80%,transparent)] text-sm mb-1">Products</div>
+            <div class="text-3xl font-bold">3</div>
+          </div>
+          <div class="bg-white/10 backdrop-blur rounded-xl p-4">
+            <div class="text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_80%,transparent)] text-sm mb-1">Orders</div>
+            <div class="text-3xl font-bold">0</div>
+          </div>
+          <div class="bg-white/10 backdrop-blur rounded-xl p-4">
+            <div class="text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_80%,transparent)] text-sm mb-1">Revenue</div>
+            <div class="text-3xl font-bold">$0</div>
+          </div>
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-3">
+          <div class="flex items-center space-x-2 text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_90%,transparent)]">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+            </svg>
+            <span>Manage all users and permissions</span>
+          </div>
+          <div class="flex items-center space-x-2 text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_90%,transparent)]">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+            </svg>
+            <span>Product catalog management</span>
+          </div>
+          <div class="flex items-center space-x-2 text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_90%,transparent)]">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+            </svg>
+            <span>Order processing and fulfillment</span>
+          </div>
+          <div class="flex items-center space-x-2 text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_90%,transparent)]">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+            </svg>
+            <span>Analytics and reporting</span>
+          </div>
+        </div>
+      </div>
+
+    <% elsif current_user.affiliate? %>
+      <div class="bg-[oklch(14%_0.005_285.823)] rounded-2xl shadow-lg p-8 mb-8 text-[oklch(92%_0.004_286.32)]">
+        <div class="flex items-start space-x-4 mb-6">
+          <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center text-2xl">
+            🤝
+          </div>
+          <div>
+            <h2 class="text-2xl font-bold mb-2">Affiliate Dashboard</h2>
+            <p class="text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_80%,transparent)]">Track your referrals and earnings in real-time.</p>
+          </div>
+        </div>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <div class="bg-white/10 backdrop-blur rounded-xl p-4">
+            <div class="text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_80%,transparent)] text-sm mb-1">Total Referrals</div>
+            <div class="text-3xl font-bold">0</div>
+          </div>
+          <div class="bg-white/10 backdrop-blur rounded-xl p-4">
+            <div class="text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_80%,transparent)] text-sm mb-1">This Month</div>
+            <div class="text-3xl font-bold">0</div>
+          </div>
+          <div class="bg-white/10 backdrop-blur rounded-xl p-4">
+            <div class="text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_80%,transparent)] text-sm mb-1">Commissions</div>
+            <div class="text-3xl font-bold">$0.00</div>
+          </div>
+          <div class="bg-white/10 backdrop-blur rounded-xl p-4">
+            <div class="text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_80%,transparent)] text-sm mb-1">Conversion Rate</div>
+            <div class="text-3xl font-bold">0%</div>
+          </div>
+        </div>
+
+        <div class="bg-white/10 backdrop-blur rounded-xl p-4 mb-4">
+          <div class="text-sm text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_80%,transparent)] mb-2">Your Referral Link</div>
+          <div class="flex items-center space-x-2">
+            <input type="text" value="https://appcessorise.com/ref/your-code" readonly class="flex-1 bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-[oklch(92%_0.004_286.32)]" />
+            <button class="btn-secondary-daisy">Copy</button>
+          </div>
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-3">
+          <div class="flex items-center space-x-2 text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_90%,transparent)]">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+            </svg>
+            <span>Generate custom referral links</span>
+          </div>
+          <div class="flex items-center space-x-2 text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_90%,transparent)]">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+            </svg>
+            <span>Track all your referrals</span>
+          </div>
+          <div class="flex items-center space-x-2 text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_90%,transparent)]">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+            </svg>
+            <span>View detailed commission reports</span>
+          </div>
+          <div class="flex items-center space-x-2 text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_90%,transparent)]">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+            </svg>
+            <span>Access marketing materials</span>
+          </div>
+        </div>
+      </div>
+
+    <% else %>
+      <div class="bg-[oklch(14%_0.005_285.823)] rounded-2xl shadow-lg p-8 mb-8 text-[oklch(92%_0.004_286.32)]">
+        <div class="flex items-start space-x-4 mb-6">
+          <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center text-2xl">
+            🛍️
+          </div>
+          <div>
+            <h2 class="text-2xl font-bold mb-2">Customer Dashboard</h2>
+            <p class="text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_80%,transparent)]">Manage your orders and account preferences.</p>
+          </div>
+        </div>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <div class="bg-white/10 backdrop-blur rounded-xl p-4">
+            <div class="text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_80%,transparent)] text-sm mb-1">Total Orders</div>
+            <div class="text-3xl font-bold">0</div>
+          </div>
+          <div class="bg-white/10 backdrop-blur rounded-xl p-4">
+            <div class="text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_80%,transparent)] text-sm mb-1">In Transit</div>
+            <div class="text-3xl font-bold">0</div>
+          </div>
+          <div class="bg-white/10 backdrop-blur rounded-xl p-4">
+            <div class="text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_80%,transparent)] text-sm mb-1">Total Spent</div>
+            <div class="text-3xl font-bold">$0</div>
+          </div>
+          <div class="bg-white/10 backdrop-blur rounded-xl p-4">
+            <div class="text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_80%,transparent)] text-sm mb-1">Rewards Points</div>
+            <div class="text-3xl font-bold">0</div>
+          </div>
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-3">
+          <div class="flex items-center space-x-2 text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_90%,transparent)]">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+            </svg>
+            <span>View complete order history</span>
+          </div>
+          <div class="flex items-center space-x-2 text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_90%,transparent)]">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+            </svg>
+            <span>Track shipments in real-time</span>
+          </div>
+          <div class="flex items-center space-x-2 text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_90%,transparent)]">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+            </svg>
+            <span>Manage saved addresses</span>
+          </div>
+          <div class="flex items-center space-x-2 text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_90%,transparent)]">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+            </svg>
+            <span>Update payment methods</span>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <!-- Quick Actions -->
+    <div class="bg-white rounded-2xl shadow-lg border border-[oklch(88%_0_0)] p-6 sm:p-8">
+      <h3 class="text-2xl font-semibold text-[oklch(21%_0.006_285.885)] mb-6">Quick Actions</h3>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <%= link_to products_path, class: "group flex items-center space-x-4 p-4 bg-white border border-[oklch(88%_0_0)] rounded-xl hover:shadow-lg hover:border-[oklch(14%_0.005_285.823)] transition" do %>
+          <div class="w-12 h-12 bg-[oklch(14%_0.005_285.823)] rounded-xl flex items-center justify-center text-[oklch(92%_0.004_286.32)] text-xl group-hover:scale-110 transition">
+            🛍️
+          </div>
+          <div>
+            <div class="font-bold text-[oklch(21%_0.006_285.885)]">Browse Products</div>
+            <div class="text-sm text-[color-mix(in_oklab,oklch(21%_0.006_285.885)_70%,transparent)]">Explore our collection</div>
+          </div>
+        <% end %>
+
+        <%= link_to edit_user_registration_path, class: "group flex items-center space-x-4 p-4 bg-white border border-[oklch(88%_0_0)] rounded-xl hover:shadow-lg hover:border-[oklch(14%_0.005_285.823)] transition" do %>
+          <div class="w-12 h-12 bg-[oklch(14%_0.005_285.823)] rounded-xl flex items-center justify-center text-[oklch(92%_0.004_286.32)] text-xl group-hover:scale-110 transition">
+            ⚙️
+          </div>
+          <div>
+            <div class="font-bold text-[oklch(21%_0.006_285.885)]">Edit Profile</div>
+            <div class="text-sm text-[color-mix(in_oklab,oklch(21%_0.006_285.885)_70%,transparent)]">Update your information</div>
+          </div>
+        <% end %>
+
+        <%= link_to root_path, class: "group flex items-center space-x-4 p-4 bg-white border border-[oklch(88%_0_0)] rounded-xl hover:shadow-lg hover:border-[oklch(14%_0.005_285.823)] transition" do %>
+          <div class="w-12 h-12 bg-[oklch(14%_0.005_285.823)] rounded-xl flex items-center justify-center text-[oklch(92%_0.004_286.32)] text-xl group-hover:scale-110 transition">
+            🏠
+          </div>
+          <div>
+            <div class="font-bold text-[oklch(21%_0.006_285.885)]">Home</div>
+            <div class="text-sm text-[color-mix(in_oklab,oklch(21%_0.006_285.885)_70%,transparent)]">Back to homepage</div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <%= render 'shared/footer' %>
+</div>

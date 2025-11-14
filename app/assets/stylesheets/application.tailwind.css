@@ -1,0 +1,28 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+@layer base {
+  body {
+    @apply text-[oklch(21%_0.006_285.885)] bg-[oklch(98%_0_0)];
+  }
+}
+
+@layer components {
+  .btn-primary-daisy {
+    @apply items-center bg-[oklch(14%_0.005_285.823)] shadow-[0_0.5px_0_0.5px_oklch(100%_0_0/6%)_inset,0_3px_2px_-2px_color-mix(in_oklab,oklch(14%_0.005_285.823)_30%,transparent),0_4px_3px_-2px_color-mix(in_oklab,oklch(14%_0.005_285.823)_30%,transparent)] text-[oklch(92%_0.004_286.32)] cursor-pointer inline-flex text-lg font-semibold h-12 justify-center leading-normal outline-offset-2 text-center transition-all duration-200 ease-out select-none rounded-lg px-5 border-0;
+  }
+
+  .btn-secondary-daisy {
+    @apply items-center bg-[oklch(98%_0_0)] shadow-[0_0.5px_0_0.5px_oklch(100%_0_0/6%)_inset,0_3px_2px_-2px_color-mix(in_oklab,oklch(98%_0_0)_30%,transparent),0_4px_3px_-2px_color-mix(in_oklab,oklch(98%_0_0)_30%,transparent)] text-[oklch(21%_0.006_285.885)] cursor-pointer inline-flex text-lg font-semibold h-12 justify-center leading-normal outline-offset-2 text-center transition-all duration-200 ease-out select-none rounded-lg px-5 border border-[oklch(88%_0_0)];
+  }
+
+  .btn-primary-daisy:hover,
+  .btn-secondary-daisy:hover {
+    @apply opacity-90;
+  }
+
+  .btn-primary-daisy:active,
+  .btn-secondary-daisy:active {
+    @apply translate-y-[0.5px];
+  }
+}

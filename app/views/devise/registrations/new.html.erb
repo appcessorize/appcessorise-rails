@@ -1,0 +1,71 @@
+<% content_for :title, "Sign Up - Appcessorise" %>
+
+<div class="min-h-screen bg-[oklch(98%_0_0)] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-md w-full space-y-8">
+    <!-- Logo and Header -->
+    <div class="text-center">
+      <%= link_to root_path, class: "inline-flex items-center space-x-2 mb-6" do %>
+        <div class="w-12 h-12 bg-[oklch(14%_0.005_285.823)] rounded-xl flex items-center justify-center shadow-lg">
+          <span class="text-[oklch(92%_0.004_286.32)] font-bold text-2xl">A</span>
+        </div>
+        <span class="text-3xl font-bold text-[oklch(21%_0.006_285.885)]">Appcessorise</span>
+      <% end %>
+
+      <h2 class="mt-6 text-3xl sm:text-4xl font-light text-[oklch(21%_0.006_285.885)]">
+        <span class="font-bold">Create</span> your account
+      </h2>
+      <p class="mt-2 text-sm sm:text-base text-[color-mix(in_oklab,oklch(21%_0.006_285.885)_70%,transparent)] font-light">
+        Already have an account?
+        <%= link_to "Log in here", new_session_path(resource_name), class: "font-semibold text-[oklch(21%_0.006_285.885)] hover:text-[oklch(14%_0.005_285.823)] transition underline" %>
+      </p>
+    </div>
+
+    <!-- Signup Form Card -->
+    <div class="bg-white rounded-2xl shadow-lg border border-[oklch(88%_0_0)] p-8 sm:p-10">
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "space-y-6" }) do |f| %>
+        <%= render "devise/shared/error_messages", resource: resource %>
+
+        <!-- Email Field -->
+        <div class="form-control">
+          <%= f.label :email, "Email address", class: "label" %>
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "you@example.com", class: "input input-bordered w-full" %>
+        </div>
+
+        <!-- Password Field -->
+        <div class="form-control">
+          <%= f.label :password, class: "label" %>
+          <% if @minimum_password_length %>
+            <span class="label-text-alt text-[color-mix(in_oklab,oklch(21%_0.006_285.885)_70%,transparent)]">Min <%= @minimum_password_length %> characters</span>
+          <% end %>
+          <%= f.password_field :password, autocomplete: "new-password", placeholder: "Create a strong password", class: "input input-bordered w-full" %>
+        </div>
+
+        <!-- Password Confirmation Field -->
+        <div class="form-control">
+          <%= f.label :password_confirmation, "Confirm password", class: "label" %>
+          <%= f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "Confirm your password", class: "input input-bordered w-full" %>
+        </div>
+
+        <!-- Submit Button -->
+        <div>
+          <%= f.submit "Create account", class: "btn-primary-daisy w-full" %>
+        </div>
+
+        <!-- Terms -->
+        <p class="text-xs text-center text-[color-mix(in_oklab,oklch(21%_0.006_285.885)_70%,transparent)]">
+          By signing up, you agree to our Terms of Service and Privacy Policy
+        </p>
+      <% end %>
+    </div>
+
+    <!-- Back to Home Link -->
+    <div class="text-center">
+      <%= link_to root_path, class: "inline-flex items-center text-sm font-medium text-[color-mix(in_oklab,oklch(21%_0.006_285.885)_70%,transparent)] hover:text-[oklch(21%_0.006_285.885)] transition" do %>
+        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+        </svg>
+        Back to home
+      <% end %>
+    </div>
+  </div>
+</div>
