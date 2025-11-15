@@ -21,7 +21,7 @@ class CheckoutsController < ApplicationController
       @product_price = 29.99
     end
 
-    @quantity = [params[:quantity]&.to_i || 1, 1].max # Minimum quantity of 1
+    @quantity = [ params[:quantity]&.to_i || 1, 1 ].max # Minimum quantity of 1
     @amount = (@product_price * @quantity * 100).to_i # Convert to cents
 
     # Create Stripe PaymentIntent
