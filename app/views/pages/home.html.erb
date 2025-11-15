@@ -5,31 +5,75 @@
 
   <!-- Hero Section -->
   <section class="hero min-h-screen flex items-center justify-center px-4 py-16">
-    <div class="text-center max-w-4xl">
+    <div class="text-center max-w-5xl">
       <div class="flex flex-col items-center gap-6">
         <h1 class="text-[clamp(2.5rem,5vw,4.5rem)] font-light leading-[1.1] text-[oklch(21%_0.006_285.885)]">
-          <span class="font-black">Stop Leaving Money</span><br>
-          on the Table
+          <span class="font-black">Turn Your Users' Images</span><br>
+          into Real Products
         </h1>
 
-        <p class="text-lg md:text-xl font-light leading-relaxed text-[color-mix(in_oklab,oklch(21%_0.006_285.885)_70%,transparent)] py-6 max-w-2xl">
-          Add one line of code to make your app print money
+        <p class="text-lg md:text-xl font-light leading-relaxed text-[color-mix(in_oklab,oklch(21%_0.006_285.885)_70%,transparent)] py-6 max-w-3xl">
+          If you have an image generation or editing app, you're leaving money on the table. Add 2 lines of code and let your users turn their images into canvases, phone cases, t-shirts, and more.
         </p>
 
         <div class="flex flex-col sm:flex-row gap-4 items-center justify-center w-full sm:w-auto">
-          <%= link_to "Shop Collection", products_path, class: "btn-secondary-daisy w-full sm:w-auto" %>
-          <%= link_to "Learn More", about_path, class: "btn-primary-daisy w-full sm:w-auto" %>
+          <%= link_to "Get Started", new_user_registration_path, class: "btn-primary-daisy w-full sm:w-auto" %>
+          <%= link_to "View Integration Docs", api_docs_path, class: "btn-secondary-daisy w-full sm:w-auto" %>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- How It Works Section -->
+  <!-- What We Do Section -->
   <div class="py-24 bg-base-100">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center mb-16">
-        <h2 class="text-4xl font-bold">How It Works</h2>
-        <p class="text-lg mt-4 text-base-content/70">Transform your app into a revenue machine with one simple integration</p>
+        <h2 class="text-4xl font-bold">What Appcessorise Does</h2>
+        <p class="text-lg mt-4 text-base-content/70">We handle everything else. You get paid.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div class="text-center">
+          <div class="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center text-white text-2xl">
+            🖼️
+          </div>
+          <h3 class="font-bold text-lg mb-2">Print on Physical Products</h3>
+          <p class="text-base-content/70">Canvases, phone cases, t-shirts, mugs, and more</p>
+        </div>
+
+        <div class="text-center">
+          <div class="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center text-white text-2xl">
+            📦
+          </div>
+          <h3 class="font-bold text-lg mb-2">Handle Everything</h3>
+          <p class="text-base-content/70">Payments, printing, shipping, and customer support</p>
+        </div>
+
+        <div class="text-center">
+          <div class="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center text-white text-2xl">
+            💰
+          </div>
+          <h3 class="font-bold text-lg mb-2">Pay You Commission</h3>
+          <p class="text-base-content/70">Earn on every order without inventory or risk</p>
+        </div>
+
+        <div class="text-center">
+          <div class="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center text-white text-2xl">
+            🍎
+          </div>
+          <h3 class="font-bold text-lg mb-2">App Store Friendly</h3>
+          <p class="text-base-content/70">Fully compatible with Apple's guidelines</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- How It Works Section -->
+  <div class="py-24 bg-[oklch(14%_0.005_285.823)]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold text-[oklch(92%_0.004_286.32)]">How It Works</h2>
+        <p class="text-lg mt-4 text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_80%,transparent)]">Four simple steps to start earning</p>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -37,57 +81,68 @@
         <div class="space-y-8">
           <!-- Step 1 -->
           <div class="flex gap-4">
-            <div class="flex-shrink-0 w-12 h-12 rounded-full bg-primary text-primary-content flex items-center justify-center font-bold text-xl">
+            <div class="flex-shrink-0 w-12 h-12 rounded-full bg-white text-[oklch(14%_0.005_285.823)] flex items-center justify-center font-bold text-xl">
               1
             </div>
             <div>
-              <h3 class="text-xl font-bold mb-2">Add One Line of Code</h3>
-              <p class="text-base-content/70">Drop our SDK into your app. No complex setup, no backend changes required.</p>
+              <h3 class="text-xl font-bold mb-2 text-[oklch(92%_0.004_286.32)]">User Creates an Image</h3>
+              <p class="text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_80%,transparent)]">User generates or edits an image in your app (AI or manual)</p>
             </div>
           </div>
 
           <!-- Step 2 -->
           <div class="flex gap-4">
-            <div class="flex-shrink-0 w-12 h-12 rounded-full bg-primary text-primary-content flex items-center justify-center font-bold text-xl">
+            <div class="flex-shrink-0 w-12 h-12 rounded-full bg-white text-[oklch(14%_0.005_285.823)] flex items-center justify-center font-bold text-xl">
               2
             </div>
             <div>
-              <h3 class="text-xl font-bold mb-2">Your Users Shop</h3>
-              <p class="text-base-content/70">Custom merchandise appears seamlessly in your app. Users design and order without leaving.</p>
+              <h3 class="text-xl font-bold mb-2 text-[oklch(92%_0.004_286.32)]">You Call Our API</h3>
+              <p class="text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_80%,transparent)]">Drop in our SDK or make a simple REST API call (about 2 lines of code)</p>
             </div>
           </div>
 
           <!-- Step 3 -->
           <div class="flex gap-4">
-            <div class="flex-shrink-0 w-12 h-12 rounded-full bg-primary text-primary-content flex items-center justify-center font-bold text-xl">
+            <div class="flex-shrink-0 w-12 h-12 rounded-full bg-white text-[oklch(14%_0.005_285.823)] flex items-center justify-center font-bold text-xl">
               3
             </div>
             <div>
-              <h3 class="text-xl font-bold mb-2">Earn Commission</h3>
-              <p class="text-base-content/70">We handle production, shipping, and support. You earn 15% on every sale. Completely passive.</p>
+              <h3 class="text-xl font-bold mb-2 text-[oklch(92%_0.004_286.32)]">We Show Print Options</h3>
+              <p class="text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_80%,transparent)]">User sees "Print this" / "Buy as merch" flow directly in your app</p>
+            </div>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="flex gap-4">
+            <div class="flex-shrink-0 w-12 h-12 rounded-full bg-white text-[oklch(14%_0.005_285.823)] flex items-center justify-center font-bold text-xl">
+              4
+            </div>
+            <div>
+              <h3 class="text-xl font-bold mb-2 text-[oklch(92%_0.004_286.32)]">You Get Paid</h3>
+              <p class="text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_80%,transparent)]">We process payment, fulfill the order, and send you your commission</p>
             </div>
           </div>
         </div>
 
         <!-- Code Block -->
-        <div class="card bg-[oklch(14%_0.005_285.823)] shadow-2xl">
+        <div class="card bg-white shadow-2xl">
           <div class="card-body">
             <div class="flex items-center justify-between mb-4">
-              <span class="text-[oklch(92%_0.004_286.32)] font-mono text-sm">app.js</span>
-              <button class="btn btn-ghost btn-sm text-[oklch(92%_0.004_286.32)]" onclick="navigator.clipboard.writeText('import Appcessorise from \'appcessorise\'\n\nAppcessorise.init({\n  apiKey: \'YOUR_API_KEY\',\n  commission: 0.15\n})')">
+              <span class="text-gray-700 font-mono text-sm font-bold">React Native Example</span>
+              <button class="btn btn-ghost btn-sm" onclick="navigator.clipboard.writeText('import Appcessorise from \'appcessorise\'\n\nAppcessorise.printImage({\n  imageUrl: userGeneratedImage,\n  affiliateCode: \'YOUR_CODE\'\n})')">
                 📋 Copy
               </button>
             </div>
-            <div class="mockup-code bg-transparent">
+            <div class="mockup-code bg-[oklch(14%_0.005_285.823)]">
               <pre data-prefix="1" class="text-[oklch(92%_0.004_286.32)]"><code>import Appcessorise from 'appcessorise'</code></pre>
               <pre data-prefix="2" class="text-[oklch(92%_0.004_286.32)]"><code></code></pre>
-              <pre data-prefix="3" class="text-[oklch(92%_0.004_286.32)]"><code>Appcessorise.init({</code></pre>
-              <pre data-prefix="4" class="text-success"><code>  apiKey: 'YOUR_API_KEY',</code></pre>
-              <pre data-prefix="5" class="text-success"><code>  commission: 0.15</code></pre>
+              <pre data-prefix="3" class="text-[oklch(92%_0.004_286.32)]"><code>Appcessorise.printImage({</code></pre>
+              <pre data-prefix="4" class="text-success"><code>  imageUrl: userGeneratedImage,</code></pre>
+              <pre data-prefix="5" class="text-success"><code>  affiliateCode: 'YOUR_CODE'</code></pre>
               <pre data-prefix="6" class="text-[oklch(92%_0.004_286.32)]"><code>})</code></pre>
             </div>
             <div class="mt-4 p-4 bg-success/10 rounded-lg border border-success/20">
-              <p class="text-success text-sm font-mono">✓ That's it. You're done.</p>
+              <p class="text-success text-sm font-mono">✓ That's it. Start earning.</p>
             </div>
           </div>
         </div>
@@ -95,91 +150,176 @@
     </div>
   </div>
 
-  <!-- CTA Section -->
+  <!-- Revenue Stream Section -->
+  <div class="py-24 bg-base-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold">Simple Way to Make Extra Cash</h2>
+        <p class="text-lg mt-4 text-base-content/70">No subscriptions. No ads. Just passive revenue.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+        <div class="bg-white p-8 rounded-2xl shadow-lg border-2 border-gray-100">
+          <div class="text-4xl mb-4">💸</div>
+          <h3 class="font-bold text-xl mb-2">New Revenue Stream</h3>
+          <p class="text-base-content/70">Add income without subscriptions or intrusive ads</p>
+        </div>
+
+        <div class="bg-white p-8 rounded-2xl shadow-lg border-2 border-gray-100">
+          <div class="text-4xl mb-4">📈</div>
+          <h3 class="font-bold text-xl mb-2">Earn Commissions</h3>
+          <p class="text-base-content/70">Get paid on every product sold through your app</p>
+        </div>
+
+        <div class="bg-white p-8 rounded-2xl shadow-lg border-2 border-gray-100">
+          <div class="text-4xl mb-4">⚡</div>
+          <h3 class="font-bold text-xl mb-2">Works in Background</h3>
+          <p class="text-base-content/70">Your app does what it already does, we handle the rest</p>
+        </div>
+      </div>
+
+      <div class="text-center mt-12 p-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl text-white max-w-3xl mx-auto">
+        <p class="text-xl font-light mb-2">Your users get something they actually hold in their hands.</p>
+        <p class="text-2xl font-bold">You get extra income with almost no extra work.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Easy Payouts Section -->
   <div class="py-24 bg-[oklch(14%_0.005_285.823)]">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <h2 class="text-4xl font-light mb-4 text-[oklch(92%_0.004_286.32)]">
-        <span class="font-bold">Ready to elevate</span> your style?
-      </h2>
-      <p class="text-lg mb-8 text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_80%,transparent)] font-light max-w-2xl mx-auto">
-        Join thousands of satisfied customers who trust Appcessorise for their accessory needs. Sign up today and get 15% off your first order.
-      </p>
-      <%= link_to "Get Started", new_user_registration_path, class: "btn-secondary-daisy" %>
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-4xl font-bold mb-8 text-[oklch(92%_0.004_286.32)]">Easy Payouts</h2>
+
+      <div class="bg-white rounded-2xl p-12 shadow-2xl">
+        <div class="space-y-6 text-left max-w-2xl mx-auto">
+          <div class="flex items-start gap-4">
+            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white flex items-center justify-center font-bold">1</div>
+            <p class="text-lg text-gray-700">Enter your email and get your <strong>affiliate code</strong></p>
+          </div>
+
+          <div class="flex items-start gap-4">
+            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white flex items-center justify-center font-bold">2</div>
+            <p class="text-lg text-gray-700">Get a <strong>quick integration guide</strong> for React Native or Swift</p>
+          </div>
+
+          <div class="flex items-start gap-4">
+            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white flex items-center justify-center font-bold">3</div>
+            <p class="text-lg text-gray-700">Start earning once your first users order</p>
+          </div>
+        </div>
+
+        <div class="mt-12 flex flex-wrap justify-center gap-4 items-center">
+          <span class="text-gray-600 font-semibold">We pay via:</span>
+          <div class="badge badge-lg bg-gray-100 border-gray-300 text-gray-700">Stripe</div>
+          <div class="badge badge-lg bg-gray-100 border-gray-300 text-gray-700">Bank Transfer</div>
+          <div class="badge badge-lg bg-gray-100 border-gray-300 text-gray-700">Wise</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Help Section -->
+  <div class="py-24 bg-base-100">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-4xl font-bold mb-4">Need Help with Integration?</h2>
+      <p class="text-xl text-base-content/70 mb-8">No guesswork. We'll walk you through it.</p>
+
+      <div class="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-8 border-2 border-blue-200">
+        <div class="space-y-4 text-left max-w-2xl mx-auto">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">✓</span>
+            <p class="text-lg">We'll walk you through it <strong>step by step</strong></p>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">✓</span>
+            <p class="text-lg">We can <strong>review your code snippet</strong></p>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">✓</span>
+            <p class="text-lg">We can help you <strong>test end-to-end</strong> until it works</p>
+          </div>
+        </div>
+
+        <div class="mt-8">
+          <p class="text-lg font-light text-gray-600 mb-6">You focus on your app. We make sure the integration just works.</p>
+          <%= link_to "Get Started Now", new_user_registration_path, class: "btn-primary-daisy btn-lg" %>
+        </div>
+      </div>
     </div>
   </div>
 
   <!-- FAQ Section -->
-  <div class="py-24 bg-base-100">
+  <div class="py-24 bg-[oklch(14%_0.005_285.823)]">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center mb-12">
-        <h2 class="text-4xl font-bold">Frequently Asked Questions</h2>
-        <p class="text-lg mt-4 text-base-content/70">Everything you need to know about shopping with us</p>
+        <h2 class="text-4xl font-bold text-[oklch(92%_0.004_286.32)]">Frequently Asked Questions</h2>
+        <p class="text-lg mt-4 text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_80%,transparent)]">Everything you need to know about integrating</p>
       </div>
 
       <div class="space-y-2">
         <!-- FAQ 1 -->
-        <div class="collapse collapse-plus bg-base-200">
+        <div class="collapse collapse-plus bg-white">
           <input type="radio" name="faq-accordion" checked="checked" />
           <div class="collapse-title text-xl font-medium">
-            Do you offer free shipping?
+            What frameworks do you support?
           </div>
           <div class="collapse-content">
-            <p>Yes! We offer free shipping on all orders over $50. For orders under $50, standard shipping rates apply. All orders are processed within 1-2 business days.</p>
+            <p>We provide SDKs and code examples for React Native, Swift/SwiftUI, and a simple REST API for any platform. If you need help with a specific framework, we'll work with you to make it work.</p>
           </div>
         </div>
 
         <!-- FAQ 2 -->
-        <div class="collapse collapse-plus bg-base-200">
+        <div class="collapse collapse-plus bg-white">
           <input type="radio" name="faq-accordion" />
           <div class="collapse-title text-xl font-medium">
-            What is your return policy?
+            How much do I earn per sale?
           </div>
           <div class="collapse-content">
-            <p>We offer a 30-day money-back guarantee. If you're not completely satisfied with your purchase, you can return it within 30 days for a full refund. Items must be unused and in original packaging.</p>
+            <p>You earn a commission on every product sold. The exact percentage depends on your integration tier, but most developers earn 10-20% per sale. There are no hidden fees or minimum sales requirements.</p>
           </div>
         </div>
 
         <!-- FAQ 3 -->
-        <div class="collapse collapse-plus bg-base-200">
+        <div class="collapse collapse-plus bg-white">
           <input type="radio" name="faq-accordion" />
           <div class="collapse-title text-xl font-medium">
-            How can I track my order?
+            Is this App Store compliant?
           </div>
           <div class="collapse-content">
-            <p>Once your order ships, you'll receive a tracking number via email. You can use this number to track your package on our website or through the carrier's tracking system.</p>
+            <p>Yes! We're fully compatible with Apple App Store guidelines. Since we're selling physical products (not digital goods), you don't need to use Apple's in-app purchase system.</p>
           </div>
         </div>
 
         <!-- FAQ 4 -->
-        <div class="collapse collapse-plus bg-base-200">
+        <div class="collapse collapse-plus bg-white">
           <input type="radio" name="faq-accordion" />
           <div class="collapse-title text-xl font-medium">
-            What payment methods do you accept?
+            How long does integration take?
           </div>
           <div class="collapse-content">
-            <p>We accept all major credit cards (Visa, MasterCard, American Express, Discover), Apple Pay, Google Pay, and other digital payment methods through our secure Stripe payment processor.</p>
+            <p>Most developers complete the integration in under 30 minutes. It's literally 2 lines of code to get started. We provide step-by-step guides and can help you debug if needed.</p>
           </div>
         </div>
 
         <!-- FAQ 5 -->
-        <div class="collapse collapse-plus bg-base-200">
+        <div class="collapse collapse-plus bg-white">
           <input type="radio" name="faq-accordion" />
           <div class="collapse-title text-xl font-medium">
-            Are your products authentic?
+            Who handles customer support?
           </div>
           <div class="collapse-content">
-            <p>Absolutely! We source all our products directly from verified manufacturers and authorized distributors. Every item comes with a certificate of authenticity and is backed by our quality guarantee.</p>
+            <p>We handle all customer support for product-related issues (shipping, quality, returns). You focus on your app. If a user has questions about their order, they contact us directly.</p>
           </div>
         </div>
 
         <!-- FAQ 6 -->
-        <div class="collapse collapse-plus bg-base-200">
+        <div class="collapse collapse-plus bg-white">
           <input type="radio" name="faq-accordion" />
           <div class="collapse-title text-xl font-medium">
-            How do I contact customer support?
+            When do I get paid?
           </div>
           <div class="collapse-content">
-            <p>You can reach our support team by clicking the contact button in the bottom-right corner of any page, or by visiting our <%= link_to "Contact page", contact_path, class: "link link-primary" %>. We typically respond within 24 hours.</p>
+            <p>Payouts are processed monthly via Stripe, bank transfer, or Wise. You'll receive your commission 30 days after each sale (to account for returns). Minimum payout threshold is $50.</p>
           </div>
         </div>
       </div>
