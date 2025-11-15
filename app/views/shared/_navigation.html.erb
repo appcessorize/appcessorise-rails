@@ -6,7 +6,7 @@
           <span class="text-xl font-bold">A</span>
         </div>
       </div>
-      <span class="ml-2 font-bold text-[oklch(21%_0.006_285.885)]">Appcessorise</span>
+      <span class="ml-2 font-bold text-[oklch(21%_0.006_285.885)] hidden md:inline">Appcessorise</span>
     <% end %>
   </div>
 
@@ -21,7 +21,7 @@
 
   <div class="navbar-end gap-2">
     <% if user_signed_in? %>
-      <%= link_to dashboard_path, class: "btn btn-ghost gap-2 text-[oklch(21%_0.006_285.885)]" do %>
+      <%= link_to dashboard_path, class: "btn btn-ghost gap-2 text-[oklch(21%_0.006_285.885)] hidden lg:flex" do %>
         <div class="avatar placeholder">
           <div class="bg-[oklch(14%_0.005_285.823)] text-[oklch(92%_0.004_286.32)] rounded-full w-8 flex items-center justify-center">
             <span class="text-xs"><%= current_user.email[0].upcase %></span>
@@ -29,10 +29,7 @@
         </div>
         <span class="hidden md:inline">Dashboard</span>
       <% end %>
-      <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "btn btn-ghost btn-sm text-[oklch(21%_0.006_285.885)]" %>
-    <% else %>
-      <%= link_to "Login", new_user_session_path, class: "btn btn-ghost btn-sm text-[oklch(21%_0.006_285.885)]" %>
-      <%= link_to "Sign Up", new_user_registration_path, class: "btn-primary-daisy text-sm px-4 py-2" %>
+      <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "btn btn-ghost btn-sm text-[oklch(21%_0.006_285.885)] hidden lg:inline-flex" %>
     <% end %>
 
     <!-- Mobile Dropdown -->
@@ -47,6 +44,26 @@
         <li><%= link_to "Products", products_path %></li>
         <li><%= link_to "About", about_path %></li>
         <li><%= link_to "Contact", contact_path %></li>
+        <% if user_signed_in? %>
+          <li class="border-t border-[oklch(88%_0_0)] mt-2 pt-2">
+            <%= link_to dashboard_path do %>
+              <div class="flex items-center gap-2">
+                <div class="avatar placeholder">
+                  <div class="bg-[oklch(14%_0.005_285.823)] text-[oklch(92%_0.004_286.32)] rounded-full w-6 flex items-center justify-center">
+                    <span class="text-xs"><%= current_user.email[0].upcase %></span>
+                  </div>
+                </div>
+                Dashboard
+              </div>
+            <% end %>
+          </li>
+          <li>
+            <%= link_to "Logout", destroy_user_session_path, method: :delete, data: { turbo_method: :delete } %>
+          </li>
+        <% else %>
+          <li class="border-t border-[oklch(88%_0_0)] mt-2 pt-2"><%= link_to "Login", new_user_session_path %></li>
+          <li><%= link_to "Sign Up", new_user_registration_path %></li>
+        <% end %>
       </ul>
     </div>
   </div>
