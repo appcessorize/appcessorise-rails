@@ -133,8 +133,19 @@
     layout: {
       type: 'accordion',
       defaultCollapsed: false,
-      radios: true,
-      spacedAccordionItems: true
+      radios: false,
+      spacedAccordionItems: false
+    },
+    wallets: {
+      applePay: 'auto',
+      googlePay: 'auto'
+    },
+    defaultValues: {
+      billingDetails: {
+        address: {
+          country: 'US'
+        }
+      }
     }
   });
 
