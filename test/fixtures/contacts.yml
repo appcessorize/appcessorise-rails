@@ -1,17 +1,17 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  first_name: MyString
-  last_name: MyString
-  email: MyString
-  company: MyString
-  phone: MyString
-  message: MyText
+  first_name: John
+  last_name: Doe
+  email: john@example.com
+  company: Acme Corp
+  phone: "555-1234"
+  message: I would like more information
 
 two:
-  first_name: MyString
-  last_name: MyString
-  email: MyString
-  company: MyString
-  phone: MyString
-  message: MyText
+  first_name: Jane
+  last_name: Smith
+  email: jane@example.com
+  company: Tech Inc
+  phone: "555-5678"
+  message: Please contact me about your services

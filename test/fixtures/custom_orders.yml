@@ -1,11 +1,39 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-# This model initially had no columns defined. If you add columns to the
-# model remove the "{}" from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
-one: {}
-# column: value
-#
-two: {}
-# column: value
+one:
+  user: one
+  order_number: ORD-2024-ABC123
+  email: customer1@example.com
+  printful_product_id: 123
+  variant_id: 456
+  quantity: 1
+  original_image_url: https://example.com/image1.jpg
+  product_price: 29.99
+  shipping_cost: 5.00
+  total_price: 34.99
+  recipient_name: John Doe
+  address_line1: 123 Main St
+  city: New York
+  state: NY
+  zip: "10001"
+  country: US
+  payment_status: pending
+
+two:
+  user: two
+  order_number: ORD-2024-DEF456
+  email: customer2@example.com
+  printful_product_id: 789
+  variant_id: 101
+  quantity: 2
+  original_image_url: https://example.com/image2.jpg
+  product_price: 39.99
+  shipping_cost: 7.50
+  total_price: 47.49
+  recipient_name: Jane Smith
+  address_line1: 456 Oak Ave
+  city: Los Angeles
+  state: CA
+  zip: "90001"
+  country: US
+  payment_status: paid

@@ -2,14 +2,14 @@
 
 one:
   order: one
-  product_name: MyString
-  price: 9.99
+  product_name: Premium T-Shirt
+  price: 29.99
   quantity: 1
-  metadata: MyText
+  metadata: "{}"
 
 two:
   order: two
-  product_name: MyString
-  price: 9.99
-  quantity: 1
-  metadata: MyText
+  product_name: Custom Mug
+  price: 19.99
+  quantity: 2
+  metadata: "{}"

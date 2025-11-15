@@ -1,11 +1,16 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-# This model initially had no columns defined. If you add columns to the
-# model remove the "{}" from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
-one: {}
-# column: value
-#
-two: {}
-# column: value
+one:
+  user: two
+  custom_order: one
+  commission_amount: 5.00
+  commission_rate: 0.15
+  status: pending
+
+two:
+  user: two
+  custom_order: two
+  commission_amount: 7.50
+  commission_rate: 0.15
+  status: paid
+  paid_at: <%= 1.day.ago %>
