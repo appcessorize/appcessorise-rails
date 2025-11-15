@@ -24,48 +24,71 @@
     </div>
   </section>
 
-  <!-- Features Section -->
+  <!-- How It Works Section -->
   <div class="py-24 bg-base-100">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center mb-16">
-        <h2 class="text-4xl font-bold">Why Choose Appcessorise?</h2>
-        <p class="text-lg mt-4 text-base-content/70">Experience the perfect blend of quality, style, and convenience</p>
+        <h2 class="text-4xl font-bold">How It Works</h2>
+        <p class="text-lg mt-4 text-base-content/70">Transform your app into a revenue machine with one simple integration</p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-        <!-- Feature 1 -->
-        <div class="card bg-base-200 shadow-xl">
-          <div class="card-body items-center text-center">
-            <div class="text-5xl mb-4">🚚</div>
-            <h3 class="card-title">Free Shipping</h3>
-            <p>Free delivery on all orders over $50. Fast and reliable shipping worldwide.</p>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <!-- Steps -->
+        <div class="space-y-8">
+          <!-- Step 1 -->
+          <div class="flex gap-4">
+            <div class="flex-shrink-0 w-12 h-12 rounded-full bg-primary text-primary-content flex items-center justify-center font-bold text-xl">
+              1
+            </div>
+            <div>
+              <h3 class="text-xl font-bold mb-2">Add One Line of Code</h3>
+              <p class="text-base-content/70">Drop our SDK into your app. No complex setup, no backend changes required.</p>
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="flex gap-4">
+            <div class="flex-shrink-0 w-12 h-12 rounded-full bg-primary text-primary-content flex items-center justify-center font-bold text-xl">
+              2
+            </div>
+            <div>
+              <h3 class="text-xl font-bold mb-2">Your Users Shop</h3>
+              <p class="text-base-content/70">Custom merchandise appears seamlessly in your app. Users design and order without leaving.</p>
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="flex gap-4">
+            <div class="flex-shrink-0 w-12 h-12 rounded-full bg-primary text-primary-content flex items-center justify-center font-bold text-xl">
+              3
+            </div>
+            <div>
+              <h3 class="text-xl font-bold mb-2">Earn Commission</h3>
+              <p class="text-base-content/70">We handle production, shipping, and support. You earn 15% on every sale. Completely passive.</p>
+            </div>
           </div>
         </div>
 
-        <!-- Feature 2 -->
-        <div class="card bg-base-200 shadow-xl">
-          <div class="card-body items-center text-center">
-            <div class="text-5xl mb-4">✨</div>
-            <h3 class="card-title">Premium Quality</h3>
-            <p>Handpicked products crafted with attention to detail and superior materials.</p>
-          </div>
-        </div>
-
-        <!-- Feature 3 -->
-        <div class="card bg-base-200 shadow-xl">
-          <div class="card-body items-center text-center">
-            <div class="text-5xl mb-4">🔒</div>
-            <h3 class="card-title">Secure Payments</h3>
-            <p>Shop with confidence using our encrypted payment processing system.</p>
-          </div>
-        </div>
-
-        <!-- Feature 4 -->
-        <div class="card bg-base-200 shadow-xl">
-          <div class="card-body items-center text-center">
-            <div class="text-5xl mb-4">💝</div>
-            <h3 class="card-title">Easy Returns</h3>
-            <p>Not satisfied? Return within 30 days for a full refund, no questions asked.</p>
+        <!-- Code Block -->
+        <div class="card bg-[oklch(14%_0.005_285.823)] shadow-2xl">
+          <div class="card-body">
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-[oklch(92%_0.004_286.32)] font-mono text-sm">app.js</span>
+              <button class="btn btn-ghost btn-sm text-[oklch(92%_0.004_286.32)]" onclick="navigator.clipboard.writeText('import Appcessorise from \'appcessorise\'\n\nAppcessorise.init({\n  apiKey: \'YOUR_API_KEY\',\n  commission: 0.15\n})')">
+                📋 Copy
+              </button>
+            </div>
+            <div class="mockup-code bg-transparent">
+              <pre data-prefix="1" class="text-[oklch(92%_0.004_286.32)]"><code>import Appcessorise from 'appcessorise'</code></pre>
+              <pre data-prefix="2" class="text-[oklch(92%_0.004_286.32)]"><code></code></pre>
+              <pre data-prefix="3" class="text-[oklch(92%_0.004_286.32)]"><code>Appcessorise.init({</code></pre>
+              <pre data-prefix="4" class="text-success"><code>  apiKey: 'YOUR_API_KEY',</code></pre>
+              <pre data-prefix="5" class="text-success"><code>  commission: 0.15</code></pre>
+              <pre data-prefix="6" class="text-[oklch(92%_0.004_286.32)]"><code>})</code></pre>
+            </div>
+            <div class="mt-4 p-4 bg-success/10 rounded-lg border border-success/20">
+              <p class="text-success text-sm font-mono">✓ That's it. You're done.</p>
+            </div>
           </div>
         </div>
       </div>
