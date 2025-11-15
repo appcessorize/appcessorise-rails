@@ -35,7 +35,7 @@ module Api
         # Calculate estimated shipping
         shipping_result = printful_service.calculate_shipping(
           { country: "US", state: "NY", city: "New York", zip: "10001" },
-          [{ variant_id: params[:variant_id], quantity: 1 }]
+          [ { variant_id: params[:variant_id], quantity: 1 } ]
         )
 
         estimated_shipping = shipping_result[:success] ? shipping_result.dig(:cheapest, "rate").to_f : 5.99

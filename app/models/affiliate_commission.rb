@@ -13,7 +13,7 @@ class AffiliateCommission < ApplicationRecord
   scope :approved, -> { where(status: "approved") }
   scope :paid, -> { where(status: "paid") }
   scope :for_user, ->(user_id) { where(user_id: user_id) }
-  scope :unpaid, -> { where(status: ["pending", "approved"]) }
+  scope :unpaid, -> { where(status: [ "pending", "approved" ]) }
 
   # Class methods
   def self.total_for_user(user_id)

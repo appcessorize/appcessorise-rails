@@ -44,10 +44,10 @@ class PrintfulService
   def generate_mockup(image_url, product_id, variant_id)
     # Step 1: Create mockup generation task
     task_response = post("/mockup-generator/create-task/#{product_id}", {
-      variant_ids: [variant_id],
+      variant_ids: [ variant_id ],
       format: "jpg",
-      options: ["Front"],
-      option_groups: ["Flat"],
+      options: [ "Front" ],
+      option_groups: [ "Flat" ],
       files: [
         {
           placement: "front",

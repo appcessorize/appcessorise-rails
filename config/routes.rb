@@ -20,20 +20,20 @@ Rails.application.routes.draw do
   get "dashboard", to: "dashboard#index"
 
   # Checkout routes
-  resource :checkout, only: [:new, :create] do
+  resource :checkout, only: [ :new, :create ] do
     get :success, on: :collection
     get :failure, on: :collection
   end
 
   # Allow GET for payment confirmation (Stripe redirect)
-  get 'checkout', to: 'checkouts#create'
+  get "checkout", to: "checkouts#create"
 
   # Orders
-  resources :orders, only: [:index, :show]
+  resources :orders, only: [ :index, :show ]
 
   # Contact form
   get "contact", to: "contacts#new"
-  resources :contacts, only: [:create, :index]
+  resources :contacts, only: [ :create, :index ]
 
   # Printful mockup checkout
   get "checkout/:mockup_id", to: "checkouts#mockup", as: :checkout_mockup
@@ -41,8 +41,8 @@ Rails.application.routes.draw do
   # API routes
   namespace :api do
     namespace :v1 do
-      resources :mockups, only: [:create]
-      resources :orders, only: [:create]
+      resources :mockups, only: [ :create ]
+      resources :orders, only: [ :create ]
     end
   end
 

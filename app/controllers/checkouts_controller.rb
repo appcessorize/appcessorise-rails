@@ -18,7 +18,7 @@ class CheckoutsController < ApplicationController
 
       @payment_intent = Stripe::PaymentIntent.create({
         amount: @amount,
-        currency: 'usd',
+        currency: "usd",
         metadata: payment_metadata
       })
 
@@ -26,8 +26,8 @@ class CheckoutsController < ApplicationController
       @order = Order.create!(
         user: current_user,
         amount: @product_price * @quantity,
-        currency: 'usd',
-        status: 'pending',
+        currency: "usd",
+        status: "pending",
         stripe_payment_intent_id: @payment_intent.id
       )
 
@@ -53,7 +53,7 @@ class CheckoutsController < ApplicationController
 
       if order
         # Update order status
-        order.update(status: 'paid')
+        order.update(status: "paid")
         redirect_to success_checkout_path(order_id: order.id)
       else
         redirect_to failure_checkout_path
@@ -88,7 +88,7 @@ class CheckoutsController < ApplicationController
     begin
       @payment_intent = Stripe::PaymentIntent.create({
         amount: @amount,
-        currency: 'usd',
+        currency: "usd",
         metadata: {
           mockup_id: params[:mockup_id],
           affiliate_code: @mockup_data[:affiliate_code],

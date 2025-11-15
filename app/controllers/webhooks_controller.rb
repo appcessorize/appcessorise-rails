@@ -49,7 +49,7 @@ class WebhooksController < ApplicationController
     # Verify the signature matches
     # Printful uses HMAC SHA256
     expected_signature = OpenSSL::HMAC.hexdigest(
-      OpenSSL::Digest.new('sha256'),
+      OpenSSL::Digest.new("sha256"),
       webhook_secret,
       request.body.read
     )

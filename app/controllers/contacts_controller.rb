@@ -1,6 +1,6 @@
 class ContactsController < ApplicationController
-  before_action :authenticate_user!, only: [:index]
-  before_action :require_admin, only: [:index]
+  before_action :authenticate_user!, only: [ :index ]
+  before_action :require_admin, only: [ :index ]
 
   def new
     @contact = Contact.new
