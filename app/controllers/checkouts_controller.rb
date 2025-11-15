@@ -2,10 +2,26 @@ class CheckoutsController < ApplicationController
   # No authentication required - allow guest checkout
 
   def new
-    # Get product details from params (in a real app, fetch from database)
-    @product_name = params[:product_name] || "Premium Phone Case"
-    @product_price = params[:product_price]&.to_f || 29.99
-    @quantity = params[:quantity]&.to_i || 1
+    # Fetch product from database to prevent price manipulation
+    product_id = params[:product_id]
+
+    if product_id.present?
+      # For Printful products from database
+      @product = PrintfulProduct.find_by(id: product_id)
+      unless @product
+        flash[:alert] = "Product not found"
+        redirect_to products_path
+        return
+      end
+      @product_name = @product.name
+      @product_price = @product.base_price
+    else
+      # Hardcoded demo product with server-side price (legacy support)
+      @product_name = "Premium Phone Case"
+      @product_price = 29.99
+    end
+
+    @quantity = [params[:quantity]&.to_i || 1, 1].max # Minimum quantity of 1
     @amount = (@product_price * @quantity * 100).to_i # Convert to cents
 
     # Create Stripe PaymentIntent
