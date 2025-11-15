@@ -1,0 +1,225 @@
+<% content_for :title, "Documentation - Appcessorise" %>
+
+<div class="min-h-screen bg-base-100">
+  <%= render 'shared/navigation' %>
+
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <!-- Header -->
+    <div class="mb-12">
+      <h1 class="text-5xl font-bold mb-4">Developer Documentation</h1>
+      <p class="text-xl text-base-content/70">Everything you need to integrate Appcessorise into your app</p>
+    </div>
+
+    <!-- Quick Start -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+        <span class="text-4xl">🚀</span>
+        Quick Start
+      </h2>
+
+      <div class="bg-white rounded-2xl shadow-lg p-8 border-2 border-gray-100">
+        <h3 class="text-xl font-bold mb-4">Get Your API Key</h3>
+        <ol class="space-y-4 text-lg">
+          <li class="flex gap-3">
+            <span class="font-bold text-blue-600">1.</span>
+            <%= link_to "Sign up for an account", new_user_registration_path, class: "link link-primary" %>
+          </li>
+          <li class="flex gap-3">
+            <span class="font-bold text-blue-600">2.</span>
+            Go to your <%= link_to "Dashboard", dashboard_path, class: "link link-primary" %> to get your API key
+          </li>
+          <li class="flex gap-3">
+            <span class="font-bold text-blue-600">3.</span>
+            Follow the integration guide below for your platform
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- React Native Integration -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+        <span class="text-4xl">⚛️</span>
+        React Native Integration
+      </h2>
+
+      <div class="space-y-6">
+        <div class="bg-white rounded-2xl shadow-lg p-8 border-2 border-gray-100">
+          <h3 class="text-xl font-bold mb-4">1. Install the Package</h3>
+          <div class="mockup-code bg-[oklch(14%_0.005_285.823)]">
+            <pre data-prefix="$" class="text-success"><code>npm install @appcessorise/react-native</code></pre>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-lg p-8 border-2 border-gray-100">
+          <h3 class="text-xl font-bold mb-4">2. Initialize in Your App</h3>
+          <div class="mockup-code bg-[oklch(14%_0.005_285.823)]">
+            <pre data-prefix="1" class="text-[oklch(92%_0.004_286.32)]"><code>import Appcessorise from '@appcessorise/react-native';</code></pre>
+            <pre data-prefix="2" class="text-[oklch(92%_0.004_286.32)]"><code></code></pre>
+            <pre data-prefix="3" class="text-[oklch(92%_0.004_286.32)]"><code>Appcessorise.init({</code></pre>
+            <pre data-prefix="4" class="text-success"><code>  apiKey: 'your_api_key_here',</code></pre>
+            <pre data-prefix="5" class="text-success"><code>  environment: 'production'</code></pre>
+            <pre data-prefix="6" class="text-[oklch(92%_0.004_286.32)]"><code>});</code></pre>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-lg p-8 border-2 border-gray-100">
+          <h3 class="text-xl font-bold mb-4">3. Show Print Options for User Images</h3>
+          <div class="mockup-code bg-[oklch(14%_0.005_285.823)]">
+            <pre data-prefix="1" class="text-[oklch(92%_0.004_286.32)]"><code>const handlePrintImage = async () => {</code></pre>
+            <pre data-prefix="2" class="text-[oklch(92%_0.004_286.32)]"><code>  try {</code></pre>
+            <pre data-prefix="3" class="text-success"><code>    await Appcessorise.printImage({</code></pre>
+            <pre data-prefix="4" class="text-success"><code>      imageUrl: userGeneratedImage,</code></pre>
+            <pre data-prefix="5" class="text-success"><code>      userId: currentUser.id,</code></pre>
+            <pre data-prefix="6" class="text-success"><code>      affiliateCode: 'your_affiliate_code'</code></pre>
+            <pre data-prefix="7" class="text-success"><code>    });</code></pre>
+            <pre data-prefix="8" class="text-[oklch(92%_0.004_286.32)]"><code>  } catch (error) {</code></pre>
+            <pre data-prefix="9" class="text-[oklch(92%_0.004_286.32)]"><code>    console.error('Print error:', error);</code></pre>
+            <pre data-prefix="10" class="text-[oklch(92%_0.004_286.32)]"><code>  }</code></pre>
+            <pre data-prefix="11" class="text-[oklch(92%_0.004_286.32)]"><code>};</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Swift/iOS Integration -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+        <span class="text-4xl">🍎</span>
+        Swift/iOS Integration
+      </h2>
+
+      <div class="space-y-6">
+        <div class="bg-white rounded-2xl shadow-lg p-8 border-2 border-gray-100">
+          <h3 class="text-xl font-bold mb-4">1. Add Package via SPM</h3>
+          <div class="mockup-code bg-[oklch(14%_0.005_285.823)]">
+            <pre data-prefix="" class="text-[oklch(92%_0.004_286.32)]"><code>https://github.com/appcessorise/appcessorise-swift</code></pre>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-lg p-8 border-2 border-gray-100">
+          <h3 class="text-xl font-bold mb-4">2. Initialize in AppDelegate</h3>
+          <div class="mockup-code bg-[oklch(14%_0.005_285.823)]">
+            <pre data-prefix="1" class="text-[oklch(92%_0.004_286.32)]"><code>import Appcessorise</code></pre>
+            <pre data-prefix="2" class="text-[oklch(92%_0.004_286.32)]"><code></code></pre>
+            <pre data-prefix="3" class="text-[oklch(92%_0.004_286.32)]"><code>Appcessorise.configure(</code></pre>
+            <pre data-prefix="4" class="text-success"><code>    apiKey: "your_api_key_here",</code></pre>
+            <pre data-prefix="5" class="text-success"><code>    environment: .production</code></pre>
+            <pre data-prefix="6" class="text-[oklch(92%_0.004_286.32)]"><code>)</code></pre>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-lg p-8 border-2 border-gray-100">
+          <h3 class="text-xl font-bold mb-4">3. Present Print Options</h3>
+          <div class="mockup-code bg-[oklch(14%_0.005_285.823)]">
+            <pre data-prefix="1" class="text-[oklch(92%_0.004_286.32)]"><code>Appcessorise.printImage(</code></pre>
+            <pre data-prefix="2" class="text-success"><code>    imageUrl: userImage.url,</code></pre>
+            <pre data-prefix="3" class="text-success"><code>    userId: currentUser.id,</code></pre>
+            <pre data-prefix="4" class="text-success"><code>    affiliateCode: "your_affiliate_code"</code></pre>
+            <pre data-prefix="5" class="text-[oklch(92%_0.004_286.32)]"><code>) { result in</code></pre>
+            <pre data-prefix="6" class="text-[oklch(92%_0.004_286.32)]"><code>    switch result {</code></pre>
+            <pre data-prefix="7" class="text-[oklch(92%_0.004_286.32)]"><code>    case .success:</code></pre>
+            <pre data-prefix="8" class="text-[oklch(92%_0.004_286.32)]"><code>        print("Print flow completed")</code></pre>
+            <pre data-prefix="9" class="text-[oklch(92%_0.004_286.32)]"><code>    case .failure(let error):</code></pre>
+            <pre data-prefix="10" class="text-[oklch(92%_0.004_286.32)]"><code>        print("Error: \\(error)")</code></pre>
+            <pre data-prefix="11" class="text-[oklch(92%_0.004_286.32)]"><code>    }</code></pre>
+            <pre data-prefix="12" class="text-[oklch(92%_0.004_286.32)]"><code>}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- REST API -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+        <span class="text-4xl">🔌</span>
+        REST API
+      </h2>
+
+      <div class="space-y-6">
+        <div class="bg-white rounded-2xl shadow-lg p-8 border-2 border-gray-100">
+          <h3 class="text-xl font-bold mb-4">Create Print Session</h3>
+          <div class="badge badge-lg bg-green-100 text-green-800 mb-4">POST</div>
+          <div class="mockup-code bg-[oklch(14%_0.005_285.823)] mb-4">
+            <pre data-prefix="" class="text-[oklch(92%_0.004_286.32)]"><code>https://api.appcessorise.com/v1/print-sessions</code></pre>
+          </div>
+
+          <h4 class="font-bold mb-2">Request Body:</h4>
+          <div class="mockup-code bg-[oklch(14%_0.005_285.823)]">
+            <pre data-prefix="1" class="text-[oklch(92%_0.004_286.32)]"><code>{</code></pre>
+            <pre data-prefix="2" class="text-success"><code>  "image_url": "https://example.com/image.jpg",</code></pre>
+            <pre data-prefix="3" class="text-success"><code>  "user_id": "user_123",</code></pre>
+            <pre data-prefix="4" class="text-success"><code>  "affiliate_code": "your_affiliate_code",</code></pre>
+            <pre data-prefix="5" class="text-success"><code>  "api_key": "your_api_key"</code></pre>
+            <pre data-prefix="6" class="text-[oklch(92%_0.004_286.32)]"><code>}</code></pre>
+          </div>
+
+          <h4 class="font-bold mt-6 mb-2">Response:</h4>
+          <div class="mockup-code bg-[oklch(14%_0.005_285.823)]">
+            <pre data-prefix="1" class="text-[oklch(92%_0.004_286.32)]"><code>{</code></pre>
+            <pre data-prefix="2" class="text-success"><code>  "session_id": "sess_abc123",</code></pre>
+            <pre data-prefix="3" class="text-success"><code>  "checkout_url": "https://appcessorise.com/print/sess_abc123"</code></pre>
+            <pre data-prefix="4" class="text-[oklch(92%_0.004_286.32)]"><code>}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+        <span class="text-4xl">💬</span>
+        Need Help?
+      </h2>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-8 border-2 border-blue-200">
+          <h3 class="text-xl font-bold mb-4">Contact Support</h3>
+          <p class="text-base-content/70 mb-6">
+            Our team is here to help you integrate successfully. We typically respond within 24 hours.
+          </p>
+          <%= link_to contact_path, class: "btn-primary-daisy" do %>
+            📧 Contact Us
+          <% end %>
+        </div>
+
+        <div class="bg-gradient-to-br from-purple-50 to-blue-50 rounded-2xl p-8 border-2 border-purple-200">
+          <h3 class="text-xl font-bold mb-4">Email Us Directly</h3>
+          <div class="space-y-3 text-base-content/70">
+            <p><strong>General Inquiries:</strong><br><a href="mailto:hello@appcessorise.com" class="link link-primary">hello@appcessorise.com</a></p>
+            <p><strong>Developer Support:</strong><br><a href="mailto:dev@appcessorise.com" class="link link-primary">dev@appcessorise.com</a></p>
+            <p><strong>Partnership:</strong><br><a href="mailto:partners@appcessorise.com" class="link link-primary">partners@appcessorise.com</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Additional Resources -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+        <span class="text-4xl">📚</span>
+        Additional Resources
+      </h2>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="bg-white rounded-xl p-6 shadow-lg border-2 border-gray-100">
+          <div class="text-3xl mb-3">🎯</div>
+          <h3 class="font-bold text-lg mb-2">Best Practices</h3>
+          <p class="text-base-content/70 text-sm">Learn how to optimize conversions and user experience</p>
+        </div>
+
+        <div class="bg-white rounded-xl p-6 shadow-lg border-2 border-gray-100">
+          <div class="text-3xl mb-3">🔐</div>
+          <h3 class="font-bold text-lg mb-2">Security</h3>
+          <p class="text-base-content/70 text-sm">How we protect your users' data and payments</p>
+        </div>
+
+        <div class="bg-white rounded-xl p-6 shadow-lg border-2 border-gray-100">
+          <div class="text-3xl mb-3">💡</div>
+          <h3 class="font-bold text-lg mb-2">Examples</h3>
+          <p class="text-base-content/70 text-sm">See real-world implementations and case studies</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
