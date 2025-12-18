@@ -51,6 +51,9 @@ gem "pundit"
 # Payments
 gem "stripe"
 
+# Email delivery
+gem "resend"
+
 # Pretty URLs for products, categories, etc.
 gem "friendly_id"
 
