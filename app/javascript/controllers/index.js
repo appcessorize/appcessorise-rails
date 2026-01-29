@@ -6,3 +6,12 @@ import { application } from "./application"
 
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
+
+import ContactModalController from "./contact_modal_controller"
+application.register("contact-modal", ContactModalController)
+
+import StickyCtaController from "./sticky_cta_controller"
+application.register("sticky-cta", StickyCtaController)
+
+import ClipboardController from "./clipboard_controller"
+application.register("clipboard", ClipboardController)

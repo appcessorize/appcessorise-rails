@@ -269,7 +269,7 @@
           <div class="card-body">
             <div class="flex items-center justify-between mb-4">
               <span class="text-gray-700 font-mono text-sm font-bold">React Native Example</span>
-              <button class="btn btn-ghost btn-sm" onclick="navigator.clipboard.writeText('import Appcessorise from \'appcessorise\'\n\nAppcessorise.printImage({\n  imageUrl: userGeneratedImage,\n  affiliateCode: \'YOUR_CODE\'\n})')">
+              <button class="btn btn-ghost btn-sm" data-controller="clipboard" data-clipboard-text-value="import Appcessorise from 'appcessorise'&#10;&#10;Appcessorise.printImage({&#10;  imageUrl: userGeneratedImage,&#10;  affiliateCode: 'YOUR_CODE'&#10;})" data-action="click->clipboard#copy">
                 📋 Copy
               </button>
             </div>
@@ -547,29 +547,9 @@
   </footer>
 
   <!-- Sticky Mobile CTA Button (hidden until hero CTA scrolls out of view) -->
-  <div id="sticky-cta" class="fixed bottom-0 left-0 right-0 z-50 p-3 bg-white/95 backdrop-blur-sm border-t border-gray-200 sm:hidden translate-y-full transition-transform duration-300 ease-[cubic-bezier(.4,0,0.2,1)]">
-    <%= link_to "Sign me up", new_user_registration_path, class: "bg-red-600 text-white text-lg font-medium transition-colors duration-150 ease-[cubic-bezier(.4,0,0.2,1)] w-full px-4 py-3 rounded-md text-center block hover:bg-red-700" %>
+  <div data-controller="sticky-cta" data-sticky-cta-observe-value="hero-cta">
+    <div id="sticky-cta" data-sticky-cta-target="bar" class="fixed bottom-0 left-0 right-0 z-50 p-3 bg-white/95 backdrop-blur-sm border-t border-gray-200 sm:hidden translate-y-full transition-transform duration-300 ease-[cubic-bezier(.4,0,0.2,1)]">
+      <%= link_to "Sign me up", new_user_registration_path, class: "bg-red-600 text-white text-lg font-medium transition-colors duration-150 ease-[cubic-bezier(.4,0,0.2,1)] w-full px-4 py-3 rounded-md text-center block hover:bg-red-700" %>
+    </div>
   </div>
-
-  <script>
-    (function initStickyCta() {
-      var heroCta = document.getElementById("hero-cta");
-      var stickyCta = document.getElementById("sticky-cta");
-      if (!heroCta || !stickyCta) return;
-
-      var observer = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-          if (entry.isIntersecting) {
-            stickyCta.classList.add("translate-y-full");
-            stickyCta.classList.remove("translate-y-0");
-          } else {
-            stickyCta.classList.remove("translate-y-full");
-            stickyCta.classList.add("translate-y-0");
-          }
-        });
-      }, { threshold: 0 });
-
-      observer.observe(heroCta);
-    })();
-  </script>
 </div>
