@@ -552,7 +552,7 @@
   </div>
 
   <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    (function initStickyCta() {
       var heroCta = document.getElementById("hero-cta");
       var stickyCta = document.getElementById("sticky-cta");
       if (!heroCta || !stickyCta) return;
@@ -570,6 +570,6 @@
       }, { threshold: 0 });
 
       observer.observe(heroCta);
-    });
+    })();
   </script>
 </div>
