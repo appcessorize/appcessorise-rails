@@ -24,7 +24,7 @@
       </p>
 
       <!-- CTA Button -->
-      <div class="flex justify-center mb-8">
+      <div id="hero-cta" class="flex justify-center mb-8">
         <div class="items-center flex flex-col w-full sm:w-auto">
           <%= link_to "Sign me up", new_user_registration_path, class: "bg-red-600 text-white text-lg font-medium transition-colors duration-150 ease-[cubic-bezier(.4,0,0.2,1)] w-full px-4 py-3 rounded-md text-center sm:text-[22px] sm:w-auto sm:px-8 hover:bg-red-700 inline-block" %>
           <p class="text-gray-600 text-base mt-3 text-center">Sell your users stuff they love without the hassle</p>
@@ -111,6 +111,53 @@
         <div class="flex justify-center mt-8">
           <div class="items-center flex flex-col w-full sm:w-auto">
             <%= link_to "Sign me up", new_user_registration_path, class: "bg-red-600 text-white text-lg font-medium transition-colors duration-150 ease-[cubic-bezier(.4,0,0.2,1)] w-full px-4 py-3 rounded-md text-center sm:text-[22px] sm:w-auto sm:px-8 hover:bg-red-700 inline-block" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Qualification Section -->
+  <section class="bg-gray-50 text-gray-700 py-16 md:py-24">
+    <div class="max-w-[1000px] w-full mx-auto px-5 md:px-8">
+      <div class="max-w-screen-lg mx-auto">
+        <h2 class="text-[rgb(34_52_68/1)] text-[32px] font-bold text-center mb-16 md:text-4xl">Is Appcessorise right for you?</h2>
+        <div class="grid text-[22px] gap-y-12 gap-x-12 md:grid-cols-2">
+          <!-- NOT for you -->
+          <div>
+            <h3 class="text-[rgb(34_52_68/1)] text-2xl font-bold mb-6">This is <span class="underline">NOT</span> for you if:</h3>
+            <ul class="list-none text-[22px] space-y-4">
+              <li class="flex items-start"><span class="text-red-500 text-[22px] font-extrabold mr-3">&#10005;</span><span>You want to build your own e&#8209;commerce store from scratch.</span></li>
+              <li class="flex items-start"><span class="text-red-500 text-[22px] font-extrabold mr-3">&#10005;</span><span>You&rsquo;re happy dealing with suppliers, shipping, and returns yourself.</span></li>
+              <li class="flex items-start"><span class="text-red-500 text-[22px] font-extrabold mr-3">&#10005;</span><span>You want to handle payments, fraud, chargebacks, and customer support.</span></li>
+              <li class="flex items-start"><span class="text-red-500 text-[22px] font-extrabold mr-3">&#10005;</span><span>Your app doesn&rsquo;t generate or work with images.</span></li>
+            </ul>
+          </div>
+          <!-- IS for you -->
+          <div>
+            <h3 class="text-[rgb(34_52_68/1)] text-2xl font-bold mb-6">This <span class="underline">IS</span> for you if:</h3>
+            <ul class="list-none text-[22px] space-y-4">
+              <li class="flex items-start"><span class="text-green-500 text-[22px] font-extrabold mr-3">&#10003;</span><span>Your app lets users generate or edit images.</span></li>
+              <li class="flex items-start"><span class="text-green-500 text-[22px] font-extrabold mr-3">&#10003;</span><span>You want a new revenue stream without building infrastructure.</span></li>
+              <li class="flex items-start"><span class="text-green-500 text-[22px] font-extrabold mr-3">&#10003;</span><span>You&rsquo;d rather earn commission while someone else handles fulfillment, support, and returns.</span></li>
+              <li class="flex items-start"><span class="text-green-500 text-[22px] font-extrabold mr-3">&#10003;</span><span>You want to go live in minutes&mdash;not months.</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Callout box -->
+        <div class="mt-16">
+          <div class="bg-yellow-50 border-2 border-dashed border-yellow-300 p-8 rounded-lg md:p-10">
+            <h3 class="text-[rgb(34_52_68/1)] text-2xl font-bold text-center mb-6">We handle the hard parts so you don&rsquo;t have to.</h3>
+            <p class="text-[22px] max-w-screen-md mb-8 mx-auto">
+              Finding reliable print suppliers. Setting up payment processing. Managing fraud and chargebacks. Coordinating shipping across dozens of countries. Fielding &ldquo;Where&rsquo;s my order?&rdquo; emails at 2am.
+            </p>
+            <p class="text-[22px] max-w-screen-md mb-8 mx-auto">
+              <span class="font-bold">All of that is on us.</span> You keep building your app. We turn your users&rsquo; creations into products&mdash;and send you money every month.
+            </p>
+            <div class="text-center">
+              <%= link_to "Sign me up", new_user_registration_path, class: "bg-red-600 text-white text-lg font-medium transition-colors duration-150 ease-[cubic-bezier(.4,0,0.2,1)] w-full px-4 py-3 rounded-md text-center sm:text-[22px] sm:w-auto sm:px-8 hover:bg-red-700 inline-block" %>
+            </div>
           </div>
         </div>
       </div>
@@ -499,8 +546,30 @@
     </aside>
   </footer>
 
-  <!-- Sticky Mobile CTA Button -->
-  <div class="fixed bottom-0 left-0 right-0 z-50 p-3 bg-white/95 backdrop-blur-sm border-t border-gray-200 sm:hidden">
+  <!-- Sticky Mobile CTA Button (hidden until hero CTA scrolls out of view) -->
+  <div id="sticky-cta" class="fixed bottom-0 left-0 right-0 z-50 p-3 bg-white/95 backdrop-blur-sm border-t border-gray-200 sm:hidden translate-y-full transition-transform duration-300 ease-[cubic-bezier(.4,0,0.2,1)]">
     <%= link_to "Sign me up", new_user_registration_path, class: "bg-red-600 text-white text-lg font-medium transition-colors duration-150 ease-[cubic-bezier(.4,0,0.2,1)] w-full px-4 py-3 rounded-md text-center block hover:bg-red-700" %>
   </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      var heroCta = document.getElementById("hero-cta");
+      var stickyCta = document.getElementById("sticky-cta");
+      if (!heroCta || !stickyCta) return;
+
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            stickyCta.classList.add("translate-y-full");
+            stickyCta.classList.remove("translate-y-0");
+          } else {
+            stickyCta.classList.remove("translate-y-full");
+            stickyCta.classList.add("translate-y-0");
+          }
+        });
+      }, { threshold: 0 });
+
+      observer.observe(heroCta);
+    });
+  </script>
 </div>
