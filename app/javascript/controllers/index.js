@@ -18,3 +18,6 @@ application.register("clipboard", ClipboardController)
 
 import ProductGalleryController from "./product_gallery_controller"
 application.register("product-gallery", ProductGalleryController)
+
+import StripeCheckoutController from "./stripe_checkout_controller"
+application.register("stripe-checkout", StripeCheckoutController)
