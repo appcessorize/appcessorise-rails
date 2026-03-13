@@ -292,7 +292,7 @@
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'X-API-Key': 'internal'
+            'X-API-Key': '<%= ENV["INTERNAL_API_KEY"] %>'
           },
           body: JSON.stringify({
             mockup_id: form.dataset.mockupId,

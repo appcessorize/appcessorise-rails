@@ -35,6 +35,10 @@ module Api
       end
 
       def valid_api_key?(api_key)
+        # Allow internal requests using a separate internal key
+        internal_key = ENV["INTERNAL_API_KEY"]
+        return true if internal_key.present? && ActiveSupport::SecurityUtils.secure_compare(api_key, internal_key)
+
         # Validate against environment variable password
         expected_password = ENV["API_PASSWORD"]
 

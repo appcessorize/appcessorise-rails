@@ -60,6 +60,9 @@ gem "friendly_id"
 # Pagination (for products, orders, etc.)
 gem "pagy"
 
+# Rate limiting
+gem "rack-attack"
+
 # Simple full-text search with PostgreSQL
 gem "pg_search"
 
