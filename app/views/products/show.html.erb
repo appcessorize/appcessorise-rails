@@ -3,274 +3,285 @@
 <div class="min-h-screen bg-white">
   <%= render 'shared/navigation' %>
 
-  <div class="pt-6">
+  <div class="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-10 pt-6 pb-16 lg:pb-24">
+
     <!-- Breadcrumb -->
-    <nav aria-label="Breadcrumb" class="mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-      <ol role="list" class="flex items-center space-x-2 text-sm">
-        <li>
-          <%= link_to "Home", root_path, class: "font-medium text-gray-500 hover:text-gray-900 transition" %>
-        </li>
-        <li>
-          <svg viewBox="0 0 16 20" width="16" height="20" fill="currentColor" aria-hidden="true" class="h-5 w-4 text-gray-300">
-            <path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
-          </svg>
-        </li>
-        <li>
-          <%= link_to "Products", products_path, class: "font-medium text-gray-500 hover:text-gray-900 transition" %>
-        </li>
-        <li>
-          <svg viewBox="0 0 16 20" width="16" height="20" fill="currentColor" aria-hidden="true" class="h-5 w-4 text-gray-300">
-            <path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
-          </svg>
-        </li>
-        <li class="font-medium text-gray-900" aria-current="page">Premium Phone Case</li>
+    <nav aria-label="Breadcrumb" class="mb-8">
+      <ol role="list" class="flex items-center gap-2 text-sm text-[oklch(55%_0_0)]">
+        <li><%= link_to "Home", root_path, class: "hover:text-[oklch(21%_0.006_285.885)] transition" %></li>
+        <li><span class="text-[oklch(75%_0_0)]">/</span></li>
+        <li><%= link_to "Products", products_path, class: "hover:text-[oklch(21%_0.006_285.885)] transition" %></li>
+        <li><span class="text-[oklch(75%_0_0)]">/</span></li>
+        <li class="text-[oklch(21%_0.006_285.885)]" aria-current="page">Premium Phone Case</li>
       </ol>
     </nav>
 
-    <!-- Image gallery -->
-    <div class="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-8 lg:px-8">
-      <!-- Main large image (visible on mobile) -->
-      <div class="aspect-4/5 w-full overflow-hidden rounded-lg bg-gradient-to-br from-blue-100 to-blue-200 sm:rounded-lg lg:aspect-3/4 lg:col-start-3 lg:row-span-2">
-        <div class="flex h-full items-center justify-center">
-          <span class="text-9xl">📱</span>
+    <!-- Two-Column Product Layout -->
+    <div class="lg:grid lg:grid-cols-[1fr_420px] lg:gap-12 xl:gap-16" data-controller="product-gallery">
+
+      <!-- LEFT: Image Gallery -->
+      <div class="lg:order-1">
+        <!-- Main Image -->
+        <div class="relative mb-3">
+          <div data-product-gallery-target="mainImage" class="aspect-square w-full overflow-hidden rounded-lg bg-gradient-to-br from-[oklch(94%_0.02_260)] to-[oklch(90%_0.03_260)] border border-[oklch(92%_0_0)]">
+            <div class="flex h-full items-center justify-center">
+              <span class="text-[120px] leading-none">📱</span>
+            </div>
+          </div>
+          <div data-product-gallery-target="mainImage" class="hidden aspect-square w-full overflow-hidden rounded-lg bg-gradient-to-br from-[oklch(94%_0.03_300)] to-[oklch(88%_0.04_300)] border border-[oklch(92%_0_0)]">
+            <div class="flex h-full items-center justify-center">
+              <span class="text-[120px] leading-none">📱</span>
+            </div>
+          </div>
+          <div data-product-gallery-target="mainImage" class="hidden aspect-square w-full overflow-hidden rounded-lg bg-gradient-to-br from-[oklch(96%_0.01_80)] to-[oklch(92%_0.02_80)] border border-[oklch(92%_0_0)]">
+            <div class="flex h-full items-center justify-center">
+              <span class="text-[120px] leading-none">📱</span>
+            </div>
+          </div>
+          <div data-product-gallery-target="mainImage" class="hidden aspect-square w-full overflow-hidden rounded-lg bg-gradient-to-br from-[oklch(94%_0.01_200)] to-[oklch(90%_0.02_200)] border border-[oklch(92%_0_0)]">
+            <div class="flex h-full items-center justify-center">
+              <span class="text-[120px] leading-none">📱</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Thumbnails -->
+        <div class="grid grid-cols-4 gap-3">
+          <button type="button" data-product-gallery-target="thumbnail" data-index="0" data-action="click->product-gallery#select" class="aspect-square overflow-hidden rounded-md bg-gradient-to-br from-[oklch(94%_0.02_260)] to-[oklch(90%_0.03_260)] ring-2 ring-[oklch(14%_0.005_285.823)] cursor-pointer transition">
+            <div class="flex h-full items-center justify-center">
+              <span class="text-3xl">📱</span>
+            </div>
+          </button>
+          <button type="button" data-product-gallery-target="thumbnail" data-index="1" data-action="click->product-gallery#select" class="aspect-square overflow-hidden rounded-md bg-gradient-to-br from-[oklch(94%_0.03_300)] to-[oklch(88%_0.04_300)] ring-1 ring-[oklch(88%_0_0)] cursor-pointer hover:ring-[oklch(60%_0_0)] transition">
+            <div class="flex h-full items-center justify-center">
+              <span class="text-3xl">📱</span>
+            </div>
+          </button>
+          <button type="button" data-product-gallery-target="thumbnail" data-index="2" data-action="click->product-gallery#select" class="aspect-square overflow-hidden rounded-md bg-gradient-to-br from-[oklch(96%_0.01_80)] to-[oklch(92%_0.02_80)] ring-1 ring-[oklch(88%_0_0)] cursor-pointer hover:ring-[oklch(60%_0_0)] transition">
+            <div class="flex h-full items-center justify-center">
+              <span class="text-3xl">📱</span>
+            </div>
+          </button>
+          <button type="button" data-product-gallery-target="thumbnail" data-index="3" data-action="click->product-gallery#select" class="aspect-square overflow-hidden rounded-md bg-gradient-to-br from-[oklch(94%_0.01_200)] to-[oklch(90%_0.02_200)] ring-1 ring-[oklch(88%_0_0)] cursor-pointer hover:ring-[oklch(60%_0_0)] transition">
+            <div class="flex h-full items-center justify-center">
+              <span class="text-3xl">📱</span>
+            </div>
+          </button>
         </div>
       </div>
 
-      <!-- Side images (hidden on mobile) -->
-      <div class="hidden lg:block aspect-3/4 w-full overflow-hidden rounded-lg bg-gradient-to-br from-purple-100 to-purple-200 lg:col-start-1 lg:row-span-2">
-        <div class="flex h-full items-center justify-center">
-          <span class="text-8xl">📱</span>
-        </div>
-      </div>
-      <div class="hidden lg:block aspect-3/2 w-full overflow-hidden rounded-lg bg-gradient-to-br from-blue-50 to-purple-50 lg:col-start-2">
-        <div class="flex h-full items-center justify-center">
-          <span class="text-7xl">📱</span>
-        </div>
-      </div>
-      <div class="hidden lg:block aspect-3/2 w-full overflow-hidden rounded-lg bg-gradient-to-br from-purple-50 to-blue-50 lg:col-start-2 lg:row-start-2">
-        <div class="flex h-full items-center justify-center">
-          <span class="text-7xl">📱</span>
-        </div>
-      </div>
-    </div>
+      <!-- RIGHT: Product Info (Sticky) -->
+      <div class="mt-10 lg:mt-0 lg:order-2 lg:sticky lg:top-8 lg:self-start">
 
-    <!-- Product info -->
-    <div class="mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16">
-      <div class="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
-        <h1 class="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Premium Phone Case</h1>
+        <!-- Title -->
+        <h1 class="text-[28px] lg:text-[32px] font-normal leading-tight text-[oklch(21%_0.006_285.885)]">
+          Premium Phone Case
+        </h1>
 
         <% if @custom_text.present? %>
-          <div class="mt-4 p-4 bg-blue-50 border-2 border-blue-200 rounded-lg">
-            <p class="text-lg font-semibold text-blue-900">Custom Text: <%= @custom_text %></p>
+          <div class="mt-3 px-4 py-3 bg-[oklch(96%_0.01_260)] border border-[oklch(88%_0.02_260)] rounded-lg">
+            <p class="text-sm font-medium text-[oklch(30%_0.02_260)]">Custom Text: <%= @custom_text %></p>
           </div>
         <% end %>
-      </div>
 
-      <!-- Options -->
-      <div class="mt-4 lg:row-span-3 lg:mt-0">
-        <h2 class="sr-only">Product information</h2>
-        <p class="text-3xl tracking-tight text-gray-900">$29.99</p>
-
-        <!-- Reviews -->
-        <div class="mt-6">
-          <h3 class="sr-only">Reviews</h3>
-          <div class="flex items-center">
-            <div class="flex items-center text-yellow-400">
-              <%= "⭐" * 5 %>
-            </div>
-            <p class="sr-only">5 out of 5 stars</p>
-            <a href="#" class="ml-3 text-sm font-medium text-blue-600 hover:text-blue-500 transition">127 reviews</a>
-          </div>
+        <!-- Price -->
+        <div class="mt-4">
+          <span class="text-[22px] tracking-tight text-[oklch(21%_0.006_285.885)]">$29.99</span>
         </div>
 
-        <form class="mt-10">
-          <!-- Colors -->
+        <!-- Divider -->
+        <hr class="my-6 border-[oklch(92%_0_0)]">
+
+        <form>
+          <!-- Color -->
           <div>
-            <h3 class="text-sm font-medium text-gray-900">Color</h3>
-
-            <fieldset aria-label="Choose a color" class="mt-4">
-              <div class="flex items-center gap-x-3">
-                <label class="relative flex cursor-pointer items-center justify-center rounded-full">
-                  <input type="radio" name="color" value="blue" checked class="sr-only" />
-                  <span class="h-8 w-8 rounded-full bg-blue-600 ring-2 ring-offset-2 ring-blue-600"></span>
-                </label>
-                <label class="relative flex cursor-pointer items-center justify-center rounded-full">
-                  <input type="radio" name="color" value="purple" class="sr-only" />
-                  <span class="h-8 w-8 rounded-full bg-purple-600 hover:ring-2 hover:ring-offset-2 hover:ring-purple-400 transition"></span>
-                </label>
-                <label class="relative flex cursor-pointer items-center justify-center rounded-full">
-                  <input type="radio" name="color" value="black" class="sr-only" />
-                  <span class="h-8 w-8 rounded-full bg-gray-900 hover:ring-2 hover:ring-offset-2 hover:ring-gray-400 transition"></span>
-                </label>
-              </div>
+            <p class="text-sm text-[oklch(21%_0.006_285.885)] mb-3">
+              Color: <span class="text-[oklch(45%_0_0)]">Blue</span>
+            </p>
+            <fieldset aria-label="Choose a color" class="flex items-center gap-3">
+              <label class="relative cursor-pointer">
+                <input type="radio" name="color" value="blue" checked class="sr-only peer" />
+                <span class="block h-9 w-9 rounded-full bg-[oklch(52%_0.18_260)] peer-checked:ring-2 peer-checked:ring-offset-2 peer-checked:ring-[oklch(21%_0.006_285.885)] transition"></span>
+              </label>
+              <label class="relative cursor-pointer">
+                <input type="radio" name="color" value="purple" class="sr-only peer" />
+                <span class="block h-9 w-9 rounded-full bg-[oklch(52%_0.18_300)] peer-checked:ring-2 peer-checked:ring-offset-2 peer-checked:ring-[oklch(21%_0.006_285.885)] hover:ring-1 hover:ring-offset-1 hover:ring-[oklch(70%_0_0)] transition"></span>
+              </label>
+              <label class="relative cursor-pointer">
+                <input type="radio" name="color" value="black" class="sr-only peer" />
+                <span class="block h-9 w-9 rounded-full bg-[oklch(21%_0_0)] peer-checked:ring-2 peer-checked:ring-offset-2 peer-checked:ring-[oklch(21%_0.006_285.885)] hover:ring-1 hover:ring-offset-1 hover:ring-[oklch(70%_0_0)] transition"></span>
+              </label>
             </fieldset>
           </div>
 
-          <!-- Models -->
-          <div class="mt-10">
-            <div class="flex items-center justify-between">
-              <h3 class="text-sm font-medium text-gray-900">Model</h3>
-              <a href="#" class="text-sm font-medium text-blue-600 hover:text-blue-500 transition">Compatibility guide</a>
-            </div>
-
-            <fieldset aria-label="Choose a model" class="mt-4">
-              <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">
-                <label class="group relative flex cursor-pointer items-center justify-center rounded-lg border border-gray-300 bg-white px-3 py-3 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1">
-                  <input type="radio" name="model" value="iphone-14" class="sr-only" />
-                  <span>iPhone 14</span>
-                  <span class="pointer-events-none absolute -inset-px rounded-lg border-2 border-transparent group-has-[:checked]:border-blue-600" aria-hidden="true"></span>
-                </label>
-                <label class="group relative flex cursor-pointer items-center justify-center rounded-lg border border-gray-300 bg-white px-3 py-3 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1">
-                  <input type="radio" name="model" value="iphone-14-pro" checked class="sr-only" />
-                  <span>iPhone 14 Pro</span>
-                  <span class="pointer-events-none absolute -inset-px rounded-lg border-2 border-transparent group-has-[:checked]:border-blue-600" aria-hidden="true"></span>
-                </label>
-                <label class="group relative flex cursor-pointer items-center justify-center rounded-lg border border-gray-300 bg-white px-3 py-3 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1">
-                  <input type="radio" name="model" value="iphone-15" class="sr-only" />
-                  <span>iPhone 15</span>
-                  <span class="pointer-events-none absolute -inset-px rounded-lg border-2 border-transparent group-has-[:checked]:border-blue-600" aria-hidden="true"></span>
-                </label>
-                <label class="group relative flex cursor-pointer items-center justify-center rounded-lg border border-gray-300 bg-white px-3 py-3 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1">
-                  <input type="radio" name="model" value="iphone-15-pro" class="sr-only" />
-                  <span>iPhone 15 Pro</span>
-                  <span class="pointer-events-none absolute -inset-px rounded-lg border-2 border-transparent group-has-[:checked]:border-blue-600" aria-hidden="true"></span>
-                </label>
-              </div>
+          <!-- Model -->
+          <div class="mt-6">
+            <p class="text-sm text-[oklch(21%_0.006_285.885)] mb-3">Model</p>
+            <fieldset aria-label="Choose a model" class="flex flex-wrap gap-2">
+              <label class="cursor-pointer">
+                <input type="radio" name="model" value="iphone-14" class="sr-only peer" />
+                <span class="inline-flex items-center px-4 py-2.5 text-sm border border-[oklch(85%_0_0)] rounded-full peer-checked:border-[oklch(14%_0.005_285.823)] peer-checked:bg-[oklch(14%_0.005_285.823)] peer-checked:text-white hover:border-[oklch(60%_0_0)] transition">
+                  iPhone 14
+                </span>
+              </label>
+              <label class="cursor-pointer">
+                <input type="radio" name="model" value="iphone-14-pro" checked class="sr-only peer" />
+                <span class="inline-flex items-center px-4 py-2.5 text-sm border border-[oklch(85%_0_0)] rounded-full peer-checked:border-[oklch(14%_0.005_285.823)] peer-checked:bg-[oklch(14%_0.005_285.823)] peer-checked:text-white hover:border-[oklch(60%_0_0)] transition">
+                  iPhone 14 Pro
+                </span>
+              </label>
+              <label class="cursor-pointer">
+                <input type="radio" name="model" value="iphone-15" class="sr-only peer" />
+                <span class="inline-flex items-center px-4 py-2.5 text-sm border border-[oklch(85%_0_0)] rounded-full peer-checked:border-[oklch(14%_0.005_285.823)] peer-checked:bg-[oklch(14%_0.005_285.823)] peer-checked:text-white hover:border-[oklch(60%_0_0)] transition">
+                  iPhone 15
+                </span>
+              </label>
+              <label class="cursor-pointer">
+                <input type="radio" name="model" value="iphone-15-pro" class="sr-only peer" />
+                <span class="inline-flex items-center px-4 py-2.5 text-sm border border-[oklch(85%_0_0)] rounded-full peer-checked:border-[oklch(14%_0.005_285.823)] peer-checked:bg-[oklch(14%_0.005_285.823)] peer-checked:text-white hover:border-[oklch(60%_0_0)] transition">
+                  iPhone 15 Pro
+                </span>
+              </label>
             </fieldset>
           </div>
 
-          <%= link_to new_checkout_path(quantity: 1), class: "mt-10 flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-3.5 text-base font-bold text-white shadow-lg shadow-blue-500/30 hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition transform hover:scale-[1.02]" do %>
-            Buy Now - $29.99
+          <!-- Add to Cart -->
+          <%= link_to new_checkout_path(quantity: 1), class: "btn-primary-daisy w-full mt-8" do %>
+            Add to cart
           <% end %>
 
-          <!-- Shipping Info -->
-          <div class="mt-6 text-center">
-            <p class="text-sm text-gray-500">
-              <svg class="inline-block w-5 h-5 mr-1 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-              </svg>
-              Free shipping on orders over $50
-            </p>
-          </div>
+          <!-- Buy it now -->
+          <%= link_to new_checkout_path(quantity: 1), class: "btn-secondary-daisy w-full mt-3" do %>
+            Buy it now
+          <% end %>
         </form>
-      </div>
 
-      <div class="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pr-8 lg:pt-6 lg:pb-16">
-        <!-- Description and details -->
-        <div>
-          <h3 class="sr-only">Description</h3>
-
-          <div class="space-y-6">
-            <p class="text-base text-gray-900">
-              Experience ultimate protection without sacrificing style. Our Premium Phone Case combines military-grade drop protection with a sleek, minimalist design that complements your device perfectly.
-            </p>
-            <p class="text-base text-gray-900">
-              Crafted from high-quality materials with precision-engineered air pockets, this case absorbs impact while maintaining a slim profile. The raised bezels protect your screen and camera, while the responsive buttons provide tactile feedback.
-            </p>
+        <!-- Trust Badges -->
+        <div class="mt-6 space-y-3">
+          <div class="flex items-center gap-3 text-sm text-[oklch(40%_0_0)]">
+            <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0H21M3.375 14.25V3.375c0-.621.504-1.125 1.125-1.125h9.75c.621 0 1.125.504 1.125 1.125v4.5m3 6.75V10.5a2.25 2.25 0 00-2.25-2.25h-1.5a2.25 2.25 0 00-2.25 2.25v6" />
+            </svg>
+            <span>Free shipping on orders over $50</span>
+          </div>
+          <div class="flex items-center gap-3 text-sm text-[oklch(40%_0_0)]">
+            <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+            </svg>
+            <span>Secure checkout</span>
+          </div>
+          <div class="flex items-center gap-3 text-sm text-[oklch(40%_0_0)]">
+            <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182M2.985 19.644l3.181-3.183" />
+            </svg>
+            <span>Free returns within 30 days</span>
           </div>
         </div>
 
-        <div class="mt-10">
-          <h3 class="text-sm font-bold text-gray-900 mb-4">Key Features</h3>
+        <!-- Divider -->
+        <hr class="my-6 border-[oklch(92%_0_0)]">
 
-          <div class="grid sm:grid-cols-2 gap-4">
-            <div class="flex items-start space-x-3">
-              <div class="flex-shrink-0">
-                <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-400 rounded-lg flex items-center justify-center">
-                  <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                  </svg>
-                </div>
-              </div>
-              <div>
-                <h4 class="font-medium text-gray-900">Military-Grade Protection</h4>
-                <p class="text-sm text-gray-600">Tested to withstand drops from up to 12 feet</p>
-              </div>
-            </div>
+        <!-- Accordion Sections -->
+        <div class="divide-y divide-[oklch(92%_0_0)]">
 
-            <div class="flex items-start space-x-3">
-              <div class="flex-shrink-0">
-                <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-400 rounded-lg flex items-center justify-center">
-                  <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                  </svg>
-                </div>
-              </div>
-              <div>
-                <h4 class="font-medium text-gray-900">Wireless Charging</h4>
-                <p class="text-sm text-gray-600">Fully compatible with all Qi chargers</p>
-              </div>
-            </div>
-
-            <div class="flex items-start space-x-3">
-              <div class="flex-shrink-0">
-                <div class="w-10 h-10 bg-gradient-to-br from-green-500 to-green-400 rounded-lg flex items-center justify-center">
-                  <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                  </svg>
-                </div>
-              </div>
-              <div>
-                <h4 class="font-medium text-gray-900">Raised Bezels</h4>
-                <p class="text-sm text-gray-600">Extra protection for screen and camera</p>
-              </div>
-            </div>
-
-            <div class="flex items-start space-x-3">
-              <div class="flex-shrink-0">
-                <div class="w-10 h-10 bg-gradient-to-br from-orange-500 to-orange-400 rounded-lg flex items-center justify-center">
-                  <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                  </svg>
-                </div>
-              </div>
-              <div>
-                <h4 class="font-medium text-gray-900">Slim Design</h4>
-                <p class="text-sm text-gray-600">Only 2mm thin, fits in your pocket</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="mt-10">
-          <h2 class="text-sm font-bold text-gray-900 mb-4">What's Included</h2>
-
-          <ul role="list" class="space-y-3">
-            <li class="flex items-center text-gray-700">
-              <svg class="w-5 h-5 mr-3 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+          <!-- Description -->
+          <details open class="group">
+            <summary class="flex w-full items-center justify-between py-4 text-left cursor-pointer">
+              <span class="text-sm font-medium text-[oklch(21%_0.006_285.885)]">Description</span>
+              <svg class="w-5 h-5 text-[oklch(55%_0_0)] transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
               </svg>
-              <span>Premium Phone Case</span>
-            </li>
-            <li class="flex items-center text-gray-700">
-              <svg class="w-5 h-5 mr-3 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-              </svg>
-              <span>Microfiber cleaning cloth</span>
-            </li>
-            <li class="flex items-center text-gray-700">
-              <svg class="w-5 h-5 mr-3 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-              </svg>
-              <span>Screen protector installation kit</span>
-            </li>
-            <li class="flex items-center text-gray-700">
-              <svg class="w-5 h-5 mr-3 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-              </svg>
-              <span>1-year warranty certificate</span>
-            </li>
-          </ul>
-        </div>
+            </summary>
+            <div class="pb-4 text-sm text-[oklch(40%_0_0)] leading-relaxed space-y-3">
+              <p>Experience ultimate protection without sacrificing style. Our Premium Phone Case combines military-grade drop protection with a sleek, minimalist design that complements your device perfectly.</p>
+              <p>Crafted from high-quality materials with precision-engineered air pockets, this case absorbs impact while maintaining a slim profile. The raised bezels protect your screen and camera, while the responsive buttons provide tactile feedback.</p>
+            </div>
+          </details>
 
-        <!-- Warranty Banner -->
-        <div class="mt-10 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 p-6 text-white">
-          <h3 class="text-lg font-bold mb-2">1-Year Warranty Included</h3>
-          <p class="text-sm text-blue-100">
-            We stand behind our products. If anything goes wrong within the first year, we'll replace it for free. No questions asked.
-          </p>
+          <!-- Key Features -->
+          <details class="group">
+            <summary class="flex w-full items-center justify-between py-4 text-left cursor-pointer">
+              <span class="text-sm font-medium text-[oklch(21%_0.006_285.885)]">Key Features</span>
+              <svg class="w-5 h-5 text-[oklch(55%_0_0)] transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+              </svg>
+            </summary>
+            <div class="pb-4">
+              <ul class="space-y-3 text-sm text-[oklch(40%_0_0)]">
+                <li class="flex items-start gap-3">
+                  <svg class="w-4 h-4 mt-0.5 shrink-0 text-[oklch(21%_0.006_285.885)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.5 12.75l6 6 9-13.5" />
+                  </svg>
+                  <span><strong class="text-[oklch(21%_0.006_285.885)]">Military-Grade Protection</strong> &mdash; Tested to withstand drops from up to 12 feet</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <svg class="w-4 h-4 mt-0.5 shrink-0 text-[oklch(21%_0.006_285.885)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.5 12.75l6 6 9-13.5" />
+                  </svg>
+                  <span><strong class="text-[oklch(21%_0.006_285.885)]">Wireless Charging</strong> &mdash; Fully compatible with all Qi chargers</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <svg class="w-4 h-4 mt-0.5 shrink-0 text-[oklch(21%_0.006_285.885)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.5 12.75l6 6 9-13.5" />
+                  </svg>
+                  <span><strong class="text-[oklch(21%_0.006_285.885)]">Raised Bezels</strong> &mdash; Extra protection for screen and camera</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <svg class="w-4 h-4 mt-0.5 shrink-0 text-[oklch(21%_0.006_285.885)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.5 12.75l6 6 9-13.5" />
+                  </svg>
+                  <span><strong class="text-[oklch(21%_0.006_285.885)]">Slim Design</strong> &mdash; Only 2mm thin, fits in your pocket</span>
+                </li>
+              </ul>
+            </div>
+          </details>
+
+          <!-- What's Included -->
+          <details class="group">
+            <summary class="flex w-full items-center justify-between py-4 text-left cursor-pointer">
+              <span class="text-sm font-medium text-[oklch(21%_0.006_285.885)]">What's Included</span>
+              <svg class="w-5 h-5 text-[oklch(55%_0_0)] transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+              </svg>
+            </summary>
+            <div class="pb-4">
+              <ul class="space-y-2 text-sm text-[oklch(40%_0_0)]">
+                <li class="flex items-center gap-2">
+                  <span class="w-1 h-1 rounded-full bg-[oklch(55%_0_0)]"></span>
+                  Premium Phone Case
+                </li>
+                <li class="flex items-center gap-2">
+                  <span class="w-1 h-1 rounded-full bg-[oklch(55%_0_0)]"></span>
+                  Microfiber cleaning cloth
+                </li>
+                <li class="flex items-center gap-2">
+                  <span class="w-1 h-1 rounded-full bg-[oklch(55%_0_0)]"></span>
+                  Screen protector installation kit
+                </li>
+                <li class="flex items-center gap-2">
+                  <span class="w-1 h-1 rounded-full bg-[oklch(55%_0_0)]"></span>
+                  1-year warranty certificate
+                </li>
+              </ul>
+            </div>
+          </details>
+
+          <!-- Warranty -->
+          <details class="group">
+            <summary class="flex w-full items-center justify-between py-4 text-left cursor-pointer">
+              <span class="text-sm font-medium text-[oklch(21%_0.006_285.885)]">Warranty</span>
+              <svg class="w-5 h-5 text-[oklch(55%_0_0)] transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+              </svg>
+            </summary>
+            <div class="pb-4 text-sm text-[oklch(40%_0_0)] leading-relaxed">
+              <p>We stand behind our products with a <strong class="text-[oklch(21%_0.006_285.885)]">1-Year Warranty</strong>. If anything goes wrong within the first year, we'll replace it for free. No questions asked.</p>
+            </div>
+          </details>
+
         </div>
       </div>
+
     </div>
   </div>
 </div>

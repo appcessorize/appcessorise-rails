@@ -1,101 +1,152 @@
 <% content_for :title, "Checkout - Appcessorise" %>
 
-<div class="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 py-12">
+<div class="min-h-screen bg-white">
   <%= render 'shared/navigation' %>
 
-  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
-    <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
-      <!-- Header -->
-      <div class="bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-6">
-        <h1 class="text-3xl font-bold text-white">Secure Checkout</h1>
-        <p class="text-blue-100 mt-2">Complete your purchase securely with Stripe</p>
-      </div>
+  <div class="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-10 pt-6 pb-16 lg:pb-24">
 
-      <div class="p-8">
-        <!-- Order Summary -->
-        <div class="bg-gray-50 rounded-xl p-6 mb-8">
-          <h2 class="text-xl font-bold text-gray-900 mb-4">Order Summary</h2>
-          <div class="space-y-3">
-            <div class="flex justify-between">
-              <span class="text-gray-600">Product:</span>
-              <span class="font-semibold text-gray-900"><%= @product_name %></span>
-            </div>
-            <div class="flex justify-between">
-              <span class="text-gray-600">Price:</span>
-              <span class="font-semibold text-gray-900">$<%= sprintf("%.2f", @product_price) %></span>
-            </div>
-            <div class="flex justify-between">
-              <span class="text-gray-600">Quantity:</span>
-              <span class="font-semibold text-gray-900"><%= @quantity %></span>
-            </div>
-            <div class="border-t border-gray-200 pt-3 mt-3">
-              <div class="flex justify-between">
-                <span class="text-lg font-bold text-gray-900">Total:</span>
-                <span class="text-2xl font-bold text-blue-600">$<%= sprintf("%.2f", @product_price * @quantity) %></span>
+    <!-- Breadcrumb -->
+    <nav aria-label="Breadcrumb" class="mb-8">
+      <ol role="list" class="flex items-center gap-2 text-sm text-[oklch(55%_0_0)]">
+        <li><%= link_to "Home", root_path, class: "hover:text-[oklch(21%_0.006_285.885)] transition" %></li>
+        <li><span class="text-[oklch(75%_0_0)]">/</span></li>
+        <li><%= link_to "Products", products_path, class: "hover:text-[oklch(21%_0.006_285.885)] transition" %></li>
+        <li><span class="text-[oklch(75%_0_0)]">/</span></li>
+        <li class="text-[oklch(21%_0.006_285.885)]" aria-current="page">Checkout</li>
+      </ol>
+    </nav>
+
+    <h1 class="text-[28px] lg:text-[32px] font-normal leading-tight text-[oklch(21%_0.006_285.885)] mb-8 lg:mb-10">
+      Checkout
+    </h1>
+
+    <!-- Two-Column Layout: Payment Left, Summary Right -->
+    <div class="flex flex-col lg:grid lg:grid-cols-[1fr_380px] lg:gap-12 xl:gap-16">
+
+      <!-- LEFT: Payment Form -->
+      <div class="order-2 lg:order-1">
+
+        <h2 class="text-sm font-medium uppercase tracking-wider text-[oklch(45%_0_0)] mb-6">Payment</h2>
+
+        <form id="payment-form" data-client-secret="<%= @payment_intent.client_secret %>">
+          <!-- Loading State -->
+          <div id="payment-loading" class="mb-6">
+            <div class="border border-[oklch(88%_0_0)] rounded-lg p-4">
+              <div class="animate-pulse space-y-4">
+                <div class="h-4 bg-[oklch(94%_0_0)] rounded w-1/3"></div>
+                <div class="h-11 bg-[oklch(94%_0_0)] rounded w-full"></div>
+                <div class="grid grid-cols-2 gap-4">
+                  <div class="h-11 bg-[oklch(94%_0_0)] rounded"></div>
+                  <div class="h-11 bg-[oklch(94%_0_0)] rounded"></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- Payment Form -->
-        <div>
-          <h2 class="text-xl font-bold text-gray-900 mb-4">Payment Information</h2>
+          <!-- Payment Element -->
+          <div id="payment-element" class="mb-6 hidden">
+            <!-- Stripe.js will insert the Payment Element here -->
+          </div>
 
-          <form id="payment-form" data-client-secret="<%= @payment_intent.client_secret %>">
-            <!-- Loading State -->
-            <div id="payment-loading" class="mb-4">
-              <label class="block text-sm font-semibold text-gray-700 mb-2">
-                Payment Details
-              </label>
-              <div class="px-3 py-3 border border-gray-300 rounded-lg bg-gray-50 animate-pulse">
-                <div class="h-10 bg-gray-200 rounded w-full"></div>
-              </div>
-            </div>
+          <!-- Error messages -->
+          <div id="payment-message" class="text-sm text-red-600 mb-4" role="alert"></div>
 
-            <!-- Payment Element -->
-            <div id="payment-element" class="mb-4 hidden">
-              <!-- Stripe.js will insert the Payment Element here -->
-            </div>
+          <!-- Submit Button -->
+          <button
+            type="submit"
+            id="submit-button"
+            disabled
+            class="btn-primary-daisy w-full mt-2"
+          >
+            <span id="button-text">Pay $<%= sprintf("%.2f", @product_price * @quantity) %></span>
+            <span id="spinner" style="display:none">
+              <span class="inline-flex items-center gap-2">
+                <svg class="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Processing...
+              </span>
+            </span>
+          </button>
+        </form>
 
-            <!-- Error messages -->
-            <div id="payment-message" class="text-red-600 text-sm mb-4" role="alert"></div>
-
-            <!-- Optional: Affiliate Code -->
-            <div class="mb-6">
-              <label for="affiliate_code" class="block text-sm font-semibold text-gray-700 mb-2">
-                Referral Code (Optional)
-              </label>
-              <input
-                type="text"
-                id="affiliate_code"
-                name="affiliate_code"
-                placeholder="Enter referral code"
-                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              >
-            </div>
-
-            <!-- Submit Button -->
-            <button
-              type="submit"
-              id="submit-button"
-              disabled
-              class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 rounded-xl font-bold text-lg hover:from-blue-700 hover:to-purple-700 transition transform hover:scale-105 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              <span id="button-text">Pay $<%= sprintf("%.2f", @product_price * @quantity) %></span>
-              <span id="spinner" class="hidden">Processing...</span>
-            </button>
-          </form>
-
-          <!-- Security Badge -->
-          <div class="mt-6 flex items-center justify-center space-x-2 text-sm text-gray-500">
-            <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/>
+        <!-- Security -->
+        <div class="mt-6 pt-6 border-t border-[oklch(92%_0_0)]">
+          <div class="flex items-center gap-3 text-sm text-[oklch(45%_0_0)]">
+            <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
             </svg>
-            <span>Secured by Stripe - Your payment information is encrypted</span>
+            <span>All transactions are secure and encrypted</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Order Summary -->
+      <div class="order-1 lg:order-2 mb-8 lg:mb-0">
+        <div class="lg:sticky lg:top-8">
+
+          <h2 class="text-sm font-medium uppercase tracking-wider text-[oklch(45%_0_0)] mb-6">Order summary</h2>
+
+          <!-- Product Line Item -->
+          <div class="flex gap-4 pb-6 border-b border-[oklch(92%_0_0)]">
+            <!-- Product Thumbnail -->
+            <div class="relative shrink-0 w-16 h-16 rounded-lg bg-gradient-to-br from-[oklch(94%_0.02_260)] to-[oklch(90%_0.03_260)] border border-[oklch(88%_0_0)] flex items-center justify-center">
+              <span class="text-2xl">📱</span>
+              <% if @quantity > 1 %>
+                <span class="absolute -top-2 -right-2 bg-[oklch(45%_0_0)] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-medium">
+                  <%= @quantity %>
+                </span>
+              <% end %>
+            </div>
+            <!-- Product Details -->
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-medium text-[oklch(21%_0.006_285.885)] truncate"><%= @product_name %></p>
+              <p class="text-sm text-[oklch(55%_0_0)] mt-0.5">Qty: <%= @quantity %></p>
+            </div>
+            <!-- Price -->
+            <div class="shrink-0">
+              <p class="text-sm text-[oklch(21%_0.006_285.885)]">$<%= sprintf("%.2f", @product_price) %></p>
+            </div>
+          </div>
+
+          <!-- Totals -->
+          <div class="py-4 space-y-3 border-b border-[oklch(92%_0_0)]">
+            <div class="flex justify-between text-sm">
+              <span class="text-[oklch(45%_0_0)]">Subtotal</span>
+              <span class="text-[oklch(21%_0.006_285.885)]">$<%= sprintf("%.2f", @product_price * @quantity) %></span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-[oklch(45%_0_0)]">Shipping</span>
+              <span class="text-[oklch(55%_0_0)]">Free</span>
+            </div>
+          </div>
+
+          <!-- Total -->
+          <div class="flex justify-between items-baseline pt-4">
+            <span class="text-sm font-medium text-[oklch(21%_0.006_285.885)]">Total</span>
+            <span class="text-lg text-[oklch(21%_0.006_285.885)]">$<%= sprintf("%.2f", @product_price * @quantity) %> <span class="text-xs text-[oklch(55%_0_0)] font-normal">USD</span></span>
+          </div>
+
+          <!-- Trust Badges -->
+          <div class="mt-6 pt-6 border-t border-[oklch(92%_0_0)] space-y-3">
+            <div class="flex items-center gap-3 text-sm text-[oklch(45%_0_0)]">
+              <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0H21M3.375 14.25V3.375c0-.621.504-1.125 1.125-1.125h9.75c.621 0 1.125.504 1.125 1.125v4.5m3 6.75V10.5a2.25 2.25 0 00-2.25-2.25h-1.5a2.25 2.25 0 00-2.25 2.25v6" />
+              </svg>
+              <span>Free shipping on orders over $50</span>
+            </div>
+            <div class="flex items-center gap-3 text-sm text-[oklch(45%_0_0)]">
+              <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+              </svg>
+              <span>30-day return policy</span>
+            </div>
           </div>
 
         </div>
       </div>
+
     </div>
   </div>
 </div>
@@ -103,23 +154,49 @@
 <!-- Stripe.js -->
 <script src="https://js.stripe.com/v3/"></script>
 <script>
-  // Initialize Stripe with your publishable key
   const stripe = Stripe('<%= Rails.configuration.stripe[:publishable_key] %>');
 
-  // Get client secret from form
   const clientSecret = document.getElementById('payment-form').dataset.clientSecret;
 
-  // Create Payment Element with appearance customization
   const appearance = {
     theme: 'stripe',
     variables: {
-      colorPrimary: '#2563eb',
+      colorPrimary: 'oklch(14% 0.005 285.823)',
       colorBackground: '#ffffff',
-      colorText: '#1f2937',
+      colorText: 'oklch(21% 0.006 285.885)',
       colorDanger: '#dc2626',
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
       spacingUnit: '4px',
-      borderRadius: '8px'
+      borderRadius: '8px',
+      colorTextSecondary: 'oklch(45% 0 0)',
+      colorTextPlaceholder: 'oklch(65% 0 0)'
+    },
+    rules: {
+      '.Input': {
+        borderColor: 'oklch(85% 0 0)',
+        boxShadow: 'none',
+        transition: 'border-color 200ms ease'
+      },
+      '.Input:focus': {
+        borderColor: 'oklch(14% 0.005 285.823)',
+        boxShadow: '0 0 0 1px oklch(14% 0.005 285.823)'
+      },
+      '.Label': {
+        fontSize: '14px',
+        fontWeight: '400',
+        color: 'oklch(21% 0.006 285.885)'
+      },
+      '.Tab': {
+        borderColor: 'oklch(88% 0 0)',
+        boxShadow: 'none'
+      },
+      '.Tab--selected': {
+        borderColor: 'oklch(14% 0.005 285.823)',
+        boxShadow: '0 0 0 1px oklch(14% 0.005 285.823)'
+      },
+      '.Tab:hover': {
+        borderColor: 'oklch(60% 0 0)'
+      }
     }
   };
 
@@ -128,7 +205,6 @@
     appearance
   });
 
-  // Create and mount the Payment Element
   const paymentElement = elements.create('payment', {
     layout: {
       type: 'accordion',
@@ -149,23 +225,18 @@
     }
   });
 
-  // Show Payment Element when ready
   const loadingDiv = document.getElementById('payment-loading');
   const paymentElementDiv = document.getElementById('payment-element');
   const submitButton = document.getElementById('submit-button');
 
   paymentElement.on('ready', function() {
-    // Hide loading skeleton
     loadingDiv.classList.add('hidden');
-    // Show payment element
     paymentElementDiv.classList.remove('hidden');
-    // Enable submit button
     submitButton.disabled = false;
   });
 
   paymentElement.mount('#payment-element');
 
-  // Handle form submission
   const form = document.getElementById('payment-form');
   const messageContainer = document.getElementById('payment-message');
   const buttonText = document.getElementById('button-text');
@@ -174,12 +245,10 @@
   form.addEventListener('submit', async function(event) {
     event.preventDefault();
 
-    // Disable the button and show spinner
     submitButton.disabled = true;
-    buttonText.classList.add('hidden');
-    spinner.classList.remove('hidden');
+    buttonText.style.display = 'none';
+    spinner.style.display = 'inline';
 
-    // Confirm the payment using the Payment Element
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
@@ -187,8 +256,6 @@
       },
     });
 
-    // This point will only be reached if there is an immediate error when
-    // confirming the payment. Otherwise, customer will be redirected to return_url.
     if (error) {
       if (error.type === 'card_error' || error.type === 'validation_error') {
         messageContainer.textContent = error.message;
@@ -196,10 +263,9 @@
         messageContainer.textContent = 'An unexpected error occurred.';
       }
 
-      // Re-enable button
       submitButton.disabled = false;
-      buttonText.classList.remove('hidden');
-      spinner.classList.add('hidden');
+      buttonText.style.display = 'inline';
+      spinner.style.display = 'none';
     }
   });
 </script>

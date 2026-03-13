@@ -15,3 +15,6 @@ application.register("sticky-cta", StickyCtaController)
 
 import ClipboardController from "./clipboard_controller"
 application.register("clipboard", ClipboardController)
+
+import ProductGalleryController from "./product_gallery_controller"
+application.register("product-gallery", ProductGalleryController)
