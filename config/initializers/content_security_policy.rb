@@ -7,13 +7,15 @@
 Rails.application.configure do
   config.content_security_policy do |policy|
     policy.default_src :self, :https
-    policy.font_src    :self, :https, :data
+    policy.font_src    :self, :https, :data,
+                       "https://fonts.gstatic.com"
     policy.img_src     :self, :https, :data, :blob,
                        "https://printful-mockups.s3.amazonaws.com",
                        "https://files.cdn.printful.com"
     policy.object_src  :none
     policy.script_src  :self, :https, "https://js.stripe.com"
-    policy.style_src   :self, :https, :unsafe_inline
+    policy.style_src   :self, :https, :unsafe_inline,
+                       "https://fonts.googleapis.com"
     policy.frame_src   :self, "https://js.stripe.com", "https://hooks.stripe.com"
     policy.connect_src :self, :https,
                        "https://api.stripe.com",

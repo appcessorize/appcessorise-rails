@@ -6,23 +6,17 @@ export default class extends Controller {
   select(event) {
     const index = event.currentTarget.dataset.index
 
-    // Update main image
     this.mainImageTargets.forEach((img, i) => {
-      if (i.toString() === index) {
-        img.classList.remove("hidden")
-      } else {
-        img.classList.add("hidden")
-      }
+      img.classList.toggle("hidden", i.toString() !== index)
     })
 
-    // Update thumbnail active state
     this.thumbnailTargets.forEach((thumb, i) => {
       if (i.toString() === index) {
-        thumb.classList.add("ring-2", "ring-[oklch(14%_0.005_285.823)]")
-        thumb.classList.remove("ring-1", "ring-[oklch(88%_0_0)]")
+        thumb.classList.add("ring-2", "ring-[#1a1a1a]")
+        thumb.classList.remove("ring-1", "ring-[#e5e5e5]")
       } else {
-        thumb.classList.remove("ring-2", "ring-[oklch(14%_0.005_285.823)]")
-        thumb.classList.add("ring-1", "ring-[oklch(88%_0_0)]")
+        thumb.classList.remove("ring-2", "ring-[#1a1a1a]")
+        thumb.classList.add("ring-1", "ring-[#e5e5e5]")
       }
     })
   }
