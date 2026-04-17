@@ -16,6 +16,11 @@ class Rack::Attack
     req.ip if req.path == "/api/v1/mockups" && req.post?
   end
 
+  # Throttle order creation
+  throttle("api/orders/ip", limit: 10, period: 1.minute) do |req|
+    req.ip if req.path == "/api/v1/orders" && req.post?
+  end
+
   # Return appropriate response format
   self.throttled_responder = lambda do |request|
     match_data = request.env["rack.attack.match_data"]

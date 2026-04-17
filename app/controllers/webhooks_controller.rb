@@ -2,6 +2,9 @@ class WebhooksController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def printful
+    @raw_body = request.body.read
+    request.body.rewind
+
     # Verify webhook signature
     unless verify_printful_signature
       render json: { error: "Invalid signature" }, status: :unauthorized
@@ -9,7 +12,7 @@ class WebhooksController < ApplicationController
     end
 
     # Parse webhook payload
-    payload = JSON.parse(request.body.read)
+    payload = JSON.parse(@raw_body)
     event_type = payload["type"]
     order_data = payload["data"]
 
@@ -149,10 +152,10 @@ class WebhooksController < ApplicationController
     expected_signature = OpenSSL::HMAC.hexdigest(
       OpenSSL::Digest.new("sha256"),
       webhook_secret,
-      request.body.read
+      @raw_body
     )
 
-    signature == expected_signature
+    ActiveSupport::SecurityUtils.secure_compare(signature.to_s, expected_signature)
   end
 
   def handle_package_shipped(order_data)

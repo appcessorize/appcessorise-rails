@@ -23,17 +23,30 @@ module Api
           return
         end
 
+        # Recalculate shipping for the actual address to prevent price manipulation
+        printful_service = PrintfulService.new
+        shipping_result = printful_service.calculate_shipping(
+          {
+            country: params.dig(:shipping_address, :country) || "US",
+            state: params.dig(:shipping_address, :state),
+            city: params.dig(:shipping_address, :city),
+            zip: params.dig(:shipping_address, :zip)
+          },
+          [ { variant_id: mockup_data[:variant_id], quantity: 1 } ]
+        )
+        actual_shipping = shipping_result[:success] ? shipping_result.dig(:cheapest, "rate").to_f : mockup_data[:estimated_shipping]
+
         # Create order record
         order = CustomOrder.new(
           affiliate_code: mockup_data[:affiliate_code],
-          email: params.dig(:shipping_address, :email) || "customer@example.com",
+          email: params.dig(:shipping_address, :email),
           printful_product_id: mockup_data[:product_id],
           variant_id: mockup_data[:variant_id],
           quantity: 1,
           original_image_url: mockup_data[:image_url],
           mockup_image_url: mockup_data[:mockup_image_url],
           product_price: mockup_data[:base_price],
-          shipping_cost: mockup_data[:estimated_shipping],
+          shipping_cost: actual_shipping,
           recipient_name: params.dig(:shipping_address, :name),
           address_line1: params.dig(:shipping_address, :address1),
           address_line2: params.dig(:shipping_address, :address2),

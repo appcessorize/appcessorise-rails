@@ -12,6 +12,12 @@ module Api
           return
         end
 
+        # Validate image URL to prevent SSRF
+        unless valid_image_url?(params[:image_url])
+          render json: { success: false, error: "Invalid image URL. Must be a public http/https URL." }, status: :bad_request
+          return
+        end
+
         # Generate mockup via Printful
         printful_service = PrintfulService.new
         mockup_result = printful_service.generate_mockup(
@@ -98,6 +104,17 @@ module Api
         return "Standard" unless variant
 
         "#{variant['color']} / #{variant['size']}"
+      end
+
+      def valid_image_url?(url)
+        uri = URI.parse(url)
+        return false unless uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
+        return false if uri.host.nil?
+        # Block private/internal IPs
+        return false if uri.host.match?(/\A(localhost|127\.|10\.|172\.(1[6-9]|2\d|3[01])\.|192\.168\.)/i)
+        true
+      rescue URI::InvalidURIError
+        false
       end
 
       def checkout_url(mockup_id)

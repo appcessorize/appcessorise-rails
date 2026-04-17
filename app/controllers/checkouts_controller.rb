@@ -68,9 +68,18 @@ class CheckoutsController < ApplicationController
       order = Order.find_by(stripe_payment_intent_id: payment_intent_id)
 
       if order
-        # Update order status
-        order.update(status: "paid")
-        redirect_to success_checkout_path(order_id: order.id)
+        # Verify payment status with Stripe before marking as paid
+        begin
+          payment_intent = Stripe::PaymentIntent.retrieve(payment_intent_id)
+          if payment_intent.status == "succeeded"
+            order.update(status: "paid")
+            redirect_to success_checkout_path(order_id: order.id)
+          else
+            redirect_to failure_checkout_path
+          end
+        rescue Stripe::StripeError
+          redirect_to failure_checkout_path
+        end
       else
         redirect_to failure_checkout_path
       end

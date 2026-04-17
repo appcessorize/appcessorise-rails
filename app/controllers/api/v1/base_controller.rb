@@ -30,8 +30,8 @@ module Api
       def extract_affiliate_code(api_key)
         # Extract affiliate code after the password
         # Format: "password_AFF-000001"
-        parts = api_key.split("_")
-        parts.last if parts.length > 1
+        match = api_key.match(/(AFF-\d+)/)
+        match[1] if match
       end
 
       def valid_api_key?(api_key)
@@ -47,10 +47,15 @@ module Api
           return false
         end
 
-        # Check if the API key starts with the correct password
         # Format: "password_AFF-000001" or just "password"
-        parts = api_key.split("_")
-        parts.first == expected_password
+        # Split on the first underscore that precedes "AFF-" to avoid splitting the password itself
+        password_part = if api_key.include?("_AFF-")
+                          api_key.split("_AFF-").first
+                        else
+                          api_key
+                        end
+
+        ActiveSupport::SecurityUtils.secure_compare(password_part, expected_password)
       end
 
       def not_found
