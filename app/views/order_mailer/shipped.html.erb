@@ -1,0 +1,34 @@
+<div style="max-width: 600px; margin: 0 auto; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #1a1a1a;">
+  <div style="background-color: #0f172a; padding: 24px; text-align: center;">
+    <h1 style="color: #e5e5e5; margin: 0; font-size: 24px;">Your order has shipped!</h1>
+  </div>
+
+  <div style="padding: 32px 24px;">
+    <p style="font-size: 16px; line-height: 1.6;">Hi <%= @order.recipient_name %>,</p>
+
+    <p style="font-size: 16px; line-height: 1.6;">Great news — your order <strong><%= @order.order_number %></strong> is on its way!</p>
+
+    <% if @order.printful_tracking_number.present? %>
+      <div style="background-color: #f0f9ff; border: 1px solid #bae6fd; border-radius: 8px; padding: 16px; margin: 24px 0;">
+        <p style="margin: 0 0 8px 0; font-size: 14px; color: #64748b;">Tracking Number</p>
+        <p style="margin: 0; font-size: 18px; font-weight: bold;">
+          <% if @order.printful_tracking_url.present? %>
+            <a href="<%= @order.printful_tracking_url %>" style="color: #2563eb; text-decoration: none;"><%= @order.printful_tracking_number %></a>
+          <% else %>
+            <%= @order.printful_tracking_number %>
+          <% end %>
+        </p>
+      </div>
+    <% end %>
+
+    <div style="background-color: #f8fafc; border-radius: 8px; padding: 16px; margin: 24px 0;">
+      <p style="margin: 0 0 8px 0; font-size: 14px; color: #64748b;">Order Summary</p>
+      <p style="margin: 0; font-size: 14px;"><strong>Order:</strong> <%= @order.order_number %></p>
+      <p style="margin: 4px 0 0 0; font-size: 14px;"><strong>Total:</strong> $<%= sprintf("%.2f", @order.total_price) %></p>
+    </div>
+
+    <p style="font-size: 16px; line-height: 1.6;">If you have any questions about your order, just reply to this email.</p>
+
+    <p style="font-size: 16px; line-height: 1.6;">Thanks for your purchase!<br>The Appcessorise Team</p>
+  </div>
+</div>

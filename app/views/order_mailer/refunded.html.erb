@@ -1,0 +1,17 @@
+<div style="max-width: 600px; margin: 0 auto; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #1a1a1a;">
+  <div style="background-color: #0f172a; padding: 24px; text-align: center;">
+    <h1 style="color: #e5e5e5; margin: 0; font-size: 24px;">Refund Issued</h1>
+  </div>
+
+  <div style="padding: 32px 24px;">
+    <p style="font-size: 16px; line-height: 1.6;">Hi <%= @order.recipient_name %>,</p>
+
+    <p style="font-size: 16px; line-height: 1.6;">A refund of <strong>$<%= sprintf("%.2f", @order.total_price) %></strong> has been issued for your order <strong><%= @order.order_number %></strong>.</p>
+
+    <p style="font-size: 16px; line-height: 1.6;">Please allow 5-10 business days for the refund to appear on your statement.</p>
+
+    <p style="font-size: 16px; line-height: 1.6;">If you have any questions, just reply to this email.</p>
+
+    <p style="font-size: 16px; line-height: 1.6;">Best regards,<br>The Appcessorise Team</p>
+  </div>
+</div>

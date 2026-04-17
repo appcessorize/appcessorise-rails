@@ -162,7 +162,6 @@ class WebhooksController < ApplicationController
     order = CustomOrder.find_by(printful_order_id: printful_order_id)
     return unless order
 
-    # Update order with tracking information
     shipments = order_data.dig("shipment") || []
     tracking_number = shipments.first&.dig("tracking_number")
     tracking_url = shipments.first&.dig("tracking_url")
@@ -173,7 +172,7 @@ class WebhooksController < ApplicationController
       printful_tracking_url: tracking_url
     )
 
-    # TODO: Send email notification to customer
+    OrderMailer.shipped(order).deliver_later
     Rails.logger.info "Order #{order.order_number} shipped: #{tracking_number}"
   end
 
@@ -186,8 +185,9 @@ class WebhooksController < ApplicationController
 
     order.update(printful_status: "returned")
 
-    # TODO: Handle refund logic
-    Rails.logger.warn "Order #{order.order_number} returned"
+    refund_order(order)
+    OrderMailer.returned(order).deliver_later
+    Rails.logger.warn "Order #{order.order_number} returned — refund initiated"
   end
 
   def handle_order_failed(order_data)
@@ -199,8 +199,9 @@ class WebhooksController < ApplicationController
 
     order.update(printful_status: "failed")
 
-    # TODO: Notify admin and possibly refund customer
-    Rails.logger.error "Order #{order.order_number} failed at Printful"
+    refund_order(order)
+    OrderMailer.failed_admin(order).deliver_later
+    Rails.logger.error "Order #{order.order_number} failed at Printful — refund initiated"
   end
 
   def handle_order_canceled(order_data)
@@ -212,6 +213,19 @@ class WebhooksController < ApplicationController
 
     order.update(printful_status: "canceled")
 
-    Rails.logger.info "Order #{order.order_number} canceled"
+    refund_order(order)
+    OrderMailer.canceled(order).deliver_later
+    Rails.logger.info "Order #{order.order_number} canceled — refund initiated"
+  end
+
+  def refund_order(order)
+    return unless order.payment_status == "paid" && order.stripe_payment_intent_id.present?
+
+    Stripe::Refund.create(payment_intent: order.stripe_payment_intent_id)
+    order.update(payment_status: "refunded")
+    OrderMailer.refunded(order).deliver_later
+    Rails.logger.info "Refund issued for order #{order.order_number}"
+  rescue Stripe::StripeError => e
+    Rails.logger.error "Refund failed for order #{order.order_number}: #{e.message}"
   end
 end
