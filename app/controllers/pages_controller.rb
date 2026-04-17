@@ -6,6 +6,5 @@ class PagesController < ApplicationController
   end
 
   def api_docs
-    @api_password = ENV["API_PASSWORD"]
   end
 end
