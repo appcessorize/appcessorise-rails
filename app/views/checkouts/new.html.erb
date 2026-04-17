@@ -18,10 +18,10 @@
           <!-- Product details -->
           <div class="flex-1 min-w-0">
             <div class="flex items-baseline justify-between gap-3">
-              <h2 class="text-[18px] truncate" style="font-family: 'Playfair Display', serif; font-style: italic;">
+              <h2 class="text-[18px] truncate" style="font-family: ui-serif, Georgia, 'Playfair Display', serif; font-style: italic;">
                 <%= @product_name %>
               </h2>
-              <span class="text-[18px] text-[#d4542b] shrink-0" style="font-family: 'Playfair Display', serif; font-style: italic;">
+              <span class="text-[18px] text-[#d4542b] shrink-0" style="font-family: ui-serif, Georgia, 'Playfair Display', serif; font-style: italic;">
                 $<%= sprintf("%.2f", @product_price) %>
               </span>
             </div>
@@ -44,7 +44,7 @@
         <!-- Total -->
         <div class="flex justify-between items-baseline pt-5">
           <span class="text-[15px] font-medium text-[#1a1a1a]">Total</span>
-          <span class="text-[20px] text-[#1a1a1a]" style="font-family: 'Playfair Display', serif;">
+          <span class="text-[20px] text-[#1a1a1a]" style="font-family: ui-serif, Georgia, 'Playfair Display', serif;">
             $<%= sprintf("%.2f", @product_price * @quantity) %>
             <span class="text-[12px] text-[#999] font-normal" style="font-family: system-ui, sans-serif;">USD</span>
           </span>
