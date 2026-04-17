@@ -5,7 +5,7 @@ class Order < ApplicationRecord
 
   validates :amount, presence: true, numericality: { greater_than: 0 }
   validates :currency, presence: true
-  validates :status, presence: true, inclusion: { in: %w[pending processing paid failed refunded cancelled completed] }
+  validates :status, presence: true, inclusion: { in: %w[pending processing paid failed refunded cancelled completed disputed] }
 
   # Calculate affiliate commission (10% example)
   def affiliate_commission

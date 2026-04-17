@@ -77,4 +77,5 @@ Rails.application.routes.draw do
 
   # Webhooks
   post "webhooks/printful", to: "webhooks#printful"
+  post "webhooks/stripe", to: "webhooks#stripe"
 end

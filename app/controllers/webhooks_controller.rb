@@ -35,7 +35,105 @@ class WebhooksController < ApplicationController
     render json: { error: "Internal error" }, status: :internal_server_error
   end
 
+  def stripe
+    payload = request.body.read
+    sig_header = request.headers["Stripe-Signature"]
+    webhook_secret = ENV["STRIPE_WEBHOOK_SECRET"]
+
+    begin
+      event = Stripe::Webhook.construct_event(payload, sig_header, webhook_secret)
+    rescue JSON::ParserError
+      render json: { error: "Invalid JSON" }, status: :bad_request
+      return
+    rescue Stripe::SignatureVerificationError
+      render json: { error: "Invalid signature" }, status: :unauthorized
+      return
+    end
+
+    case event.type
+    when "payment_intent.succeeded"
+      handle_payment_succeeded(event.data.object)
+    when "payment_intent.payment_failed"
+      handle_payment_failed(event.data.object)
+    when "charge.dispute.created"
+      handle_dispute_created(event.data.object)
+    when "charge.refunded"
+      handle_charge_refunded(event.data.object)
+    else
+      Rails.logger.info "Unhandled Stripe webhook event: #{event.type}"
+    end
+
+    render json: { received: true }, status: :ok
+  end
+
   private
+
+  # --- Stripe handlers ---
+
+  def handle_payment_succeeded(payment_intent)
+    pi_id = payment_intent.id
+
+    order = Order.find_by(stripe_payment_intent_id: pi_id)
+    if order && order.status != "paid"
+      order.update!(status: "paid")
+      Rails.logger.info "Stripe webhook: Order ##{order.id} marked as paid"
+    end
+
+    custom_order = CustomOrder.find_by(stripe_payment_intent_id: pi_id)
+    if custom_order && custom_order.payment_status != "paid"
+      custom_order.update!(payment_status: "paid", paid_at: Time.current)
+      Rails.logger.info "Stripe webhook: CustomOrder #{custom_order.order_number} marked as paid"
+    end
+  end
+
+  def handle_payment_failed(payment_intent)
+    pi_id = payment_intent.id
+
+    order = Order.find_by(stripe_payment_intent_id: pi_id)
+    if order && order.status == "pending"
+      order.update!(status: "failed")
+      Rails.logger.warn "Stripe webhook: Order ##{order.id} payment failed"
+    end
+
+    custom_order = CustomOrder.find_by(stripe_payment_intent_id: pi_id)
+    if custom_order && custom_order.payment_status == "pending"
+      custom_order.update!(payment_status: "failed")
+      Rails.logger.warn "Stripe webhook: CustomOrder #{custom_order.order_number} payment failed"
+    end
+  end
+
+  def handle_dispute_created(dispute)
+    pi_id = dispute.payment_intent
+
+    order = Order.find_by(stripe_payment_intent_id: pi_id)
+    if order
+      order.update!(status: "disputed")
+      Rails.logger.warn "Stripe webhook: Order ##{order.id} disputed"
+    end
+
+    custom_order = CustomOrder.find_by(stripe_payment_intent_id: pi_id)
+    if custom_order
+      Rails.logger.warn "Stripe webhook: CustomOrder #{custom_order.order_number} disputed"
+    end
+  end
+
+  def handle_charge_refunded(charge)
+    pi_id = charge.payment_intent
+
+    order = Order.find_by(stripe_payment_intent_id: pi_id)
+    if order
+      order.update!(status: "refunded")
+      Rails.logger.info "Stripe webhook: Order ##{order.id} refunded"
+    end
+
+    custom_order = CustomOrder.find_by(stripe_payment_intent_id: pi_id)
+    if custom_order
+      custom_order.update!(payment_status: "refunded")
+      Rails.logger.info "Stripe webhook: CustomOrder #{custom_order.order_number} refunded"
+    end
+  end
+
+  # --- Printful handlers ---
 
   def verify_printful_signature
     # Printful uses a webhook secret for verification
