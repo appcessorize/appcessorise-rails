@@ -47,6 +47,30 @@ Rails.application.routes.draw do
     end
   end
 
+  # Admin
+  namespace :admin do
+    root to: "dashboard#index"
+    resources :orders, only: [ :index, :show ]
+    resources :custom_orders, only: [ :index, :show ]
+    resources :users, only: [ :index, :show, :update ]
+    resources :affiliate_commissions, only: [ :index ] do
+      member do
+        patch :approve
+        patch :pay
+      end
+      collection do
+        post :bulk_approve
+        post :bulk_pay
+      end
+    end
+    resources :printful_products, only: [ :index, :show ] do
+      collection do
+        post :sync
+      end
+    end
+    resources :contacts, only: [ :index, :show, :destroy ]
+  end
+
   # Webhooks
   post "webhooks/printful", to: "webhooks#printful"
 end

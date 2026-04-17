@@ -1,0 +1,33 @@
+<% content_for :title, "Contacts - Admin" %>
+
+<h1 class="text-2xl font-bold text-gray-900 mb-6">Contact Messages</h1>
+
+<div class="bg-white rounded-xl shadow-sm overflow-hidden">
+  <table class="w-full">
+    <thead class="bg-gray-50">
+      <tr>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Message</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Actions</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-100">
+      <% @contacts.each do |contact| %>
+        <tr class="hover:bg-gray-50 cursor-pointer" onclick="window.location='<%= admin_contact_path(contact) %>'">
+          <td class="px-6 py-4 text-sm font-medium text-gray-900"><%= contact.email %></td>
+          <td class="px-6 py-4 text-sm text-gray-600"><%= [contact.first_name, contact.last_name].compact_blank.join(" ").presence || "-" %></td>
+          <td class="px-6 py-4 text-sm text-gray-600"><%= contact.message.truncate(60) %></td>
+          <td class="px-6 py-4 text-sm text-gray-500"><%= contact.created_at.strftime("%b %d, %Y") %></td>
+          <td class="px-6 py-4 text-right">
+            <%= button_to "Delete", admin_contact_path(contact), method: :delete, class: "text-xs px-2 py-1 text-red-600 hover:text-red-800 cursor-pointer bg-transparent border-0", data: { turbo_confirm: "Delete this message?" } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <% if @contacts.empty? %>
+    <p class="px-6 py-8 text-center text-gray-500">No contact messages.</p>
+  <% end %>
+</div>

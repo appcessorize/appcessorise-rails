@@ -1,0 +1,54 @@
+<% content_for :title, "Custom Orders - Admin" %>
+
+<div class="flex justify-between items-center mb-6">
+  <h1 class="text-2xl font-bold text-gray-900">Custom Print Orders</h1>
+  <div class="flex gap-2">
+    <%= link_to "All", admin_custom_orders_path, class: "px-3 py-1.5 rounded-lg text-sm font-medium #{params[:status].blank? ? 'bg-gray-900 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}" %>
+    <% %w[pending paid failed refunded].each do |status| %>
+      <%= link_to status.titleize, admin_custom_orders_path(status: status), class: "px-3 py-1.5 rounded-lg text-sm font-medium #{params[:status] == status ? 'bg-gray-900 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}" %>
+    <% end %>
+  </div>
+</div>
+
+<div class="bg-white rounded-xl shadow-sm overflow-hidden">
+  <table class="w-full">
+    <thead class="bg-gray-50">
+      <tr>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Order #</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
+        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Total</th>
+        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Payment</th>
+        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Printful</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Affiliate</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-100">
+      <% @custom_orders.each do |order| %>
+        <tr class="hover:bg-gray-50 cursor-pointer" onclick="window.location='<%= admin_custom_order_path(order) %>'">
+          <td class="px-6 py-4 font-medium text-gray-900"><%= order.order_number %></td>
+          <td class="px-6 py-4 text-sm text-gray-600"><%= order.email %></td>
+          <td class="px-6 py-4 text-right font-medium">$<%= sprintf("%.2f", order.total_price) %></td>
+          <td class="px-6 py-4 text-center">
+            <span class="px-2 py-0.5 rounded text-xs font-medium
+              <%= case order.payment_status
+                  when 'paid' then 'bg-green-100 text-green-700'
+                  when 'pending' then 'bg-yellow-100 text-yellow-700'
+                  when 'failed' then 'bg-red-100 text-red-700'
+                  when 'refunded' then 'bg-gray-100 text-gray-700'
+                  else 'bg-gray-100 text-gray-600'
+                  end %>">
+              <%= order.payment_status %>
+            </span>
+          </td>
+          <td class="px-6 py-4 text-center text-sm text-gray-600"><%= order.printful_status&.titleize || "-" %></td>
+          <td class="px-6 py-4 text-sm text-gray-600"><%= order.affiliate_code || "-" %></td>
+          <td class="px-6 py-4 text-sm text-gray-500"><%= order.created_at.strftime("%b %d, %Y") %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <% if @custom_orders.empty? %>
+    <p class="px-6 py-8 text-center text-gray-500">No custom orders found.</p>
+  <% end %>
+</div>

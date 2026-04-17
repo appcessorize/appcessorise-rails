@@ -1,0 +1,84 @@
+<% content_for :title, "#{@custom_order.order_number} - Admin" %>
+
+<%= link_to "&larr; Back to Custom Orders".html_safe, admin_custom_orders_path, class: "text-sm text-blue-600 hover:underline" %>
+
+<div class="mt-4 bg-white rounded-xl shadow-sm p-6">
+  <div class="flex justify-between items-start mb-6">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900"><%= @custom_order.order_number %></h1>
+      <p class="text-sm text-gray-500"><%= @custom_order.created_at.strftime("%B %d, %Y at %I:%M %p") %></p>
+    </div>
+    <span class="px-3 py-1 rounded-lg text-sm font-semibold
+      <%= case @custom_order.payment_status
+          when 'paid' then 'bg-green-100 text-green-700'
+          when 'pending' then 'bg-yellow-100 text-yellow-700'
+          when 'failed' then 'bg-red-100 text-red-700'
+          when 'refunded' then 'bg-gray-100 text-gray-700'
+          else 'bg-gray-100 text-gray-600'
+          end %>">
+      <%= @custom_order.payment_status.titleize %>
+    </span>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+    <!-- Order Details -->
+    <div class="bg-gray-50 rounded-lg p-4 text-sm space-y-2">
+      <h3 class="font-semibold text-gray-800 mb-2">Order Details</h3>
+      <div class="flex justify-between"><span class="text-gray-500">Email</span><span><%= @custom_order.email %></span></div>
+      <div class="flex justify-between"><span class="text-gray-500">Quantity</span><span><%= @custom_order.quantity %></span></div>
+      <div class="flex justify-between"><span class="text-gray-500">Product Price</span><span>$<%= sprintf("%.2f", @custom_order.product_price) %></span></div>
+      <div class="flex justify-between"><span class="text-gray-500">Shipping</span><span>$<%= sprintf("%.2f", @custom_order.shipping_cost) %></span></div>
+      <div class="flex justify-between font-bold border-t pt-2"><span>Total</span><span>$<%= sprintf("%.2f", @custom_order.total_price) %></span></div>
+    </div>
+
+    <!-- Shipping Address -->
+    <div class="bg-gray-50 rounded-lg p-4 text-sm">
+      <h3 class="font-semibold text-gray-800 mb-2">Shipping Address</h3>
+      <p class="font-medium"><%= @custom_order.recipient_name %></p>
+      <p><%= @custom_order.address_line1 %></p>
+      <% if @custom_order.address_line2.present? %><p><%= @custom_order.address_line2 %></p><% end %>
+      <p><%= @custom_order.city %>, <%= @custom_order.state %> <%= @custom_order.zip %></p>
+      <p><%= @custom_order.country %></p>
+      <% if @custom_order.phone.present? %><p class="mt-1 text-gray-500"><%= @custom_order.phone %></p><% end %>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+    <!-- Printful -->
+    <div class="bg-gray-50 rounded-lg p-4 text-sm space-y-2">
+      <h3 class="font-semibold text-gray-800 mb-2">Printful</h3>
+      <div class="flex justify-between"><span class="text-gray-500">Product ID</span><span><%= @custom_order.printful_product_id %></span></div>
+      <div class="flex justify-between"><span class="text-gray-500">Variant ID</span><span><%= @custom_order.variant_id %></span></div>
+      <div class="flex justify-between"><span class="text-gray-500">Printful Order</span><span><%= @custom_order.printful_order_id || "Not submitted" %></span></div>
+      <div class="flex justify-between"><span class="text-gray-500">Status</span><span><%= @custom_order.printful_status&.titleize || "N/A" %></span></div>
+      <% if @custom_order.printful_tracking_number.present? %>
+        <div class="flex justify-between">
+          <span class="text-gray-500">Tracking</span>
+          <% if @custom_order.printful_tracking_url.present? %>
+            <%= link_to @custom_order.printful_tracking_number, @custom_order.printful_tracking_url, target: "_blank", rel: "noopener", class: "text-blue-600 hover:underline" %>
+          <% else %>
+            <span><%= @custom_order.printful_tracking_number %></span>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Payment & Affiliate -->
+    <div class="bg-gray-50 rounded-lg p-4 text-sm space-y-2">
+      <h3 class="font-semibold text-gray-800 mb-2">Payment & Affiliate</h3>
+      <div class="flex justify-between"><span class="text-gray-500">Stripe PI</span><span class="font-mono text-xs break-all"><%= @custom_order.stripe_payment_intent_id || "N/A" %></span></div>
+      <div class="flex justify-between"><span class="text-gray-500">Affiliate Code</span><span><%= @custom_order.affiliate_code || "None" %></span></div>
+      <div class="flex justify-between"><span class="text-gray-500">Commission</span><span>$<%= sprintf("%.2f", @custom_order.affiliate_commission) %></span></div>
+      <% if @custom_order.third_party_app_name.present? %>
+        <div class="flex justify-between"><span class="text-gray-500">Third Party</span><span><%= @custom_order.third_party_app_name %> / <%= @custom_order.third_party_order_id %></span></div>
+      <% end %>
+    </div>
+  </div>
+
+  <% if @custom_order.mockup_image_url.present? %>
+    <div>
+      <h3 class="font-semibold text-gray-800 mb-2">Mockup</h3>
+      <img src="<%= @custom_order.mockup_image_url %>" alt="Mockup" class="rounded-lg max-w-xs shadow-sm">
+    </div>
+  <% end %>
+</div>

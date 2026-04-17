@@ -1,0 +1,36 @@
+<% content_for :title, "Printful Products - Admin" %>
+
+<div class="flex justify-between items-center mb-6">
+  <h1 class="text-2xl font-bold text-gray-900">Printful Products</h1>
+  <%= button_to "Sync from Printful", sync_admin_printful_products_path, method: :post, class: "px-4 py-2 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-800 cursor-pointer" %>
+</div>
+
+<div class="bg-white rounded-xl shadow-sm overflow-hidden">
+  <table class="w-full">
+    <thead class="bg-gray-50">
+      <tr>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Printful ID</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
+        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Base Price</th>
+        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Variants</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-100">
+      <% @products.each do |product| %>
+        <tr class="hover:bg-gray-50 cursor-pointer" onclick="window.location='<%= admin_printful_product_path(product) %>'">
+          <td class="px-6 py-4 text-sm text-gray-600"><%= product.id %></td>
+          <td class="px-6 py-4 text-sm font-mono text-gray-600"><%= product.printful_product_id %></td>
+          <td class="px-6 py-4 font-medium text-gray-900"><%= product.name %></td>
+          <td class="px-6 py-4 text-right font-medium">$<%= sprintf("%.2f", product.base_price) %></td>
+          <td class="px-6 py-4 text-center text-sm text-gray-600">
+            <%= product.variant_data.is_a?(Hash) ? product.variant_data.size : 0 %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <% if @products.empty? %>
+    <p class="px-6 py-8 text-center text-gray-500">No products synced. Click "Sync from Printful" to import.</p>
+  <% end %>
+</div>

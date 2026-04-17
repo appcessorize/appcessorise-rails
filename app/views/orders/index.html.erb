@@ -1,0 +1,92 @@
+<% content_for :title, "My Orders - Appcessorise" %>
+
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 py-12">
+  <%= render 'shared/navigation' %>
+
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
+    <h1 class="text-3xl font-bold text-gray-900 mb-8">My Orders</h1>
+
+    <% if @orders.any? || @custom_orders.any? %>
+
+      <% if @orders.any? %>
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">Product Orders</h2>
+        <div class="space-y-4 mb-10">
+          <% @orders.each do |order| %>
+            <%= link_to order_path(order), class: "block bg-white rounded-xl shadow-sm hover:shadow-md transition p-6" do %>
+              <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div>
+                  <p class="font-semibold text-gray-900">Order #<%= order.id %></p>
+                  <p class="text-sm text-gray-500"><%= order.created_at.strftime("%B %d, %Y") %></p>
+                  <% if order.order_items.any? %>
+                    <p class="text-sm text-gray-600 mt-1">
+                      <%= order.order_items.map(&:product_name).join(", ") %>
+                    </p>
+                  <% end %>
+                </div>
+                <div class="flex items-center gap-4">
+                  <span class="text-lg font-semibold text-gray-900">$<%= sprintf("%.2f", order.amount) %></span>
+                  <span class="px-3 py-1 rounded-lg text-sm font-medium
+                    <%= case order.status
+                        when 'paid', 'completed' then 'bg-green-100 text-green-700'
+                        when 'pending', 'processing' then 'bg-yellow-100 text-yellow-700'
+                        when 'failed', 'cancelled' then 'bg-red-100 text-red-700'
+                        when 'refunded' then 'bg-gray-100 text-gray-700'
+                        else 'bg-gray-100 text-gray-600'
+                        end %>">
+                    <%= order.status.titleize %>
+                  </span>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+
+      <% if @custom_orders.any? %>
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">Custom Print Orders</h2>
+        <div class="space-y-4">
+          <% @custom_orders.each do |order| %>
+            <%= link_to order_path(order), class: "block bg-white rounded-xl shadow-sm hover:shadow-md transition p-6" do %>
+              <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div class="flex items-center gap-4">
+                  <% if order.mockup_image_url.present? %>
+                    <img src="<%= order.mockup_image_url %>" alt="Mockup" class="w-16 h-16 rounded-lg object-cover">
+                  <% end %>
+                  <div>
+                    <p class="font-semibold text-gray-900"><%= order.order_number %></p>
+                    <p class="text-sm text-gray-500"><%= order.created_at.strftime("%B %d, %Y") %></p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-4">
+                  <span class="text-lg font-semibold text-gray-900">$<%= sprintf("%.2f", order.total_price) %></span>
+                  <span class="px-3 py-1 rounded-lg text-sm font-medium
+                    <%= case order.payment_status
+                        when 'paid' then 'bg-green-100 text-green-700'
+                        when 'pending' then 'bg-yellow-100 text-yellow-700'
+                        when 'failed' then 'bg-red-100 text-red-700'
+                        when 'refunded' then 'bg-gray-100 text-gray-700'
+                        else 'bg-gray-100 text-gray-600'
+                        end %>">
+                    <%= order.payment_status.titleize %>
+                  </span>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+
+    <% else %>
+      <div class="bg-white rounded-2xl shadow-sm text-center p-12">
+        <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+          <svg class="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+          </svg>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-900 mb-2">No orders yet</h2>
+        <p class="text-gray-600 mb-6">Once you make a purchase, your orders will appear here.</p>
+        <%= link_to "Browse Products", products_path, class: "px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition transform hover:scale-105 shadow-lg inline-block" %>
+      </div>
+    <% end %>
+  </div>
+</div>

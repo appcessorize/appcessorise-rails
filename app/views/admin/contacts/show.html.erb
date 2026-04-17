@@ -1,0 +1,35 @@
+<% content_for :title, "Contact Message - Admin" %>
+
+<%= link_to "&larr; Back to Contacts".html_safe, admin_contacts_path, class: "text-sm text-blue-600 hover:underline" %>
+
+<div class="mt-4 bg-white rounded-xl shadow-sm p-6">
+  <div class="flex justify-between items-start mb-6">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900"><%= @contact.email %></h1>
+      <p class="text-sm text-gray-500"><%= @contact.created_at.strftime("%B %d, %Y at %I:%M %p") %></p>
+    </div>
+    <%= button_to "Delete", admin_contact_path(@contact), method: :delete, class: "px-4 py-2 text-sm text-red-600 border border-red-200 rounded-lg hover:bg-red-50 cursor-pointer", data: { turbo_confirm: "Delete this message?" } %>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 text-sm">
+    <div class="bg-gray-50 rounded-lg p-4">
+      <p class="text-gray-500">Name</p>
+      <p class="font-medium text-gray-900"><%= [@contact.first_name, @contact.last_name].compact_blank.join(" ").presence || "Not provided" %></p>
+    </div>
+    <div class="bg-gray-50 rounded-lg p-4">
+      <p class="text-gray-500">Phone</p>
+      <p class="font-medium text-gray-900"><%= @contact.phone.presence || "Not provided" %></p>
+    </div>
+    <% if @contact.company.present? %>
+      <div class="bg-gray-50 rounded-lg p-4">
+        <p class="text-gray-500">Company</p>
+        <p class="font-medium text-gray-900"><%= @contact.company %></p>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="bg-gray-50 rounded-lg p-4">
+    <p class="text-gray-500 text-sm mb-2">Message</p>
+    <p class="text-gray-900 whitespace-pre-wrap"><%= @contact.message %></p>
+  </div>
+</div>

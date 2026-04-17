@@ -1,0 +1,52 @@
+<% content_for :title, "#{@product.name} - Admin" %>
+
+<%= link_to "&larr; Back to Products".html_safe, admin_printful_products_path, class: "text-sm text-blue-600 hover:underline" %>
+
+<div class="mt-4 bg-white rounded-xl shadow-sm p-6">
+  <h1 class="text-2xl font-bold text-gray-900 mb-1"><%= @product.name %></h1>
+  <p class="text-sm text-gray-500 mb-6">Printful Product ID: <%= @product.printful_product_id %></p>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 text-sm">
+    <div class="bg-gray-50 rounded-lg p-4">
+      <p class="text-gray-500">Base Price</p>
+      <p class="text-xl font-bold text-gray-900">$<%= sprintf("%.2f", @product.base_price) %></p>
+    </div>
+    <div class="bg-gray-50 rounded-lg p-4">
+      <p class="text-gray-500">Variants</p>
+      <p class="text-xl font-bold text-gray-900"><%= @product.variant_data.is_a?(Hash) ? @product.variant_data.size : 0 %></p>
+    </div>
+    <div class="bg-gray-50 rounded-lg p-4">
+      <p class="text-gray-500">Last Updated</p>
+      <p class="font-medium text-gray-900"><%= @product.updated_at.strftime("%B %d, %Y") %></p>
+    </div>
+  </div>
+
+  <% if @product.description.present? %>
+    <div class="mb-6">
+      <h3 class="font-semibold text-gray-800 mb-2">Description</h3>
+      <p class="text-sm text-gray-700"><%= @product.description %></p>
+    </div>
+  <% end %>
+
+  <% if @product.variant_data.is_a?(Hash) && @product.variant_data.any? %>
+    <h3 class="font-semibold text-gray-800 mb-3">Variants</h3>
+    <div class="border border-gray-200 rounded-lg overflow-hidden">
+      <table class="w-full text-sm">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Variant ID</th>
+            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Details</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+          <% @product.variant_data.each do |variant_id, data| %>
+            <tr>
+              <td class="px-4 py-3 font-mono text-gray-600"><%= variant_id %></td>
+              <td class="px-4 py-3 text-gray-700"><%= data.is_a?(Hash) ? data.map { |k, v| "#{k}: #{v}" }.join(", ") : data %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
+</div>

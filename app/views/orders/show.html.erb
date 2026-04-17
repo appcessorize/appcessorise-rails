@@ -1,0 +1,162 @@
+<% content_for :title, "Order Details - Appcessorise" %>
+
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 py-12">
+  <%= render 'shared/navigation' %>
+
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
+    <%= link_to orders_path, class: "inline-flex items-center text-blue-600 hover:text-blue-800 mb-6 group" do %>
+      <svg class="w-4 h-4 mr-1 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+      </svg>
+      Back to Orders
+    <% end %>
+
+    <% if @order %>
+      <%# Standard Order %>
+      <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+        <div class="p-8">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
+            <div>
+              <h1 class="text-3xl font-bold text-gray-900">Order #<%= @order.id %></h1>
+              <p class="text-gray-500 mt-1"><%= @order.created_at.strftime("%B %d, %Y at %I:%M %p") %></p>
+            </div>
+            <span class="mt-4 sm:mt-0 px-4 py-2 rounded-lg text-sm font-semibold
+              <%= case @order.status
+                  when 'paid', 'completed' then 'bg-green-100 text-green-700'
+                  when 'pending', 'processing' then 'bg-yellow-100 text-yellow-700'
+                  when 'failed', 'cancelled' then 'bg-red-100 text-red-700'
+                  when 'refunded' then 'bg-gray-100 text-gray-700'
+                  else 'bg-gray-100 text-gray-600'
+                  end %>">
+              <%= @order.status.titleize %>
+            </span>
+          </div>
+
+          <% if @order_items.any? %>
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Items</h2>
+            <div class="border border-gray-200 rounded-xl overflow-hidden mb-8">
+              <table class="w-full">
+                <thead class="bg-gray-50">
+                  <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
+                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Qty</th>
+                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                  <% @order_items.each do |item| %>
+                    <tr>
+                      <td class="px-6 py-4 text-gray-900 font-medium"><%= item.product_name %></td>
+                      <td class="px-6 py-4 text-gray-600 text-right"><%= item.quantity %></td>
+                      <td class="px-6 py-4 text-gray-600 text-right">$<%= sprintf("%.2f", item.price) %></td>
+                      <td class="px-6 py-4 text-gray-900 font-semibold text-right">$<%= sprintf("%.2f", item.total) %></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          <% end %>
+
+          <div class="bg-gray-50 rounded-xl p-6">
+            <div class="flex justify-between text-lg font-bold text-gray-900">
+              <span>Total</span>
+              <span>$<%= sprintf("%.2f", @order.amount) %></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <% elsif @custom_order %>
+      <%# Custom Print Order %>
+      <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+        <div class="p-8">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
+            <div>
+              <h1 class="text-3xl font-bold text-gray-900"><%= @custom_order.order_number %></h1>
+              <p class="text-gray-500 mt-1"><%= @custom_order.created_at.strftime("%B %d, %Y at %I:%M %p") %></p>
+            </div>
+            <span class="mt-4 sm:mt-0 px-4 py-2 rounded-lg text-sm font-semibold
+              <%= case @custom_order.payment_status
+                  when 'paid' then 'bg-green-100 text-green-700'
+                  when 'pending' then 'bg-yellow-100 text-yellow-700'
+                  when 'failed' then 'bg-red-100 text-red-700'
+                  when 'refunded' then 'bg-gray-100 text-gray-700'
+                  else 'bg-gray-100 text-gray-600'
+                  end %>">
+              <%= @custom_order.payment_status.titleize %>
+            </span>
+          </div>
+
+          <% if @custom_order.mockup_image_url.present? %>
+            <div class="mb-8">
+              <h2 class="text-xl font-semibold text-gray-800 mb-4">Your Design</h2>
+              <img src="<%= @custom_order.mockup_image_url %>" alt="Product mockup" class="rounded-xl max-w-sm shadow-md">
+            </div>
+          <% end %>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div class="bg-gray-50 rounded-xl p-6">
+              <h3 class="font-semibold text-gray-800 mb-3">Order Details</h3>
+              <div class="space-y-2 text-sm">
+                <div class="flex justify-between">
+                  <span class="text-gray-500">Quantity</span>
+                  <span class="text-gray-900"><%= @custom_order.quantity %></span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-500">Product Price</span>
+                  <span class="text-gray-900">$<%= sprintf("%.2f", @custom_order.product_price) %></span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-500">Shipping</span>
+                  <span class="text-gray-900">$<%= sprintf("%.2f", @custom_order.shipping_cost) %></span>
+                </div>
+                <div class="flex justify-between pt-2 border-t border-gray-200 text-base font-bold">
+                  <span class="text-gray-900">Total</span>
+                  <span class="text-gray-900">$<%= sprintf("%.2f", @custom_order.total_price) %></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-gray-50 rounded-xl p-6">
+              <h3 class="font-semibold text-gray-800 mb-3">Shipping Address</h3>
+              <div class="text-sm text-gray-700 space-y-1">
+                <p class="font-medium"><%= @custom_order.recipient_name %></p>
+                <p><%= @custom_order.address_line1 %></p>
+                <% if @custom_order.address_line2.present? %>
+                  <p><%= @custom_order.address_line2 %></p>
+                <% end %>
+                <p><%= @custom_order.city %>, <%= @custom_order.state %> <%= @custom_order.zip %></p>
+                <p><%= @custom_order.country %></p>
+              </div>
+            </div>
+          </div>
+
+          <% if @custom_order.printful_status.present? || @custom_order.printful_tracking_number.present? %>
+            <div class="bg-blue-50 rounded-xl p-6">
+              <h3 class="font-semibold text-gray-800 mb-3">Fulfillment</h3>
+              <div class="space-y-2 text-sm">
+                <% if @custom_order.printful_status.present? %>
+                  <div class="flex justify-between">
+                    <span class="text-gray-500">Status</span>
+                    <span class="font-medium text-gray-900"><%= @custom_order.printful_status.titleize %></span>
+                  </div>
+                <% end %>
+                <% if @custom_order.printful_tracking_number.present? %>
+                  <div class="flex justify-between">
+                    <span class="text-gray-500">Tracking</span>
+                    <% if @custom_order.printful_tracking_url.present? %>
+                      <%= link_to @custom_order.printful_tracking_number, @custom_order.printful_tracking_url, target: "_blank", rel: "noopener", class: "text-blue-600 hover:underline font-medium" %>
+                    <% else %>
+                      <span class="font-medium text-gray-900"><%= @custom_order.printful_tracking_number %></span>
+                    <% end %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

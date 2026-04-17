@@ -1,0 +1,98 @@
+<% content_for :title, "Admin Dashboard - Appcessorise" %>
+
+<h1 class="text-2xl font-bold text-gray-900 mb-6">Dashboard</h1>
+
+<!-- Stats -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
+  <div class="bg-white rounded-xl shadow-sm p-6">
+    <p class="text-sm text-gray-500">Total Revenue</p>
+    <p class="text-2xl font-bold text-gray-900">$<%= sprintf("%.2f", @total_revenue) %></p>
+  </div>
+  <div class="bg-white rounded-xl shadow-sm p-6">
+    <p class="text-sm text-gray-500">Product Orders</p>
+    <p class="text-2xl font-bold text-gray-900"><%= @orders_count %></p>
+  </div>
+  <div class="bg-white rounded-xl shadow-sm p-6">
+    <p class="text-sm text-gray-500">Custom Orders</p>
+    <p class="text-2xl font-bold text-gray-900"><%= @custom_orders_count %></p>
+  </div>
+  <div class="bg-white rounded-xl shadow-sm p-6">
+    <p class="text-sm text-gray-500">Users</p>
+    <p class="text-2xl font-bold text-gray-900"><%= @users_count %></p>
+  </div>
+  <div class="bg-white rounded-xl shadow-sm p-6">
+    <p class="text-sm text-gray-500">Unpaid Commissions</p>
+    <p class="text-2xl font-bold text-orange-600">$<%= sprintf("%.2f", @pending_commissions) %></p>
+  </div>
+</div>
+
+<!-- Recent Orders -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+  <div class="bg-white rounded-xl shadow-sm">
+    <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+      <h2 class="font-semibold text-gray-900">Recent Product Orders</h2>
+      <%= link_to "View All", admin_orders_path, class: "text-sm text-blue-600 hover:underline" %>
+    </div>
+    <div class="divide-y divide-gray-100">
+      <% @recent_orders.each do |order| %>
+        <%= link_to admin_order_path(order), class: "block px-6 py-3 hover:bg-gray-50" do %>
+          <div class="flex justify-between items-center">
+            <div>
+              <span class="font-medium text-gray-900">#<%= order.id %></span>
+              <span class="text-sm text-gray-500 ml-2"><%= order.user&.email || "Guest" %></span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="font-medium">$<%= sprintf("%.2f", order.amount) %></span>
+              <span class="px-2 py-0.5 rounded text-xs font-medium
+                <%= case order.status
+                    when 'paid', 'completed' then 'bg-green-100 text-green-700'
+                    when 'pending', 'processing' then 'bg-yellow-100 text-yellow-700'
+                    when 'failed', 'cancelled' then 'bg-red-100 text-red-700'
+                    else 'bg-gray-100 text-gray-600'
+                    end %>">
+                <%= order.status %>
+              </span>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+      <% if @recent_orders.empty? %>
+        <p class="px-6 py-4 text-sm text-gray-500">No orders yet.</p>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-xl shadow-sm">
+    <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+      <h2 class="font-semibold text-gray-900">Recent Custom Orders</h2>
+      <%= link_to "View All", admin_custom_orders_path, class: "text-sm text-blue-600 hover:underline" %>
+    </div>
+    <div class="divide-y divide-gray-100">
+      <% @recent_custom_orders.each do |order| %>
+        <%= link_to admin_custom_order_path(order), class: "block px-6 py-3 hover:bg-gray-50" do %>
+          <div class="flex justify-between items-center">
+            <div>
+              <span class="font-medium text-gray-900"><%= order.order_number %></span>
+              <span class="text-sm text-gray-500 ml-2"><%= order.email %></span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="font-medium">$<%= sprintf("%.2f", order.total_price) %></span>
+              <span class="px-2 py-0.5 rounded text-xs font-medium
+                <%= case order.payment_status
+                    when 'paid' then 'bg-green-100 text-green-700'
+                    when 'pending' then 'bg-yellow-100 text-yellow-700'
+                    when 'failed' then 'bg-red-100 text-red-700'
+                    else 'bg-gray-100 text-gray-600'
+                    end %>">
+                <%= order.payment_status %>
+              </span>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+      <% if @recent_custom_orders.empty? %>
+        <p class="px-6 py-4 text-sm text-gray-500">No custom orders yet.</p>
+      <% end %>
+    </div>
+  </div>
+</div>
