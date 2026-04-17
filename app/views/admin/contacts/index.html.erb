@@ -1,33 +1,69 @@
 <% content_for :title, "Contacts - Admin" %>
 
-<h1 class="text-2xl font-bold text-gray-900 mb-6">Contact Messages</h1>
-
-<div class="bg-white rounded-xl shadow-sm overflow-hidden">
-  <table class="w-full">
-    <thead class="bg-gray-50">
-      <tr>
-        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
-        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
-        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Message</th>
-        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
-        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Actions</th>
-      </tr>
-    </thead>
-    <tbody class="divide-y divide-gray-100">
-      <% @contacts.each do |contact| %>
-        <tr class="hover:bg-gray-50 cursor-pointer" onclick="window.location='<%= admin_contact_path(contact) %>'">
-          <td class="px-6 py-4 text-sm font-medium text-gray-900"><%= contact.email %></td>
-          <td class="px-6 py-4 text-sm text-gray-600"><%= [contact.first_name, contact.last_name].compact_blank.join(" ").presence || "-" %></td>
-          <td class="px-6 py-4 text-sm text-gray-600"><%= contact.message.truncate(60) %></td>
-          <td class="px-6 py-4 text-sm text-gray-500"><%= contact.created_at.strftime("%b %d, %Y") %></td>
-          <td class="px-6 py-4 text-right">
-            <%= button_to "Delete", admin_contact_path(contact), method: :delete, class: "text-xs px-2 py-1 text-red-600 hover:text-red-800 cursor-pointer bg-transparent border-0", data: { turbo_confirm: "Delete this message?" } %>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-  <% if @contacts.empty? %>
-    <p class="px-6 py-8 text-center text-gray-500">No contact messages.</p>
+<div class="flex justify-between items-center mb-6">
+  <h1 class="text-2xl font-bold text-gray-900">Contact Messages</h1>
+  <% if @contacts.any? %>
+    <button type="button" onclick="document.getElementById('bulk-delete-form').requestSubmit()" id="bulk-delete-btn" class="px-4 py-2 text-sm font-medium text-red-600 border border-red-200 rounded-lg hover:bg-red-50 cursor-pointer hidden" data-turbo-confirm="Delete selected contacts?">
+      Delete Selected (<span id="selected-count">0</span>)
+    </button>
   <% end %>
 </div>
+
+<%= form_tag bulk_destroy_admin_contacts_path, method: :delete, id: "bulk-delete-form", data: { turbo_confirm: "Delete selected contacts?" } do %>
+  <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+    <table class="w-full">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-4 py-3 text-left w-10">
+            <input type="checkbox" id="select-all" class="checkbox checkbox-sm" onchange="toggleAll(this)">
+          </th>
+          <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
+          <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
+          <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Message</th>
+          <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+          <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100">
+        <% @contacts.each do |contact| %>
+          <tr class="hover:bg-gray-50">
+            <td class="px-4 py-4" onclick="event.stopPropagation()">
+              <input type="checkbox" name="ids[]" value="<%= contact.id %>" class="checkbox checkbox-sm contact-checkbox" onchange="updateCount()">
+            </td>
+            <td class="px-4 py-4 text-sm font-medium text-gray-900 cursor-pointer" onclick="window.location='<%= admin_contact_path(contact) %>'"><%= contact.email %></td>
+            <td class="px-4 py-4 text-sm text-gray-600 cursor-pointer" onclick="window.location='<%= admin_contact_path(contact) %>'"><%= [contact.first_name, contact.last_name].compact_blank.join(" ").presence || "-" %></td>
+            <td class="px-4 py-4 text-sm text-gray-600 cursor-pointer" onclick="window.location='<%= admin_contact_path(contact) %>'"><%= contact.message.truncate(60) %></td>
+            <td class="px-4 py-4 text-sm text-gray-500 cursor-pointer" onclick="window.location='<%= admin_contact_path(contact) %>'"><%= contact.created_at.strftime("%b %d, %Y") %></td>
+            <td class="px-4 py-4 text-right" onclick="event.stopPropagation()">
+              <%= button_to "Delete", admin_contact_path(contact), method: :delete, class: "text-xs px-2 py-1 text-red-600 hover:text-red-800 cursor-pointer bg-transparent border-0", data: { turbo_confirm: "Delete this message?" } %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <% if @contacts.empty? %>
+      <p class="px-6 py-8 text-center text-gray-500">No contact messages.</p>
+    <% end %>
+  </div>
+<% end %>
+
+<script>
+  function toggleAll(source) {
+    document.querySelectorAll('.contact-checkbox').forEach(cb => cb.checked = source.checked);
+    updateCount();
+  }
+
+  function updateCount() {
+    const checked = document.querySelectorAll('.contact-checkbox:checked').length;
+    const btn = document.getElementById('bulk-delete-btn');
+    const count = document.getElementById('selected-count');
+    if (btn) {
+      btn.classList.toggle('hidden', checked === 0);
+      count.textContent = checked;
+    }
+    const selectAll = document.getElementById('select-all');
+    const total = document.querySelectorAll('.contact-checkbox').length;
+    selectAll.checked = checked === total && total > 0;
+    selectAll.indeterminate = checked > 0 && checked < total;
+  }
+</script>

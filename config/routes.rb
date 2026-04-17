@@ -68,7 +68,11 @@ Rails.application.routes.draw do
         post :sync
       end
     end
-    resources :contacts, only: [ :index, :show, :destroy ]
+    resources :contacts, only: [ :index, :show, :destroy ] do
+      collection do
+        delete :bulk_destroy
+      end
+    end
   end
 
   # Webhooks
