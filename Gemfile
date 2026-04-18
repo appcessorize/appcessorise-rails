@@ -44,6 +44,8 @@ gem "image_processing", "~> 1.2"
 
 # Auth
 gem "devise"
+gem "omniauth-google-oauth2"
+gem "omniauth-rails_csrf_protection"
 
 # Authorization (who can do what)
 gem "pundit"
