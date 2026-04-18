@@ -28,25 +28,19 @@
         Continue with Google
       <% end %>
 
-      <!-- Email signup toggle -->
-      <div class="mt-6 text-center">
-        <button type="button" onclick="document.getElementById('email-form').classList.toggle('hidden')" class="text-sm font-semibold text-[color-mix(in_oklab,oklch(21%_0.006_285.885)_70%,transparent)] hover:text-[oklch(21%_0.006_285.885)] transition underline cursor-pointer">
+      <details class="mt-6">
+        <summary class="text-sm font-semibold text-[color-mix(in_oklab,oklch(21%_0.006_285.885)_70%,transparent)] hover:text-[oklch(21%_0.006_285.885)] transition underline cursor-pointer text-center list-none">
           Sign up with email instead
-        </button>
-      </div>
-
-      <div id="email-form" class="hidden mt-6">
-        <div class="border-t border-[oklch(88%_0_0)] pt-6">
+        </summary>
+        <div class="border-t border-[oklch(88%_0_0)] pt-6 mt-6">
           <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "space-y-6" }) do |f| %>
             <%= render "devise/shared/error_messages", resource: resource %>
 
-            <!-- Email Field -->
             <div class="form-control">
               <%= f.label :email, "Email address", class: "label" %>
               <%= f.email_field :email, autocomplete: "email", placeholder: "you@example.com", class: "input input-bordered w-full" %>
             </div>
 
-            <!-- Password Field -->
             <div class="form-control">
               <%= f.label :password, class: "label" %>
               <% if @minimum_password_length %>
@@ -55,24 +49,21 @@
               <%= f.password_field :password, autocomplete: "new-password", placeholder: "Create a strong password", class: "input input-bordered w-full" %>
             </div>
 
-            <!-- Password Confirmation Field -->
             <div class="form-control">
               <%= f.label :password_confirmation, "Confirm password", class: "label" %>
               <%= f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "Confirm your password", class: "input input-bordered w-full" %>
             </div>
 
-            <!-- Submit Button -->
             <div>
               <%= f.submit "Create account", class: "btn-primary-daisy w-full" %>
             </div>
 
-            <!-- Terms -->
             <p class="text-xs text-center text-[color-mix(in_oklab,oklch(21%_0.006_285.885)_70%,transparent)]">
               By signing up, you agree to our Terms of Service and Privacy Policy
             </p>
           <% end %>
         </div>
-      </div>
+      </details>
     </div>
 
     <!-- Back to Home Link -->
