@@ -28,43 +28,47 @@
         Continue with Google
       <% end %>
 
-      <!-- OAuth Divider -->
-      <div class="flex items-center my-6">
-        <div class="flex-1 border-t border-[oklch(88%_0_0)]"></div>
-        <span class="px-4 text-sm text-[color-mix(in_oklab,oklch(21%_0.006_285.885)_50%,transparent)]">or</span>
-        <div class="flex-1 border-t border-[oklch(88%_0_0)]"></div>
+      <!-- Email login toggle -->
+      <div class="mt-6 text-center">
+        <button type="button" onclick="document.getElementById('email-form').classList.toggle('hidden')" class="text-sm font-semibold text-[color-mix(in_oklab,oklch(21%_0.006_285.885)_70%,transparent)] hover:text-[oklch(21%_0.006_285.885)] transition underline cursor-pointer">
+          Log in with email instead
+        </button>
       </div>
 
-      <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "space-y-6" }) do |f| %>
-        <!-- Email Field -->
-        <div class="form-control">
-          <%= f.label :email, "Email address", class: "label" %>
-          <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "you@example.com", class: "input input-bordered w-full" %>
-        </div>
+      <div id="email-form" class="hidden mt-6">
+        <div class="border-t border-[oklch(88%_0_0)] pt-6">
+          <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "space-y-6" }) do |f| %>
+            <!-- Email Field -->
+            <div class="form-control">
+              <%= f.label :email, "Email address", class: "label" %>
+              <%= f.email_field :email, autocomplete: "email", placeholder: "you@example.com", class: "input input-bordered w-full" %>
+            </div>
 
-        <!-- Password Field -->
-        <div class="form-control">
-          <%= f.label :password, class: "label" %>
-          <%= f.password_field :password, autocomplete: "current-password", placeholder: "Enter your password", class: "input input-bordered w-full" %>
-        </div>
+            <!-- Password Field -->
+            <div class="form-control">
+              <%= f.label :password, class: "label" %>
+              <%= f.password_field :password, autocomplete: "current-password", placeholder: "Enter your password", class: "input input-bordered w-full" %>
+            </div>
 
-        <!-- Remember Me & Forgot Password -->
-        <div class="flex items-center justify-between">
-          <% if devise_mapping.rememberable? %>
-            <label class="label cursor-pointer gap-2">
-              <%= f.check_box :remember_me, class: "checkbox checkbox-sm" %>
-              <span class="label-text">Remember me</span>
-            </label>
+            <!-- Remember Me & Forgot Password -->
+            <div class="flex items-center justify-between">
+              <% if devise_mapping.rememberable? %>
+                <label class="label cursor-pointer gap-2">
+                  <%= f.check_box :remember_me, class: "checkbox checkbox-sm" %>
+                  <span class="label-text">Remember me</span>
+                </label>
+              <% end %>
+
+              <%= link_to "Forgot password?", new_password_path(resource_name), class: "text-sm font-semibold text-[oklch(21%_0.006_285.885)] hover:text-[oklch(14%_0.005_285.823)] transition underline" %>
+            </div>
+
+            <!-- Submit Button -->
+            <div>
+              <%= f.submit "Log in", class: "btn-primary-daisy w-full" %>
+            </div>
           <% end %>
-
-          <%= link_to "Forgot password?", new_password_path(resource_name), class: "text-sm font-semibold text-[oklch(21%_0.006_285.885)] hover:text-[oklch(14%_0.005_285.823)] transition underline" %>
         </div>
-
-        <!-- Submit Button -->
-        <div>
-          <%= f.submit "Log in", class: "btn-primary-daisy w-full" %>
-        </div>
-      <% end %>
+      </div>
     </div>
 
     <!-- Back to Home Link -->
