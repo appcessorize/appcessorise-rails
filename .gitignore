@@ -42,3 +42,6 @@
 
 # Ignore Stripe and Apple Pay implementation notes
 stripeapplepay.md
+
+# Ignore testing docs (contains API key formats)
+TESTING.md
