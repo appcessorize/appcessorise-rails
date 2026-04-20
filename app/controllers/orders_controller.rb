@@ -13,8 +13,12 @@ class OrdersController < ApplicationController
       authorize @order
       @order_items = @order.order_items
     else
-      @custom_order = CustomOrder.find(params[:id])
-      authorize @custom_order, policy_class: OrderPolicy
+      @custom_order = CustomOrder.find_by(id: params[:id])
+      if @custom_order
+        authorize @custom_order, policy_class: OrderPolicy
+      else
+        redirect_to orders_path, alert: "Order not found."
+      end
     end
   end
 end

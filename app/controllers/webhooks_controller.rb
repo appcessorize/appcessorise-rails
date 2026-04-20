@@ -116,6 +116,7 @@ class WebhooksController < ApplicationController
 
     custom_order = CustomOrder.find_by(stripe_payment_intent_id: pi_id)
     if custom_order
+      custom_order.update!(payment_status: "disputed")
       Rails.logger.warn "Stripe webhook: CustomOrder #{custom_order.order_number} disputed"
     end
   end

@@ -1,8 +1,9 @@
 module Admin
   class OrdersController < BaseController
     def index
-      @orders = Order.order(created_at: :desc).includes(:user, :order_items)
-      @orders = @orders.where(status: params[:status]) if params[:status].present?
+      scope = Order.order(created_at: :desc).includes(:user, :order_items)
+      scope = scope.where(status: params[:status]) if params[:status].present?
+      @pagy, @orders = pagy(scope, limit: 25)
     end
 
     def show

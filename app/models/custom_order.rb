@@ -14,7 +14,7 @@ class CustomOrder < ApplicationRecord
   validates :shipping_cost, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :total_price, presence: true, numericality: { greater_than: 0 }
   validates :recipient_name, :address_line1, :city, :state, :zip, :country, presence: true
-  validates :payment_status, presence: true, inclusion: { in: %w[pending paid failed refunded] }
+  validates :payment_status, presence: true, inclusion: { in: %w[pending paid failed refunded disputed] }
 
   # Callbacks
   before_validation :generate_order_number, on: :create

@@ -1,7 +1,7 @@
 module Admin
   class ContactsController < BaseController
     def index
-      @contacts = Contact.order(created_at: :desc)
+      @pagy, @contacts = pagy(Contact.order(created_at: :desc), limit: 25)
     end
 
     def show

@@ -1,8 +1,9 @@
 module Admin
   class AffiliateCommissionsController < BaseController
     def index
-      @commissions = AffiliateCommission.order(created_at: :desc).includes(:user, :custom_order)
-      @commissions = @commissions.where(status: params[:status]) if params[:status].present?
+      scope = AffiliateCommission.order(created_at: :desc).includes(:user, :custom_order)
+      scope = scope.where(status: params[:status]) if params[:status].present?
+      @pagy, @commissions = pagy(scope, limit: 25)
 
       @total_pending = AffiliateCommission.pending.sum(:commission_amount)
       @total_approved = AffiliateCommission.approved.sum(:commission_amount)

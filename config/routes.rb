@@ -34,7 +34,7 @@ Rails.application.routes.draw do
 
   # Contact form
   get "contact", to: "contacts#new"
-  resources :contacts, only: [ :create, :index ]
+  resources :contacts, only: [ :create ]
 
   # Printful mockup checkout
   get "checkout/:mockup_id", to: "checkouts#mockup", as: :checkout_mockup

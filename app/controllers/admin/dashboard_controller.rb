@@ -9,7 +9,7 @@ module Admin
       @pending_commissions = AffiliateCommission.unpaid.sum(:commission_amount)
 
       @recent_orders = Order.order(created_at: :desc).limit(5).includes(:user, :order_items)
-      @recent_custom_orders = CustomOrder.order(created_at: :desc).limit(5)
+      @recent_custom_orders = CustomOrder.order(created_at: :desc).limit(5).includes(:user)
     end
   end
 end

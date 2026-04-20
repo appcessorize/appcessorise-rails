@@ -1,8 +1,9 @@
 module Admin
   class CustomOrdersController < BaseController
     def index
-      @custom_orders = CustomOrder.order(created_at: :desc)
-      @custom_orders = @custom_orders.where(payment_status: params[:status]) if params[:status].present?
+      scope = CustomOrder.order(created_at: :desc)
+      scope = scope.where(payment_status: params[:status]) if params[:status].present?
+      @pagy, @custom_orders = pagy(scope, limit: 25)
     end
 
     def show

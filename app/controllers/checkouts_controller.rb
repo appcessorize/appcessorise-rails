@@ -89,7 +89,11 @@ class CheckoutsController < ApplicationController
   end
 
   def success
-    @order = Order.find_by(id: params[:order_id])
+    @order = if user_signed_in?
+               Order.find_by(id: params[:order_id], user: current_user)
+             else
+               Order.find_by(id: params[:order_id], user: nil)
+             end
   end
 
   def failure

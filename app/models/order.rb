@@ -10,7 +10,7 @@ class Order < ApplicationRecord
   # Calculate affiliate commission (10% example)
   def affiliate_commission
     return 0 unless affiliate.present?
-    amount * 0.10
+    amount * (ENV["DEFAULT_COMMISSION_RATE"]&.to_f || 0.15)
   end
 
   # Calculate total from order items

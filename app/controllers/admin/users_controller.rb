@@ -1,8 +1,9 @@
 module Admin
   class UsersController < BaseController
     def index
-      @users = User.order(created_at: :desc)
-      @users = @users.where(role: params[:role]) if params[:role].present?
+      scope = User.order(created_at: :desc)
+      scope = scope.where(role: params[:role]) if params[:role].present?
+      @pagy, @users = pagy(scope, limit: 25)
     end
 
     def show
