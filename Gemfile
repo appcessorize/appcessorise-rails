@@ -60,7 +60,7 @@ gem "resend"
 gem "friendly_id"
 
 # Pagination (for products, orders, etc.)
-gem "pagy"
+gem "pagy", "~> 9.0"
 
 # Rate limiting
 gem "rack-attack"
