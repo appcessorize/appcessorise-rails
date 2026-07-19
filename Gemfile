@@ -97,4 +97,7 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
+  # Pin to 5.x: minitest 6 dropped the minitest/mock require path we use and is
+  # a major bump we don't need (activesupport only requires >= 5.1).
+  gem "minitest", "~> 5.25"
 end
