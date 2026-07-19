@@ -45,3 +45,6 @@ stripeapplepay.md
 
 # Ignore testing docs (contains API key formats)
 TESTING.md
+
+# Ignore macOS Finder metadata
+.DS_Store

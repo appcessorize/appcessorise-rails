@@ -24,3 +24,6 @@ application.register("product-tabs", ProductTabsController)
 
 import StripeCheckoutController from "./stripe_checkout_controller"
 application.register("stripe-checkout", StripeCheckoutController)
+
+import ApiKeyController from "./api_key_controller"
+application.register("api-key", ApiKeyController)

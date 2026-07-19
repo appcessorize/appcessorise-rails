@@ -30,23 +30,62 @@
       </h2>
       <div class="prose prose-lg max-w-none text-[color-mix(in_oklab,oklch(21%_0.006_285.885)_70%,transparent)] space-y-4 font-light">
         <p class="text-center leading-relaxed">
-          To use the Appcessorise API, you'll need an API key. Include this key in the <code class="bg-[oklch(95%_0_0)] px-2 py-1 rounded">X-API-Key</code> header with every request.
+          <a href="<%= new_user_registration_path %>" class="underline font-medium">Create an account</a> and grab your API key from your <a href="<%= dashboard_path %>" class="underline font-medium">dashboard</a>. Send it in the <code class="bg-[oklch(95%_0_0)] px-2 py-1 rounded">X-API-Key</code> header on every request — that's the only credential you need.
         </p>
 
         <div class="bg-[oklch(95%_0_0)] rounded-xl p-6 my-6">
-          <h3 class="text-xl font-semibold text-[oklch(21%_0.006_285.885)] mb-3">Your API Password</h3>
+          <h3 class="text-xl font-semibold text-[oklch(21%_0.006_285.885)] mb-3">Your API Key</h3>
           <div class="bg-white border border-[oklch(88%_0_0)] rounded-lg p-4 font-mono text-sm">
-            <span class="text-[oklch(14%_0.005_285.823)] font-semibold">YOUR_API_KEY</span>
+            <span class="text-[oklch(14%_0.005_285.823)] font-semibold">ak_your_key_from_the_dashboard</span>
           </div>
           <p class="text-sm mt-3 text-[color-mix(in_oklab,oklch(21%_0.006_285.885)_60%,transparent)]">
-            For affiliate tracking, append your affiliate code: <code class="bg-white px-2 py-1 rounded">YOUR_API_KEY_AFF-000001</code>
+            Your key identifies you automatically — <strong>every sale made with it is attributed to your affiliate account</strong>. There's no affiliate code to pass or append. Keep the key secret; you can rotate it any time from your dashboard.
           </p>
         </div>
 
         <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 my-6">
           <p class="text-sm text-blue-800">
-            <strong>Base URL:</strong> <code class="bg-white px-2 py-1 rounded">https://your-domain.com/api/v1</code>
+            <strong>Base URL:</strong> <code class="bg-white px-2 py-1 rounded">https://appcessorise.com/api/v1</code>
           </p>
+        </div>
+
+        <!-- Quick start snippets -->
+        <div class="bg-[oklch(14%_0.005_285.823)] rounded-xl p-6 my-6 text-left">
+          <h3 class="text-xl font-semibold text-[oklch(92%_0.004_286.32)] mb-4">Quick start</h3>
+
+          <p class="text-sm font-semibold text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_80%,transparent)] mb-2">cURL</p>
+          <div class="bg-black/40 rounded-lg p-4 mb-5 font-mono text-xs sm:text-sm overflow-x-auto text-[oklch(92%_0.004_286.32)]"><pre>curl https://appcessorise.com/api/v1/mockups \
+  -H "Content-Type: application/json" \
+  -H "X-API-Key: ak_your_key" \
+  -d '{"product_id":71,"variant_id":4012,"image_url":"https://cdn.yourapp.com/art.png"}'</pre></div>
+
+          <p class="text-sm font-semibold text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_80%,transparent)] mb-2">JavaScript (web)</p>
+          <div class="bg-black/40 rounded-lg p-4 mb-5 font-mono text-xs sm:text-sm overflow-x-auto text-[oklch(92%_0.004_286.32)]"><pre>const res = await fetch("https://appcessorise.com/api/v1/mockups", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "X-API-Key": "ak_your_key",
+  },
+  body: JSON.stringify({
+    product_id: 71,
+    variant_id: 4012,
+    image_url: "https://cdn.yourapp.com/art.png",
+  }),
+});
+const { data } = await res.json();
+// data.mockup_id, data.mockup_image_url, data.checkout_url</pre></div>
+
+          <p class="text-sm font-semibold text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_80%,transparent)] mb-2">Swift (iOS)</p>
+          <div class="bg-black/40 rounded-lg p-4 font-mono text-xs sm:text-sm overflow-x-auto text-[oklch(92%_0.004_286.32)]"><pre>var req = URLRequest(url: URL(string: "https://appcessorise.com/api/v1/mockups")!)
+req.httpMethod = "POST"
+req.setValue("application/json", forHTTPHeaderField: "Content-Type")
+req.setValue("ak_your_key", forHTTPHeaderField: "X-API-Key")
+req.httpBody = try JSONSerialization.data(withJSONObject: [
+  "product_id": 71,
+  "variant_id": 4012,
+  "image_url": "https://cdn.yourapp.com/art.png",
+])
+let (data, _) = try await URLSession.shared.data(for: req)</pre></div>
         </div>
       </div>
     </div>
@@ -69,7 +108,7 @@
         <h4 class="text-lg font-semibold text-[oklch(21%_0.006_285.885)] mb-3">Request Headers</h4>
         <div class="bg-[oklch(95%_0_0)] rounded-lg p-4 mb-6 font-mono text-sm overflow-x-auto">
           <pre>Content-Type: application/json
-X-API-Key: YOUR_API_KEY_AFF-000001</pre>
+X-API-Key: ak_your_key</pre>
         </div>
 
         <h4 class="text-lg font-semibold text-[oklch(21%_0.006_285.885)] mb-3">Request Body</h4>
@@ -77,28 +116,29 @@ X-API-Key: YOUR_API_KEY_AFF-000001</pre>
           <pre>{
   "product_id": 71,
   "variant_id": 4012,
-  "image_url": "https://example.com/user-image.jpg",
-  "shipping_address": {
-    "country": "US",
-    "state": "CA",
-    "zip": "90210"
-  },
+  "image_url": "https://cdn.yourapp.com/user-image.jpg",
   "third_party_app_name": "YourApp",
   "third_party_order_id": "order_123"
 }</pre>
         </div>
+        <p class="text-sm text-[color-mix(in_oklab,oklch(21%_0.006_285.885)_60%,transparent)] mb-6 -mt-2">
+          <code class="bg-[oklch(95%_0_0)] px-1 rounded">product_id</code>, <code class="bg-[oklch(95%_0_0)] px-1 rounded">variant_id</code> and <code class="bg-[oklch(95%_0_0)] px-1 rounded">image_url</code> are required. <code class="bg-[oklch(95%_0_0)] px-1 rounded">image_url</code> must be a public https URL. The two <code class="bg-[oklch(95%_0_0)] px-1 rounded">third_party_*</code> fields are optional and echoed back on the order for your own reconciliation.
+        </div>
 
-        <h4 class="text-lg font-semibold text-[oklch(21%_0.006_285.885)] mb-3">Response (200 OK)</h4>
+        <h4 class="text-lg font-semibold text-[oklch(21%_0.006_285.885)] mb-3">Response (201 Created)</h4>
         <div class="bg-[oklch(95%_0_0)] rounded-lg p-4 font-mono text-sm overflow-x-auto">
           <pre>{
   "success": true,
-  "mockup_id": "abc123def456",
-  "mockup_image_url": "https://example.com/mockups/generated.jpg",
-  "product_name": "Unisex Staple T-Shirt",
-  "base_price": 19.99,
-  "estimated_shipping": 5.99,
-  "total_price": 25.98,
-  "checkout_url": "https://your-domain.com/checkout/abc123def456"
+  "data": {
+    "mockup_id": "abc123def456",
+    "mockup_image_url": "https://printful-mockups.s3.amazonaws.com/generated.jpg",
+    "original_image_url": "https://cdn.yourapp.com/user-image.jpg",
+    "product_name": "Unisex Staple T-Shirt",
+    "variant_name": "White / M",
+    "base_price": 19.99,
+    "estimated_shipping": 5.99,
+    "checkout_url": "https://appcessorise.com/checkout/abc123def456"
+  }
 }</pre>
         </div>
       </div>
@@ -118,7 +158,7 @@ X-API-Key: YOUR_API_KEY_AFF-000001</pre>
         <h4 class="text-lg font-semibold text-[oklch(21%_0.006_285.885)] mb-3">Request Headers</h4>
         <div class="bg-[oklch(95%_0_0)] rounded-lg p-4 mb-6 font-mono text-sm overflow-x-auto">
           <pre>Content-Type: application/json
-X-API-Key: YOUR_API_KEY_AFF-000001</pre>
+X-API-Key: ak_your_key</pre>
         </div>
 
         <h4 class="text-lg font-semibold text-[oklch(21%_0.006_285.885)] mb-3">Request Body</h4>
@@ -144,9 +184,9 @@ X-API-Key: YOUR_API_KEY_AFF-000001</pre>
         <div class="bg-[oklch(95%_0_0)] rounded-lg p-4 font-mono text-sm overflow-x-auto">
           <pre>{
   "success": true,
-  "order_number": "APP-20240001",
+  "order_number": "ORD-2026-A1B2C3D4",
   "printful_order_id": 12345678,
-  "estimated_delivery": "2024-12-01",
+  "estimated_delivery": "2026-07-26",
   "tracking_url": null
 }</pre>
         </div>

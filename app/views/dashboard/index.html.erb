@@ -74,19 +74,19 @@
         <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
           <div class="bg-white/10 backdrop-blur rounded-xl p-4">
             <div class="text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_80%,transparent)] text-sm mb-1">Total Users</div>
-            <div class="text-3xl font-bold">0</div>
+            <div class="text-3xl font-bold"><%= number_with_delimiter(@total_users) %></div>
           </div>
           <div class="bg-white/10 backdrop-blur rounded-xl p-4">
             <div class="text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_80%,transparent)] text-sm mb-1">Products</div>
-            <div class="text-3xl font-bold">3</div>
+            <div class="text-3xl font-bold"><%= number_with_delimiter(@total_products) %></div>
           </div>
           <div class="bg-white/10 backdrop-blur rounded-xl p-4">
             <div class="text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_80%,transparent)] text-sm mb-1">Orders</div>
-            <div class="text-3xl font-bold">0</div>
+            <div class="text-3xl font-bold"><%= number_with_delimiter(@total_orders) %></div>
           </div>
           <div class="bg-white/10 backdrop-blur rounded-xl p-4">
             <div class="text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_80%,transparent)] text-sm mb-1">Revenue</div>
-            <div class="text-3xl font-bold">$0</div>
+            <div class="text-3xl font-bold"><%= number_to_currency(@total_revenue) %></div>
           </div>
         </div>
 
@@ -132,29 +132,78 @@
 
         <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
           <div class="bg-white/10 backdrop-blur rounded-xl p-4">
-            <div class="text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_80%,transparent)] text-sm mb-1">Total Referrals</div>
-            <div class="text-3xl font-bold">0</div>
+            <div class="text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_80%,transparent)] text-sm mb-1">Total Sales</div>
+            <div class="text-3xl font-bold"><%= number_with_delimiter(@sales_count) %></div>
           </div>
           <div class="bg-white/10 backdrop-blur rounded-xl p-4">
             <div class="text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_80%,transparent)] text-sm mb-1">This Month</div>
-            <div class="text-3xl font-bold">0</div>
+            <div class="text-3xl font-bold"><%= number_with_delimiter(@sales_this_month) %></div>
           </div>
           <div class="bg-white/10 backdrop-blur rounded-xl p-4">
-            <div class="text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_80%,transparent)] text-sm mb-1">Commissions</div>
-            <div class="text-3xl font-bold">$0.00</div>
+            <div class="text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_80%,transparent)] text-sm mb-1">Total Commissions</div>
+            <div class="text-3xl font-bold"><%= number_to_currency(@total_commissions) %></div>
           </div>
           <div class="bg-white/10 backdrop-blur rounded-xl p-4">
-            <div class="text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_80%,transparent)] text-sm mb-1">Conversion Rate</div>
-            <div class="text-3xl font-bold">0%</div>
+            <div class="text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_80%,transparent)] text-sm mb-1">Unpaid</div>
+            <div class="text-3xl font-bold"><%= number_to_currency(@unpaid_commissions) %></div>
           </div>
         </div>
 
-        <div class="bg-white/10 backdrop-blur rounded-xl p-4 mb-4">
-          <div class="text-sm text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_80%,transparent)] mb-2">Your Referral Link</div>
-          <div class="flex items-center space-x-2">
-            <input type="text" value="https://appcessorise.com/ref/your-code" readonly class="flex-1 bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-[oklch(92%_0.004_286.32)]" />
-            <button class="btn-secondary-daisy">Copy</button>
+        <!-- API Key + Integration -->
+        <div class="bg-white/10 backdrop-blur rounded-xl p-5 mb-4" data-controller="api-key" data-api-key-key-value="<%= @api_key %>">
+          <div class="flex items-center justify-between mb-2">
+            <div class="text-sm font-semibold text-[oklch(92%_0.004_286.32)]">Your API Key</div>
+            <span class="text-xs text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_70%,transparent)]">Affiliate code: <%= current_user.affiliate_code %></span>
           </div>
+          <p class="text-xs text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_70%,transparent)] mb-3">Send this in the <code class="font-mono">X-API-Key</code> header. It identifies you and attributes every sale to your account. Keep it secret.</p>
+          <div class="flex items-center space-x-2 mb-3">
+            <input type="text" data-api-key-target="input" readonly class="flex-1 bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-[oklch(92%_0.004_286.32)] font-mono text-sm" />
+            <button type="button" data-action="api-key#toggle" class="px-3 py-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-lg text-sm transition">
+              <span data-api-key-target="revealLabel">Reveal</span>
+            </button>
+            <button type="button" data-action="api-key#copy" class="px-3 py-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-lg text-sm transition">
+              <span data-api-key-target="copyLabel">Copy</span>
+            </button>
+          </div>
+          <div class="flex items-center justify-between">
+            <%= link_to "View integration docs →", api_docs_path, class: "text-sm underline text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_90%,transparent)] hover:text-white" %>
+            <%= button_to "Regenerate key", regenerate_api_key_path, method: :post,
+                  form: { data: { turbo_confirm: "Regenerate your API key? Your current key will stop working immediately and you'll need to update your integrations." } },
+                  class: "px-3 py-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-lg text-sm transition" %>
+          </div>
+        </div>
+
+        <!-- Recent Sales -->
+        <div class="bg-white/10 backdrop-blur rounded-xl p-5 mb-4">
+          <div class="text-sm font-semibold text-[oklch(92%_0.004_286.32)] mb-3">Recent Sales</div>
+          <% if @recent_sales.any? %>
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm text-left">
+                <thead class="text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_70%,transparent)]">
+                  <tr>
+                    <th class="py-2 pr-4 font-medium">Order</th>
+                    <th class="py-2 pr-4 font-medium">Date</th>
+                    <th class="py-2 pr-4 font-medium">Status</th>
+                    <th class="py-2 pr-4 font-medium text-right">Sale</th>
+                    <th class="py-2 font-medium text-right">Commission</th>
+                  </tr>
+                </thead>
+                <tbody class="text-[oklch(92%_0.004_286.32)]">
+                  <% @recent_sales.each do |sale| %>
+                    <tr class="border-t border-white/10">
+                      <td class="py-2 pr-4 font-mono"><%= sale.order_number %></td>
+                      <td class="py-2 pr-4"><%= sale.created_at.strftime("%b %-d, %Y") %></td>
+                      <td class="py-2 pr-4"><%= (sale.printful_status || sale.payment_status).to_s.titleize %></td>
+                      <td class="py-2 pr-4 text-right"><%= number_to_currency(sale.total_price) %></td>
+                      <td class="py-2 text-right"><%= number_to_currency(sale.affiliate_commission) %></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          <% else %>
+            <p class="text-sm text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_70%,transparent)]">No sales yet. Once you integrate and your users start ordering, sales will show up here.</p>
+          <% end %>
         </div>
 
         <div class="grid sm:grid-cols-2 gap-3">
@@ -197,22 +246,18 @@
           </div>
         </div>
 
-        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <div class="grid sm:grid-cols-3 gap-4 mb-6">
           <div class="bg-white/10 backdrop-blur rounded-xl p-4">
             <div class="text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_80%,transparent)] text-sm mb-1">Total Orders</div>
-            <div class="text-3xl font-bold">0</div>
+            <div class="text-3xl font-bold"><%= number_with_delimiter(@orders_count) %></div>
           </div>
           <div class="bg-white/10 backdrop-blur rounded-xl p-4">
             <div class="text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_80%,transparent)] text-sm mb-1">In Transit</div>
-            <div class="text-3xl font-bold">0</div>
+            <div class="text-3xl font-bold"><%= number_with_delimiter(@in_transit) %></div>
           </div>
           <div class="bg-white/10 backdrop-blur rounded-xl p-4">
             <div class="text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_80%,transparent)] text-sm mb-1">Total Spent</div>
-            <div class="text-3xl font-bold">$0</div>
-          </div>
-          <div class="bg-white/10 backdrop-blur rounded-xl p-4">
-            <div class="text-[color-mix(in_oklab,oklch(92%_0.004_286.32)_80%,transparent)] text-sm mb-1">Rewards Points</div>
-            <div class="text-3xl font-bold">0</div>
+            <div class="text-3xl font-bold"><%= number_to_currency(@total_spent) %></div>
           </div>
         </div>
 

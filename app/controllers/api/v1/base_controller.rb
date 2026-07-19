@@ -7,8 +7,18 @@ module Api
       rescue_from ActiveRecord::RecordNotFound, with: :not_found
       rescue_from ActiveRecord::RecordInvalid, with: :unprocessable_entity
 
+      # Set for requests authenticated with a per-affiliate key.
+      attr_reader :current_affiliate
+
       private
 
+      # Authentication resolves, in order:
+      #   1. A per-affiliate key (X-API-Key: ak_...) — the preferred path. Sets
+      #      @current_affiliate and derives @affiliate_code from it, so sales are
+      #      attributed to the authenticated affiliate and cannot be spoofed.
+      #   2. The legacy shared API_PASSWORD / INTERNAL_API_KEY — kept as a
+      #      transitional fallback so integrations shipped before per-affiliate
+      #      keys keep working. Remove once all affiliates have migrated.
       def authenticate_api_key
         api_key = request.headers["X-API-Key"]
 
@@ -17,45 +27,55 @@ module Api
           return
         end
 
-        unless valid_api_key?(api_key)
-          render json: { error: "Invalid API key" }, status: :unauthorized
-          return
+        return if authenticate_affiliate_key(api_key)
+        return if authenticate_legacy_key(api_key)
+
+        render json: { error: "Invalid API key" }, status: :unauthorized
+      end
+
+      # Preferred: unique per-affiliate key. Identifies the affiliate directly.
+      def authenticate_affiliate_key(api_key)
+        return false unless api_key.start_with?(User::API_KEY_PREFIX)
+
+        user = User.find_by_api_key(api_key)
+        return false unless user && (user.affiliate? || user.admin?)
+
+        @current_affiliate = user
+        @affiliate_code = user.affiliate_code
+        true
+      end
+
+      # Legacy transitional path: shared password, optionally suffixed with an
+      # affiliate code ("password_AFF-000001"). Attribution here is only as
+      # trustworthy as the shared secret, which is why per-affiliate keys exist.
+      def authenticate_legacy_key(api_key)
+        internal_key = ENV["INTERNAL_API_KEY"]
+        if internal_key.present? && ActiveSupport::SecurityUtils.secure_compare(api_key, internal_key)
+          @affiliate_code = extract_affiliate_code(api_key)
+          return true
         end
 
-        # Extract affiliate code from API key
-        # Format: "API_PASSWORD_affiliate_code"
-        @affiliate_code = extract_affiliate_code(api_key)
-      end
-
-      def extract_affiliate_code(api_key)
-        # Extract affiliate code after the password
-        # Format: "password_AFF-000001"
-        match = api_key.match(/(AFF-\d+)/)
-        match[1] if match
-      end
-
-      def valid_api_key?(api_key)
-        # Allow internal requests using a separate internal key
-        internal_key = ENV["INTERNAL_API_KEY"]
-        return true if internal_key.present? && ActiveSupport::SecurityUtils.secure_compare(api_key, internal_key)
-
-        # Validate against environment variable password
         expected_password = ENV["API_PASSWORD"]
-
         if expected_password.blank?
           Rails.logger.error "API_PASSWORD not configured"
           return false
         end
 
-        # Format: "password_AFF-000001" or just "password"
-        # Split on the first underscore that precedes "AFF-" to avoid splitting the password itself
         password_part = if api_key.include?("_AFF-")
                           api_key.split("_AFF-").first
                         else
                           api_key
                         end
 
-        ActiveSupport::SecurityUtils.secure_compare(password_part, expected_password)
+        return false unless ActiveSupport::SecurityUtils.secure_compare(password_part, expected_password)
+
+        @affiliate_code = extract_affiliate_code(api_key)
+        true
+      end
+
+      def extract_affiliate_code(api_key)
+        match = api_key.match(/(AFF-\d+)/)
+        match[1] if match
       end
 
       def not_found

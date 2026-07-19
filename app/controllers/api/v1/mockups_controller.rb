@@ -3,11 +3,16 @@ module Api
     class MockupsController < BaseController
       # POST /api/v1/mockups
       def create
+        # Attribution comes from the authenticated affiliate key when present, so
+        # a caller cannot claim someone else's affiliate_code. The param is only
+        # honoured for legacy shared-password callers that have no identity.
+        affiliate_code = current_affiliate ? current_affiliate.affiliate_code : params[:affiliate_code]
+
         # Validate required parameters
-        unless required_params_present?
+        unless required_params_present?(affiliate_code)
           render json: {
             success: false,
-            error: "Missing required parameters: affiliate_code, product_id, variant_id, image_url"
+            error: "Missing required parameters: product_id, variant_id, image_url"
           }, status: :bad_request
           return
         end
@@ -52,7 +57,8 @@ module Api
         # Store mockup data temporarily (you'd want to use Redis in production)
         mockup_data = {
           mockup_id: mockup_id,
-          affiliate_code: params[:affiliate_code],
+          affiliate_code: affiliate_code,
+          affiliate_user_id: current_affiliate&.id,
           product_id: params[:product_id],
           variant_id: params[:variant_id],
           image_url: params[:image_url],
@@ -87,8 +93,8 @@ module Api
 
       private
 
-      def required_params_present?
-        params[:affiliate_code].present? &&
+      def required_params_present?(affiliate_code)
+        affiliate_code.present? &&
           params[:product_id].present? &&
           params[:variant_id].present? &&
           params[:image_url].present?

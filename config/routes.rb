@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   get "documentation", to: "documentation#index"
-  devise_for :users, controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
+  devise_for :users, controllers: {
+    omniauth_callbacks: "users/omniauth_callbacks",
+    registrations: "users/registrations"
+  }
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -19,6 +22,7 @@ Rails.application.routes.draw do
   get "products", to: "products#index"
   get "products/:id", to: "products#show", as: :product
   get "dashboard", to: "dashboard#index"
+  post "dashboard/regenerate_api_key", to: "dashboard#regenerate_api_key", as: :regenerate_api_key
 
   # Checkout routes
   resource :checkout, only: [ :new, :create ] do

@@ -1,7 +1,11 @@
 class CustomOrder < ApplicationRecord
   # Associations
   belongs_to :user, optional: true
-  has_one :affiliate_commission, dependent: :destroy
+  # Named :commission (not :affiliate_commission) on purpose: there is also an
+  # `affiliate_commission` decimal column holding the denormalized commission
+  # amount. A same-named association would shadow that column's accessors and
+  # break every read/write of the amount.
+  has_one :commission, class_name: "AffiliateCommission", dependent: :destroy
 
   # Validations
   validates :order_number, presence: true, uniqueness: true

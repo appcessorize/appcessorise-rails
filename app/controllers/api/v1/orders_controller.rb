@@ -36,9 +36,13 @@ module Api
         )
         actual_shipping = shipping_result[:success] ? shipping_result.dig(:cheapest, "rate").to_f : mockup_data[:estimated_shipping]
 
-        # Create order record
+        # Create order record.
+        # user_id ties the sale to the affiliate account directly (set when the
+        # mockup was created by an authenticated affiliate key), so commission
+        # attribution doesn't depend on parsing the affiliate_code string.
         order = CustomOrder.new(
           affiliate_code: mockup_data[:affiliate_code],
+          user_id: mockup_data[:affiliate_user_id],
           email: params.dig(:shipping_address, :email),
           printful_product_id: mockup_data[:product_id],
           variant_id: mockup_data[:variant_id],
@@ -124,15 +128,10 @@ module Api
       end
 
       def create_affiliate_commission(order)
-        return unless order.affiliate_code.present?
-
-        # Find affiliate user by code
-        # For now, we'll extract user_id from affiliate code
-        # Format: AFF-000001
-        user_id = extract_user_id_from_affiliate_code(order.affiliate_code)
-        return unless user_id
-
-        user = User.find_by(id: user_id)
+        # Prefer the affiliate account bound to the order at creation time
+        # (authenticated key). Fall back to parsing the affiliate_code for
+        # legacy shared-password orders that carry no user_id.
+        user = affiliate_for_order(order)
         return unless user && (user.affiliate? || user.admin?)
 
         commission_rate = ENV["DEFAULT_COMMISSION_RATE"]&.to_f || 0.15
@@ -148,6 +147,14 @@ module Api
 
         # Update order with commission amount
         order.update(affiliate_commission: commission_amount)
+      end
+
+      def affiliate_for_order(order)
+        return order.user if order.user_id.present?
+        return nil if order.affiliate_code.blank?
+
+        user_id = extract_user_id_from_affiliate_code(order.affiliate_code)
+        User.find_by(id: user_id) if user_id
       end
 
       def extract_user_id_from_affiliate_code(code)

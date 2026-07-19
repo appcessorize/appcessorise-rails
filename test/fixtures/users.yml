@@ -4,13 +4,16 @@ one:
   email: user1@example.com
   encrypted_password: <%= Devise::Encryptor.digest(User, 'password123') %>
   role: customer
+  api_key: ak_fixture_customer_one
 
 two:
   email: user2@example.com
   encrypted_password: <%= Devise::Encryptor.digest(User, 'password123') %>
   role: affiliate
+  api_key: ak_fixture_affiliate_two
 
 admin:
   email: admin@example.com
   encrypted_password: <%= Devise::Encryptor.digest(User, 'password123') %>
   role: admin
+  api_key: ak_fixture_admin
