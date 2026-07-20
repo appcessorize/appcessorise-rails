@@ -101,8 +101,8 @@ class CheckoutsController < ApplicationController
   end
 
   def mockup
-    # Get mockup data from cache
-    @mockup_data = Rails.cache.read("mockup_#{params[:mockup_id]}")
+    # DB-backed mockup, with legacy cache fallback (see Mockup.data_for)
+    @mockup_data = Mockup.data_for(params[:mockup_id])
 
     unless @mockup_data
       flash[:alert] = "Mockup not found or has expired. Please generate a new mockup."

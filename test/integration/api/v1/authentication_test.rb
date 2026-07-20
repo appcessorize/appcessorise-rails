@@ -49,20 +49,20 @@ module Api
       # --- Happy path + attribution.
 
       test "a valid affiliate key authenticates and attribution derives from the key" do
-        cached = post_mockup_and_read_cache(auth(@affiliate.api_key), mockup_params)
+        mockup = post_mockup_and_find_record(auth(@affiliate.api_key), mockup_params)
         assert_response :created
-        assert_equal @affiliate.affiliate_code, cached[:affiliate_code]
-        assert_equal @affiliate.id, cached[:affiliate_user_id]
+        assert_equal @affiliate.affiliate_code, mockup.affiliate_code
+        assert_equal @affiliate.id, mockup.user_id
       end
 
       test "a caller cannot spoof another affiliate's code via params" do
-        cached = post_mockup_and_read_cache(
+        mockup = post_mockup_and_find_record(
           auth(@affiliate.api_key),
           mockup_params.merge(affiliate_code: "AFF-999999")
         )
         assert_response :created
-        assert_equal @affiliate.affiliate_code, cached[:affiliate_code]
-        assert_not_equal "AFF-999999", cached[:affiliate_code]
+        assert_equal @affiliate.affiliate_code, mockup.affiliate_code
+        assert_not_equal "AFF-999999", mockup.affiliate_code
       end
 
       private
@@ -71,12 +71,12 @@ module Api
         { "X-API-Key" => key }
       end
 
-      def post_mockup_and_read_cache(headers, params)
+      def post_mockup_and_find_record(headers, params)
         PrintfulService.stub(:new, FakePrintful.new) do
           post "/api/v1/mockups", params: params, headers: headers
         end
         mockup_id = response.parsed_body.dig("data", "mockup_id")
-        Rails.cache.read("mockup_#{mockup_id}")
+        Mockup.find_by(token: mockup_id)
       end
     end
   end

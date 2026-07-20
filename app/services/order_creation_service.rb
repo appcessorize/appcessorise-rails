@@ -15,7 +15,10 @@ class OrderCreationService
   def call
     return failure(:bad_request, "Missing required parameters") unless required_present?
 
-    mockup_data = Rails.cache.read("mockup_#{@mockup_id}")
+    # DB-backed mockups are the norm; the cache read is a fallback for mockups
+    # created before the mockups table existed (valid for their 24h TTL).
+    mockup = Mockup.usable.find_by(token: @mockup_id)
+    mockup_data = mockup&.to_data || Rails.cache.read("mockup_#{@mockup_id}")
     return failure(:not_found, "Mockup not found or expired") unless mockup_data
 
     # Verify the payment actually happened before creating anything.
@@ -25,10 +28,11 @@ class OrderCreationService
     verification = verify_payment!(mockup_data)
     return failure(verification[:status], verification[:error]) unless verification[:ok]
 
-    order = build_order(mockup_data, actual_shipping(mockup_data))
+    order = build_order(mockup_data, actual_shipping(mockup_data), mockup)
     return failure(:unprocessable_entity, order.errors.full_messages.join(", ")) unless order.save
 
     submit_to_printful(order)
+    mockup&.consume!
     Rails.cache.delete("mockup_#{@mockup_id}")
 
     {
@@ -112,8 +116,9 @@ class OrderCreationService
   # user_id ties the sale to the affiliate account directly (set when the
   # mockup was created by an authenticated affiliate key), so commission
   # attribution doesn't depend on parsing the affiliate_code string.
-  def build_order(mockup_data, shipping_cost)
+  def build_order(mockup_data, shipping_cost, mockup = nil)
     CustomOrder.new(
+      mockup_id: mockup&.id,
       affiliate_code: mockup_data[:affiliate_code],
       user_id: mockup_data[:affiliate_user_id],
       email: @shipping[:email],
@@ -140,61 +145,17 @@ class OrderCreationService
     )
   end
 
+  # Try Printful inline first so the API response includes printful_order_id
+  # when Printful is up. If the inline attempt fails for ANY reason, hand the
+  # order to the background job, which retries with backoff and flags the order
+  # submission_failed if it ultimately can't — a paid order is never silently
+  # left unfulfilled.
   def submit_to_printful(order)
-    result = PrintfulService.new.create_order(
-      variant_id: order.variant_id,
-      quantity: order.quantity,
-      original_image_url: order.original_image_url,
-      product_price: order.product_price,
-      shipping_cost: order.shipping_cost,
-      total_price: order.total_price,
-      shipping_address: {
-        name: order.recipient_name,
-        address1: order.address_line1,
-        address2: order.address_line2,
-        city: order.city,
-        state: order.state,
-        zip: order.zip,
-        country: order.country
-      }
-    )
-
-    if result[:success]
-      order.update(printful_order_id: result[:printful_order_id], printful_status: result[:status])
-      create_affiliate_commission(order)
-    else
-      Rails.logger.error "Printful order creation failed: #{result[:error]}"
-      # Order is still saved but marked as needing manual review
-    end
-  end
-
-  def create_affiliate_commission(order)
-    # Prefer the affiliate account bound to the order at creation time
-    # (authenticated key). Fall back to parsing the affiliate_code for
-    # legacy shared-password orders that carry no user_id.
-    user = affiliate_for_order(order)
-    return unless user && (user.affiliate? || user.admin?)
-
-    commission_rate = ENV["DEFAULT_COMMISSION_RATE"]&.to_f || 0.15
-    commission_amount = order.product_price * commission_rate
-
-    AffiliateCommission.create(
-      user_id: user.id,
-      custom_order_id: order.id,
-      commission_amount: commission_amount,
-      commission_rate: commission_rate,
-      status: "pending"
-    )
-
-    order.update(affiliate_commission: commission_amount)
-  end
-
-  def affiliate_for_order(order)
-    return order.user if order.user_id.present?
-    return nil if order.affiliate_code.blank?
-
-    user_id = order.affiliate_code.gsub("AFF-", "").to_i if order.affiliate_code.start_with?("AFF-")
-    User.find_by(id: user_id) if user_id
+    SubmitPrintfulOrderJob.perform_now(order)
+  rescue StandardError => e
+    Rails.logger.error "Inline Printful submission failed for #{order.order_number} (#{e.message}); queueing retry"
+    order.update(printful_status: "submission_pending")
+    SubmitPrintfulOrderJob.set(wait: 30.seconds).perform_later(order)
   end
 
   def failure(status, error)

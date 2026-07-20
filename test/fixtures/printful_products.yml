@@ -4,10 +4,18 @@ one:
   printful_product_id: 123
   name: T-Shirt
   base_price: 19.99
-  variant_data: "{}"
+  description: Classic unisex tee
+  variant_data:
+    - id: 4011
+      color: White
+      size: M
+    - id: 4012
+      color: Black
+      size: M
 
+# No variant data => not orderable => excluded by PrintfulProduct.active
 two:
   printful_product_id: 456
   name: Mug
   base_price: 14.99
-  variant_data: "{}"
+  variant_data: {}

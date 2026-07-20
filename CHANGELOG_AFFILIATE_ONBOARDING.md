@@ -196,6 +196,20 @@ Ran on a separate branch after the affiliate work deployed. `bundle exec bundler
 
 **Tests:** `test/integration/checkout_complete_test.rb` — keyless completion creates order + attribution; payment verification still gates the web path (fake intent → 402); checkout page HTML contains no `X-API-Key` and references the CSRF flow. Full suite 36 runs, 0 failures.
 
+### Reliability & conversion batch (branch `reliability-and-conversion`, 2026-07-21)
+
+**1. Solid Queue actually works now (critical, pre-existing).** `production.rb` set `queue_adapter = :solid_queue` but the Solid Queue tables were never created anywhere (no queue database configured, none in the primary schema) — so **every `deliver_later`/`perform_later` in production raised**. Fixed with `20260720000001_create_solid_queue_tables` (tables into the primary DB, same pattern as the earlier solid_cache fix) and `SOLID_QUEUE_IN_PUMA=true` defaulted in the Dockerfile so the worker supervisor runs inside Puma. Order-status emails will now actually send.
+
+**2. Mockups persisted to the DB.** New `mockups` table + `Mockup` model (`20260720000002`). Previously mockups lived only in Rails.cache with a 24h TTL — an eviction between the customer paying and the order call left a paid customer with "Mockup not found". Now: DB-backed with `expires_at` (24h) and `consumed_at` (one order per mockup), legacy cache fallback for in-flight mockups created before deploy, and `custom_orders.mockup_id` linking sales to mockups for funnel analytics (mockups created vs. converted).
+
+**3. Printful submission is retry-safe.** New `SubmitPrintfulOrderJob`: the service still tries inline first (API response keeps `printful_order_id` when Printful is up), but any failure now queues the job, which retries 5× with backoff and marks the order `printful_status: "submission_failed"` if it ultimately can't — a paid order is never again silently left unfulfilled. Commission creation moved into the job (idempotent, created on successful submission).
+
+**4. Conversion copy.** `commission_percent` helper (single source of truth from `DEFAULT_COMMISSION_RATE`). Homepage hero: "you earn **15% of every sale**" + key-facts strip (15% / free, 2 API calls / we print & ship) + new dark "Integrated in an afternoon" section with the fetch snippet and docs/signup CTAs. Signup page: headline is now "**Start earning 15% on every sale**" with the instant-API-key promise, and the old boxed-A logo replaced with the lowercase wordmark.
+
+**5. Products page is real.** `ProductsController#index` renders the synced Printful catalog (`PrintfulProduct.active`, price-sorted): price, **"You earn ~$X per sale"**, variant count, and the API `product_id` per card, with an honest "catalog is being stocked" empty state (the old page was hardcoded fake products with fake reviews). Fixture fix: `variant_data` was stored as a JSON *string*, silently defeating the `active` scope in tests.
+
+**Deploy notes:** two migrations (solid_queue tables, mockups) — auto-run on deploy. Tests: 49 runs, 0 failures; Brakeman/RuboCop/Zeitwerk clean.
+
 ---
 
 ## Summary & follow-ups

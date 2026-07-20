@@ -51,15 +51,12 @@ module Api
 
         estimated_shipping = shipping_result[:success] ? shipping_result.dig(:cheapest, "rate").to_f : 5.99
 
-        # Create a temporary mockup record (stored in session or Redis in production)
-        mockup_id = SecureRandom.uuid
-
-        # Store mockup data temporarily (you'd want to use Redis in production)
-        mockup_data = {
-          mockup_id: mockup_id,
+        # Persist the mockup. (Previously cache-only with a 24h TTL — a cache
+        # eviction between payment and order creation stranded paid customers.)
+        mockup = Mockup.create!(
+          user_id: current_affiliate&.id,
           affiliate_code: affiliate_code,
-          affiliate_user_id: current_affiliate&.id,
-          product_id: params[:product_id],
+          printful_product_id: params[:product_id],
           variant_id: params[:variant_id],
           image_url: params[:image_url],
           mockup_image_url: mockup_result[:mockup_url],
@@ -68,25 +65,20 @@ module Api
           product_name: product&.name || "Custom Product",
           variant_name: variant_name(variant),
           base_price: product&.base_price || 29.99,
-          estimated_shipping: estimated_shipping,
-          created_at: Time.current
-        }
-
-        # In production, store this in Redis with expiration
-        # For now, we'll return it and expect it to be passed back
-        Rails.cache.write("mockup_#{mockup_id}", mockup_data, expires_in: 24.hours)
+          estimated_shipping: estimated_shipping
+        )
 
         render json: {
           success: true,
           data: {
-            mockup_id: mockup_id,
-            mockup_image_url: mockup_result[:mockup_url],
-            original_image_url: params[:image_url],
-            product_name: mockup_data[:product_name],
-            variant_name: mockup_data[:variant_name],
-            base_price: mockup_data[:base_price],
-            estimated_shipping: estimated_shipping,
-            checkout_url: checkout_url(mockup_id)
+            mockup_id: mockup.token,
+            mockup_image_url: mockup.mockup_image_url,
+            original_image_url: mockup.image_url,
+            product_name: mockup.product_name,
+            variant_name: mockup.variant_name,
+            base_price: mockup.base_price.to_f,
+            estimated_shipping: mockup.estimated_shipping.to_f,
+            checkout_url: checkout_url(mockup.token)
           }
         }, status: :created
       end
