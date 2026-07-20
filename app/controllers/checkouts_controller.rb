@@ -91,9 +91,9 @@ class CheckoutsController < ApplicationController
   def success
     @order = if user_signed_in?
                Order.find_by(id: params[:order_id], user: current_user)
-             else
+    else
                Order.find_by(id: params[:order_id], user: nil)
-             end
+    end
   end
 
   def failure
@@ -131,5 +131,20 @@ class CheckoutsController < ApplicationController
       flash[:alert] = "Payment error: #{e.message}"
       redirect_to root_path
     end
+  end
+
+  # POST /checkout/complete
+  # Called by the mockup checkout page's JS after Stripe confirms payment.
+  # First-party endpoint protected by Rails CSRF (the page sends X-CSRF-Token),
+  # so no API key needs to be embedded in the page HTML. Payment verification
+  # happens inside OrderCreationService — same gate as the public API.
+  def complete
+    result = OrderCreationService.new(
+      mockup_id: params[:mockup_id],
+      payment_intent_id: params[:payment_intent_id],
+      shipping_address: params[:shipping_address] || {}
+    ).call
+
+    render json: result[:payload], status: result[:status]
   end
 end

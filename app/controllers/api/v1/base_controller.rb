@@ -16,9 +16,14 @@ module Api
       #   1. A per-affiliate key (X-API-Key: ak_...) — the preferred path. Sets
       #      @current_affiliate and derives @affiliate_code from it, so sales are
       #      attributed to the authenticated affiliate and cannot be spoofed.
-      #   2. The legacy shared API_PASSWORD / INTERNAL_API_KEY — kept as a
-      #      transitional fallback so integrations shipped before per-affiliate
-      #      keys keep working. Remove once all affiliates have migrated.
+      #   2. The legacy shared API_PASSWORD — kept as a transitional fallback
+      #      so integrations shipped before per-affiliate keys keep working.
+      #      Remove once all affiliates have migrated.
+      #
+      # INTERNAL_API_KEY support was removed 2026-07-20: its only consumer was
+      # the checkout page, which embedded it in client-visible HTML (leaked).
+      # The page now uses the CSRF-protected /checkout/complete endpoint.
+      # Delete the INTERNAL_API_KEY env var — the leaked value must not stay valid.
       def authenticate_api_key
         api_key = request.headers["X-API-Key"]
 
@@ -49,12 +54,6 @@ module Api
       # affiliate code ("password_AFF-000001"). Attribution here is only as
       # trustworthy as the shared secret, which is why per-affiliate keys exist.
       def authenticate_legacy_key(api_key)
-        internal_key = ENV["INTERNAL_API_KEY"]
-        if internal_key.present? && ActiveSupport::SecurityUtils.secure_compare(api_key, internal_key)
-          @affiliate_code = extract_affiliate_code(api_key)
-          return true
-        end
-
         expected_password = ENV["API_PASSWORD"]
         if expected_password.blank?
           Rails.logger.error "API_PASSWORD not configured"
@@ -63,9 +62,9 @@ module Api
 
         password_part = if api_key.include?("_AFF-")
                           api_key.split("_AFF-").first
-                        else
+        else
                           api_key
-                        end
+        end
 
         return false unless ActiveSupport::SecurityUtils.secure_compare(password_part, expected_password)
 

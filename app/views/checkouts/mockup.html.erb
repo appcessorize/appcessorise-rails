@@ -288,11 +288,11 @@
       };
 
       try {
-        const response = await fetch('/api/v1/orders', {
+        const response = await fetch('/checkout/complete', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'X-API-Key': '<%= ENV["INTERNAL_API_KEY"] %>'
+            'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
           },
           body: JSON.stringify({
             mockup_id: form.dataset.mockupId,

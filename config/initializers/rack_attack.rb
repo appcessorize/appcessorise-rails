@@ -21,6 +21,11 @@ class Rack::Attack
     req.ip if req.path == "/api/v1/orders" && req.post?
   end
 
+  # Throttle web checkout completion (same work as API order creation)
+  throttle("checkout/complete/ip", limit: 10, period: 1.minute) do |req|
+    req.ip if req.path == "/checkout/complete" && req.post?
+  end
+
   # Return appropriate response format
   self.throttled_responder = lambda do |request|
     match_data = request.env["rack.attack.match_data"]
@@ -31,13 +36,13 @@ class Rack::Attack
       [
         429,
         { "Content-Type" => "application/json", "Retry-After" => retry_after.to_s },
-        [{ error: "Rate limit exceeded. Retry in #{retry_after} seconds." }.to_json]
+        [ { error: "Rate limit exceeded. Retry in #{retry_after} seconds." }.to_json ]
       ]
     else
       [
         429,
         { "Content-Type" => "text/html", "Retry-After" => retry_after.to_s },
-        ["<html><body><h1>Too Many Requests</h1><p>Please retry in #{retry_after} seconds.</p></body></html>"]
+        [ "<html><body><h1>Too Many Requests</h1><p>Please retry in #{retry_after} seconds.</p></body></html>" ]
       ]
     end
   end

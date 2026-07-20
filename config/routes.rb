@@ -41,6 +41,7 @@ Rails.application.routes.draw do
   resources :contacts, only: [ :create ]
 
   # Printful mockup checkout
+  post "checkout/complete", to: "checkouts#complete", as: :checkout_complete
   get "checkout/:mockup_id", to: "checkouts#mockup", as: :checkout_mockup
 
   # API routes

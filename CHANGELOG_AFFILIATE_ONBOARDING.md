@@ -181,6 +181,21 @@ Ran on a separate branch after the affiliate work deployed. `bundle exec bundler
 
 **Status:** all checks green — full suite **26 runs, 0 failures**, Brakeman clean, bundler-audit clean, RuboCop clean. **Merged to `main` 2026-07-20** after the payment-verification fix; no migrations.
 
+### Security — remove leaked INTERNAL_API_KEY from checkout page (2026-07-20)
+
+**The hole:** `mockup.html.erb` embedded `ENV["INTERNAL_API_KEY"]` in client-visible HTML so the page's JS could call `/api/v1/orders`. Anyone could view-source the key and use it against the API (post-payment-fix blast radius: burning Printful mockup quota).
+
+**The fix:**
+- `app/services/order_creation_service.rb` (new) — order creation, payment verification, Printful submission and commission logic extracted from the API controller into one service.
+- `CheckoutsController#complete` (new, `POST /checkout/complete`) — first-party endpoint for the checkout page, protected by Rails CSRF instead of an API key. Same `OrderCreationService` gate — payment verification applies identically.
+- `mockup.html.erb` — JS now posts to `/checkout/complete` with `X-CSRF-Token`; the embedded key is gone.
+- `Api::V1::BaseController` — the `INTERNAL_API_KEY` auth path is **removed entirely** (its only consumer was this page, and the leaked value must not stay valid). Legacy `API_PASSWORD` fallback unchanged.
+- `rack_attack.rb` — `/checkout/complete` throttled like API order creation (10/min/IP).
+
+**⚠️ Operator action:** delete the `INTERNAL_API_KEY` env var from Coolify — the app no longer reads it, and the value should be treated as compromised.
+
+**Tests:** `test/integration/checkout_complete_test.rb` — keyless completion creates order + attribution; payment verification still gates the web path (fake intent → 402); checkout page HTML contains no `X-API-Key` and references the CSRF flow. Full suite 36 runs, 0 failures.
+
 ---
 
 ## Summary & follow-ups
