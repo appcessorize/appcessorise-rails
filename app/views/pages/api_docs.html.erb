@@ -212,6 +212,10 @@ X-API-Key: ak_your_key</pre>
           <code class="text-lg font-mono text-yellow-600 font-semibold">404 Not Found</code>
           <p class="text-[color-mix(in_oklab,oklch(21%_0.006_285.885)_70%,transparent)] mt-1">Resource not found (e.g., invalid mockup_id)</p>
         </div>
+        <div class="border-l-4 border-rose-500 pl-4">
+          <code class="text-lg font-mono text-rose-600 font-semibold">402 Payment Required</code>
+          <p class="text-[color-mix(in_oklab,oklch(21%_0.006_285.885)_70%,transparent)] mt-1">Payment verification failed on order creation — the payment intent doesn't exist, hasn't succeeded, doesn't match this mockup or its amount, or was already used for another order. Payment must be completed through the <code class="bg-[oklch(95%_0_0)] px-1 rounded">checkout_url</code> returned by the mockups endpoint.</p>
+        </div>
         <div class="border-l-4 border-purple-500 pl-4">
           <code class="text-lg font-mono text-purple-600 font-semibold">422 Unprocessable Entity</code>
           <p class="text-[color-mix(in_oklab,oklch(21%_0.006_285.885)_70%,transparent)] mt-1">Validation error or unable to process request</p>

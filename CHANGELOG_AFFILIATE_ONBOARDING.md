@@ -135,6 +135,27 @@ _(Done before Step 3 because it pairs directly with the auth work in Step 1.)_
 
 **Deploy notes:** view-only. Full suite green (22 runs, 0 failures).
 
+### Security — payment verification on the order API (branch `fix-payment-verification`)
+
+**The hole (critical, pre-existing):** `POST /api/v1/orders` accepted `payment_intent_id` as an unchecked client string, marked the order `paid`, and submitted a real Printful order. With open affiliate signup, anyone could ship themselves free merchandise billed to us.
+
+**The fix** — `app/controllers/api/v1/orders_controller.rb#verify_payment!` gates order creation on five checks against Stripe:
+1. Intent exists on OUR Stripe account (`PaymentIntent.retrieve`; callers can't mint intents here — only `checkouts#mockup` does, server-side)
+2. `status == "succeeded"`
+3. `metadata.mockup_id` matches the order's mockup (kills cross-mockup replay — `checkouts#mockup` stamps this when creating the intent)
+4. `amount_received` covers the quoted total (base + estimated shipping)
+5. Intent not already consumed by another order
+
+Failures return **402 Payment Required** (documented in `/api-docs`); Stripe outages return **503** rather than creating an unverified order.
+
+**Replay protection at the DB:** partial unique index on `custom_orders.stripe_payment_intent_id` (`20260720000000` migration — raises with instructions if prod already has duplicates, which would itself indicate past replays) + model-level uniqueness validation.
+
+**Legit flows unaffected:** the web mockup checkout (`mockup.html.erb` → same API) uses a genuine intent created for exactly the quoted total with matching metadata, so it passes all five checks.
+
+**Tests:** `test/integration/api/v1/orders_payment_verification_test.rb` — 7 cases: fake intent 402, unpaid 402, wrong-mockup 402, underpaid 402, replayed 402, Stripe-down 503 (no order created), genuine payment → 201 + order + commission.
+
+**Also noted (separate, not yet fixed):** `mockup.html.erb` embeds `ENV["INTERNAL_API_KEY"]` in client-visible HTML. With payment verification in place its blast radius is mockup generation (Printful quota), not free orders — still worth moving to a session-scoped internal endpoint.
+
 ---
 
 ## Summary & follow-ups

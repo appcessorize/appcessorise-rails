@@ -19,6 +19,9 @@ class CustomOrder < ApplicationRecord
   validates :total_price, presence: true, numericality: { greater_than: 0 }
   validates :recipient_name, :address_line1, :city, :state, :zip, :country, presence: true
   validates :payment_status, presence: true, inclusion: { in: %w[pending paid failed refunded disputed] }
+  # One Stripe payment pays for at most one order (replay protection; backed
+  # by a partial unique index).
+  validates :stripe_payment_intent_id, uniqueness: true, allow_nil: true
 
   # Callbacks
   before_validation :generate_order_number, on: :create

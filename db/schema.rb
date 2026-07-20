@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_19_000001) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_20_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -77,6 +77,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_19_000001) do
     t.index ["order_number"], name: "index_custom_orders_on_order_number", unique: true
     t.index ["payment_status"], name: "index_custom_orders_on_payment_status"
     t.index ["printful_status"], name: "index_custom_orders_on_printful_status"
+    t.index ["stripe_payment_intent_id"], name: "index_custom_orders_on_stripe_payment_intent_id_unique", unique: true, where: "(stripe_payment_intent_id IS NOT NULL)"
     t.index ["user_id"], name: "index_custom_orders_on_user_id"
   end
 

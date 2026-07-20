@@ -23,6 +23,16 @@ module Api
           return
         end
 
+        # Verify the payment actually happened before creating anything.
+        # payment_intent_id is client-supplied and MUST NOT be trusted: without
+        # this check anyone with an API key could submit fake ids and have real
+        # Printful orders shipped for free.
+        verification = verify_payment!(params[:payment_intent_id], params[:mockup_id], mockup_data)
+        unless verification[:ok]
+          render json: { success: false, error: verification[:error] }, status: verification[:status]
+          return
+        end
+
         # Recalculate shipping for the actual address to prevent price manipulation
         printful_service = PrintfulService.new
         shipping_result = printful_service.calculate_shipping(
@@ -120,6 +130,44 @@ module Api
       end
 
       private
+
+      # A payment is valid for this order only if ALL of these hold:
+      #   1. The PaymentIntent exists on OUR Stripe account (callers cannot mint
+      #      intents here — only checkouts#mockup does, server-side).
+      #   2. It succeeded (money actually captured).
+      #   3. Its metadata binds it to THIS mockup — an intent paid for a cheap
+      #      product cannot be replayed against an expensive one.
+      #   4. It covers the amount quoted when the intent was created
+      #      (base price + estimated shipping) — belt and braces with 3.
+      #   5. No other order has consumed it (replay protection; also enforced
+      #      by a unique index + model validation).
+      def verify_payment!(intent_id, mockup_id, mockup_data)
+        intent = Stripe::PaymentIntent.retrieve(intent_id)
+
+        unless intent.status == "succeeded"
+          return { ok: false, status: :payment_required, error: "Payment not completed" }
+        end
+
+        unless intent.metadata["mockup_id"] == mockup_id
+          return { ok: false, status: :payment_required, error: "Payment does not match this mockup" }
+        end
+
+        expected_cents = ((mockup_data[:base_price].to_f + mockup_data[:estimated_shipping].to_f) * 100).round
+        if intent.amount_received < expected_cents
+          return { ok: false, status: :payment_required, error: "Payment amount does not match order total" }
+        end
+
+        if CustomOrder.exists?(stripe_payment_intent_id: intent.id)
+          return { ok: false, status: :payment_required, error: "Payment already used for another order" }
+        end
+
+        { ok: true }
+      rescue Stripe::InvalidRequestError
+        { ok: false, status: :payment_required, error: "Payment not found" }
+      rescue Stripe::StripeError => e
+        Rails.logger.error "Stripe verification error: #{e.message}"
+        { ok: false, status: :service_unavailable, error: "Payment verification temporarily unavailable, please retry" }
+      end
 
       def required_params_present?
         params[:mockup_id].present? &&
