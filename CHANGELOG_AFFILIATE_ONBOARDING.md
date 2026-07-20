@@ -156,6 +156,31 @@ Failures return **402 Payment Required** (documented in `/api-docs`); Stripe out
 
 **Also noted (separate, not yet fixed):** `mockup.html.erb` embeds `ENV["INTERNAL_API_KEY"]` in client-visible HTML. With payment verification in place its blast radius is mockup generation (Printful quota), not free orders — still worth moving to a session-scoped internal endpoint.
 
+### Security — dependency bumps (branch `security-gem-bumps`)
+
+Ran on a separate branch after the affiliate work deployed. `bundle exec bundler-audit` had flagged **dozens** of advisories across framework and transitive gems; this clears them all (**bundler-audit: 0 remaining**).
+
+**Notable version changes**
+
+| Gem | From → To | Note |
+|---|---|---|
+| rails (+ actionpack/activesupport/activestorage/…) | 8.1.1 → 8.1.3 | XSS / DoS / path-traversal fixes |
+| rack | 3.2.4 → 3.2.6 | multipart/host/static fixes |
+| rack-session | 2.1.1 → 2.1.2 | session forgery fix |
+| **puma** | **7.1.0 → 8.0.2** | **major bump** (app server) — PROXY-protocol DoS fixes |
+| **devise** | **4.9.4 → 5.0.4** | **major bump** (auth) — open-redirect + confirmable fixes |
+| nokogiri | 1.18.10 → 1.19.4 | many memory-safety fixes |
+| jwt | 3.1.2 → 3.2.0 | empty-key HMAC bypass |
+| net-imap | 0.5.12 → 0.6.4.1 | command-injection fixes |
+| faraday, httparty, oauth2, loofah, rails-html-sanitizer, json, bcrypt, concurrent-ruby, addressable, msgpack, crass, action_text-trix, websocket-driver | various | patch/minor security fixes |
+| minitest | 5.26.1 → **5.27.0 (pinned `~> 5.25`)** | pinned back off the transitive 6.0 major, which dropped the `minitest/mock` path our tests use |
+
+**Verification of the two major bumps**
+- **Devise 5:** new `test/integration/registration_flow_test.rb` exercises the *real* Devise flow (not the `sign_in` helper) — sign-up/sign-in pages render, a real signup creates an affiliate + API key and authenticates, login works, wrong password is rejected.
+- **Puma 8:** booted the actual server — Puma 8.0.2 starts and serves `/`, `/up`, `/api-docs`, `/users/sign_in` (200) and the API (401 without key).
+
+**Status:** all checks green — full suite **26 runs, 0 failures**, Brakeman clean, bundler-audit clean, RuboCop clean. **Merged to `main` 2026-07-20** after the payment-verification fix; no migrations.
+
 ---
 
 ## Summary & follow-ups
