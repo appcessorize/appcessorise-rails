@@ -1,0 +1,319 @@
+<% content_for :title, "Appcessorise — There's money hiding in your pet portrait app" %>
+<% content_for :description, "Your users already make pet portraits they love. Some of them would pay to hold one. Earn #{commission_percent} of every sale while Appcessorise handles printing, shipping and support." %>
+
+<header class="site-header">
+  <div class="container nav">
+    <%= link_to "Appcessorise", pets_path, class: "brand" %>
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="#how">How it works</a>
+      <a href="#why">Why it works</a>
+      <a href="#catch">What's the catch</a>
+      <a href="#integration">Integration</a>
+      <%= link_to "Get started", contact_path, class: "nav-cta" %>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="container hero-copy">
+      <p class="eyebrow">For pet portrait apps</p>
+      <h1>There&rsquo;s money hiding in your app.</h1>
+      <p class="lede">
+        It&rsquo;s easier to find than you think. Your users already make pet portraits they love. Some of them would pay to hold one &mdash; and you&rsquo;d earn <%= commission_percent %> of every sale without touching a single order. Here&rsquo;s how.
+      </p>
+      <div class="actions">
+        <%= link_to "Get early access", new_user_registration_path, class: "button" %>
+        <a class="text-link" href="#how">See how it works</a>
+      </div>
+    </div>
+
+    <div class="container hero-visual">
+      <%= image_tag "pets/golden_retriever_merchandise_mockup.webp",
+                    class: "hero-product", width: 1600, height: 901, fetchpriority: "high",
+                    alt: "Golden retriever portrait printed on a canvas, mug and t-shirt" %>
+      <%= image_tag "pets/golden_retriever_portrait_app_screen.webp",
+                    class: "hero-phone", width: 450, height: 800, fetchpriority: "high",
+                    alt: "Pet portrait app showing products made from a user's pet portrait" %>
+    </div>
+  </section>
+
+  <section class="stats">
+    <div class="container stats-grid">
+      <div class="stat">
+        <span class="stat-value"><%= commission_percent %></span>
+        <span class="stat-label">of every sale goes to you</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">2 API calls</span>
+        <span class="stat-label">and you&rsquo;re selling</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">No stock</span>
+        <span class="stat-label">nothing exists until it&rsquo;s bought</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">No support</span>
+        <span class="stat-label">the emails come to us, not you</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="how" class="section">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">How it works</p>
+        <h2>Three steps. Two of them are ours.</h2>
+        <p class="lede">Your app already does the hard part. Everything after the image is finished belongs to us.</p>
+      </div>
+
+      <div class="flow-grid">
+        <article class="step">
+          <div class="step-copy">
+            <div class="step-number">01</div>
+            <h3>They make something they love.</h3>
+            <p>Nothing changes. This is the app you already have.</p>
+          </div>
+          <div class="step-art">
+            <%= image_tag "pets/golden_retriever_portrait_app_success_screen.webp",
+                          width: 450, height: 800, loading: "lazy", decoding: "async",
+                          alt: "Generated portrait of a pet inside a pet portrait app" %>
+          </div>
+        </article>
+
+        <article class="step">
+          <div class="step-copy">
+            <div class="step-number">02</div>
+            <h3>You show them what it could become.</h3>
+            <p>A canvas. A mug. A phone case. Offered while they&rsquo;re still smiling at the screen.</p>
+          </div>
+          <div class="step-art">
+            <%= image_tag "pets/golden_retriever_merchandise_showcase.webp",
+                          width: 900, height: 675, loading: "lazy", decoding: "async",
+                          alt: "Pet portrait shown as a range of personalised products" %>
+          </div>
+        </article>
+
+        <article class="step">
+          <div class="step-copy">
+            <div class="step-number">03</div>
+            <h3>We do everything else.</h3>
+            <p>Payment, printing, packing, shipping and every support email. You just get paid.</p>
+          </div>
+          <div class="step-art">
+            <%= image_tag "pets/pet_portrait_product_showcase.webp",
+                          width: 450, height: 800, loading: "lazy", decoding: "async",
+                          alt: "Product picker showing personalised pet portrait products" %>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="why" class="section why">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">The opportunity</p>
+        <h2>Stop leaving money on the table.</h2>
+        <p class="lede">Every portrait your app makes is worth nothing to you the moment your user taps save. That&rsquo;s the money on the table. It&rsquo;s easier to pick up than you think, and here&rsquo;s why.</p>
+      </div>
+
+      <div class="why-grid">
+        <div class="why-image">
+          <%= image_tag "pets/heartwarming_hug_with_a_golden_retriever.webp",
+                        width: 1200, height: 900, loading: "lazy", decoding: "async",
+                        alt: "Pet owner hugging a golden retriever" %>
+        </div>
+
+        <div class="why-copy">
+          <h3>A pet portrait isn&rsquo;t just an image.</h3>
+          <p class="lede">It&rsquo;s a picture of someone they love. That changes everything. Nobody hangs a random generated image on the wall. But their own dog? That becomes a canvas. That becomes a gift. That ends up on a mug they hold every morning.</p>
+          <ul class="reason-list">
+            <li>They already save their favourite results.</li>
+            <li>They already send them to friends and family.</li>
+            <li>Nobody else on earth can buy their pet&rsquo;s portrait.</li>
+            <li>Some of them are printing these already, somewhere else.</li>
+            <li>Every one of those sales could have been yours.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section any-pet">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Whatever your users create</p>
+        <h2>If your app can make it, we can print it.</h2>
+        <p class="lede">Dogs, cats, rabbits, parrots. Painterly, illustrated, photoreal or strange. Send us the finished image and we&rsquo;ll turn it into a print-ready file.</p>
+      </div>
+
+      <div class="any-pet-row">
+        <figure>
+          <div class="any-pet-art">
+            <%= image_tag "pets/painterly_golden_retriever_portrait.webp",
+                          width: 900, height: 900, loading: "lazy", decoding: "async",
+                          alt: "Painterly portrait of a golden retriever" %>
+          </div>
+          <figcaption>Golden retriever, painterly</figcaption>
+        </figure>
+
+        <figure>
+          <div class="any-pet-art">
+            <%= image_tag "pets/painterly_tabby_cat_portrait.webp",
+                          width: 900, height: 900, loading: "lazy", decoding: "async",
+                          alt: "Painterly portrait of a tabby cat" %>
+          </div>
+          <figcaption>Tabby cat, painterly</figcaption>
+        </figure>
+
+        <figure>
+          <div class="any-pet-art">
+            <%= image_tag "pets/joyful_apricot_poodle_portrait.webp",
+                          width: 900, height: 900, loading: "lazy", decoding: "async",
+                          alt: "Illustrated portrait of an apricot poodle" %>
+          </div>
+          <figcaption>Apricot poodle, illustrated</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Start small</p>
+        <h2>Three products are enough to find out.</h2>
+        <p class="lede">You don&rsquo;t need a catalogue. Start with the three people already understand, see what sells, and add more only when your own numbers tell you to.</p>
+      </div>
+
+      <div class="products-row">
+        <article class="product">
+          <div class="product-art">
+            <%= image_tag "pets/painterly_golden_retriever_portrait.webp",
+                          width: 900, height: 900, loading: "lazy", decoding: "async",
+                          alt: "Painterly golden retriever portrait prepared as a canvas print" %>
+          </div>
+          <h3>Canvas</h3>
+          <p>The one they hang. Highest price, and the easiest to justify.</p>
+        </article>
+
+        <article class="product">
+          <div class="product-art">
+            <%= image_tag "pets/golden_retriever_merchandise_mockup.webp",
+                          width: 1600, height: 901, loading: "lazy", decoding: "async",
+                          alt: "Golden retriever portrait printed on a personalised mug, shown with a canvas and t-shirt" %>
+          </div>
+          <h3>Mug</h3>
+          <p>The impulse buy. Cheap enough to say yes to without thinking.</p>
+        </article>
+
+        <article class="product">
+          <div class="product-art">
+            <%= image_tag "pets/golden_retriever_merchandise_showcase.webp",
+                          width: 900, height: 675, loading: "lazy", decoding: "async",
+                          alt: "Golden retriever portrait printed on a personalised phone case, shown with a canvas and mug" %>
+          </div>
+          <h3>Phone case</h3>
+          <p>The one they see forty times a day, and everyone else sees too.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="catch" class="section catch">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Honest answers</p>
+        <h2>So what&rsquo;s the catch?</h2>
+        <p class="lede">Fair question. I&rsquo;d be asking it too. So here is every objection I could think of, answered straight.</p>
+      </div>
+
+      <ul class="catch-list">
+        <li>
+          <p class="catch-q">Do I have to build a store?</p>
+          <p class="catch-a">No. Two API calls. Your app sends us the image, we send back a checkout link. There is no catalogue to set up, no shop tab, no pricing page to design and nothing new for your users to learn.</p>
+        </li>
+        <li>
+          <p class="catch-q">Do I have to buy stock?</p>
+          <p class="catch-a">No. Nothing exists until somebody orders it. No inventory, no minimum order, no warehouse, and no boxes of unsold mugs in your hallway.</p>
+        </li>
+        <li>
+          <p class="catch-q">What happens when an order goes wrong?</p>
+          <p class="catch-a">It comes to us. Printing, packing, shipping, damaged items, refunds and every &ldquo;where is my order&rdquo; email are ours. You will never see a support ticket.</p>
+        </li>
+        <li>
+          <p class="catch-q">What does it cost me?</p>
+          <p class="catch-a">Nothing. It is free to integrate during early access, there is no monthly fee, and you earn <%= commission_percent %> of every sale from the very first order.</p>
+        </li>
+        <li>
+          <p class="catch-q">What if my users don&rsquo;t buy?</p>
+          <p class="catch-a">Then you spent an afternoon on it and lost nothing. That is genuinely the worst case. There is no stock to write off and no contract to leave. The best case is a revenue line that runs itself while you work on your actual app.</p>
+        </li>
+      </ul>
+
+      <p class="catch-close">Still sceptical? Then look at the integration. It&rsquo;s about ten lines.</p>
+    </div>
+  </section>
+
+  <section id="integration" class="section integration">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">For developers</p>
+        <h2>This is the whole integration.</h2>
+        <p class="lede">Your app supplies the image. We supply the product, the preview and the checkout. That&rsquo;s the entire contract between us.</p>
+      </div>
+
+      <div class="integration-grid">
+        <div class="integration-copy">
+          <h3>You do two things.</h3>
+          <p>Send the image. Open the checkout. We take it from there.</p>
+          <ul class="integration-list">
+            <li><span>Generate the portrait</span><span>Your app</span></li>
+            <li><span>Create the products</span><span>API call 1</span></li>
+            <li><span>Start checkout</span><span>API call 2</span></li>
+            <li><span>Take payment</span><span>Appcessorise</span></li>
+            <li><span>Print and ship</span><span>Appcessorise</span></li>
+            <li><span>Handle customer support</span><span>Appcessorise</span></li>
+            <li><span>Your share of the sale</span><span><%= commission_percent %></span></li>
+          </ul>
+          <p style="margin-top:var(--s-6)">
+            <%= link_to "Read the API docs", api_docs_path, class: "text-link" %>
+          </p>
+        </div>
+
+        <pre class="code"><span class="keyword">const</span> { <span class="property">mockup_image_url</span>, <span class="property">checkout_url</span> } =
+  <span class="keyword">await</span> appcessorise.create({
+    image_url: <span class="value">petPortrait</span>,
+    product: <span class="string">"canvas"</span>
+  });
+
+show(mockup_image_url);
+open(checkout_url);</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="container cta-inner">
+      <p class="eyebrow">Early access</p>
+      <h2>Find out what your app could be earning.</h2>
+      <p class="lede">Send me your app. I&rsquo;ll tell you where the button goes, which product to offer first and what I&rsquo;d expect it to make. No charge, and no pitch.</p>
+      <div class="actions">
+        <%= link_to "Show me the opportunity", contact_path, class: "button" %>
+      </div>
+      <div class="cta-meta">Free to integrate during early access</div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <strong>Appcessorise</strong>
+    <span>Physical products for image apps &middot; <%= link_to "Main site", root_path %></span>
+  </div>
+</footer>
+
+<div class="mobile-bar">
+  <%= link_to "See what my app could sell", contact_path, class: "button" %>
+</div>

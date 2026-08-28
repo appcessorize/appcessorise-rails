@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title><%= content_for(:title) || "Appcessorise" %></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <meta name="description" content="<%= content_for(:description) %>">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐾</text></svg>">
+
+    <%# Standalone stylesheet: this page deliberately does not load the Tailwind bundle. %>
+    <%= stylesheet_link_tag "pets", "data-turbo-track": "reload" %>
+
+    <%# Umami Analytics %>
+    <script defer src="https://umamipod.pikapod.net/script.js" data-website-id="140abb9a-6f9c-47dc-97de-bd7f712eec79"></script>
+  </head>
+
+  <body>
+    <%= yield %>
+  </body>
+</html>

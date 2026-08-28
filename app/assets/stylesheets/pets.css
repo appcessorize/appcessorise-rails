@@ -1,0 +1,646 @@
+/*
+ * Standalone stylesheet for the /pets landing page.
+ * Deliberately independent of the Tailwind build: the pets layout loads only
+ * this file, so nothing here can leak into (or be overridden by) the main site.
+ */
+:root{
+  /* Spacing scale: 4 8 12 16 24 32 48 64 96 128 */
+  --s-1:4px;
+  --s-2:8px;
+  --s-3:12px;
+  --s-4:16px;
+  --s-5:24px;
+  --s-6:32px;
+  --s-7:48px;
+  --s-8:64px;
+  --s-9:96px;
+  --s-10:128px;
+
+  /* Grey ramp */
+  --grey-50:hsl(240, 20%, 99%);
+  --grey-100:hsl(240, 14%, 97%);
+  --grey-200:hsl(240, 9%, 93%);
+  --grey-300:hsl(240, 7%, 86%);
+  --grey-400:hsl(240, 5%, 64%);
+  --grey-500:hsl(240, 4%, 44%);
+  --grey-600:hsl(240, 5%, 32%);
+  --grey-700:hsl(240, 6%, 24%);
+  --grey-800:hsl(240, 7%, 16%);
+  --grey-900:hsl(240, 8%, 10%);
+
+  /* Primary ramp */
+  --blue-100:hsl(211, 100%, 96%);
+  --blue-200:hsl(211, 100%, 90%);
+  --blue-300:hsl(211, 100%, 80%);
+  --blue-400:hsl(211, 100%, 64%);
+  --blue-500:hsl(211, 100%, 45%);
+  --blue-600:hsl(211, 100%, 38%);
+  --blue-700:hsl(211, 100%, 31%);
+  --blue-800:hsl(211, 100%, 26%);
+  --blue-900:hsl(211, 100%, 21%);
+
+  --surface:var(--grey-50);
+  --surface-raised:hsl(0, 0%, 100%);
+  --surface-muted:var(--grey-100);
+  --text-primary:var(--grey-900);
+  --text-secondary:var(--grey-500);
+  --text-tertiary:var(--grey-500);
+  --action:var(--blue-600);
+  --action-hover:var(--blue-700);
+  --line:var(--grey-200);
+
+  --radius:16px;
+
+  --shadow-1:
+    0 1px 3px hsla(0,0%,0%,.12),
+    0 1px 2px hsla(0,0%,0%,.20);
+  --shadow-3:
+    0 10px 20px hsla(0,0%,0%,.14),
+    0 3px 6px hsla(0,0%,0%,.08);
+
+  --max:1120px;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  color:var(--text-primary);
+  background:var(--surface-raised);
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;
+  font-size:16px;
+  font-weight:400;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+/* height:auto is required: the markup sets width/height attributes to reserve
+   layout space, and without this the attribute's height wins wherever CSS
+   sets only a width (e.g. .hero-phone), pinning the image to that height. */
+img{display:block;max-width:100%;height:auto}
+a{color:inherit;text-decoration:none}
+.container{width:min(var(--max),calc(100% - var(--s-7)));margin-inline:auto}
+
+/* Visible keyboard focus, since the page strips default link styling */
+a:focus-visible{
+  outline:2px solid var(--action);
+  outline-offset:3px;
+  border-radius:4px;
+}
+
+/* Navigation */
+.site-header{
+  position:sticky;
+  top:0;
+  z-index:20;
+  background:hsla(0,0%,100%,.92);
+  backdrop-filter:blur(16px);
+}
+.nav{
+  min-height:64px;
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:var(--s-5);
+}
+.brand{
+  font-size:18px;
+  font-weight:700;
+  letter-spacing:-.02em;
+}
+.nav-links{
+  display:flex;
+  align-items:baseline;
+  gap:var(--s-5);
+  font-size:14px;
+  font-weight:500;
+  color:var(--text-secondary);
+}
+.nav-links a:hover{color:var(--text-primary)}
+.nav-cta{
+  color:var(--action)!important;
+  font-weight:700;
+}
+
+/* Typography */
+.eyebrow{
+  margin:0 0 var(--s-4);
+  color:var(--text-secondary);
+  font-size:14px;
+  font-weight:700;
+}
+h1,h2,h3,p{margin-top:0}
+h1{
+  max-width:12em;
+  margin-inline:auto;
+  margin-bottom:var(--s-5);
+  font-size:72px;
+  line-height:1;
+  letter-spacing:-.05em;
+  font-weight:700;
+}
+h2{
+  margin-bottom:var(--s-5);
+  font-size:48px;
+  line-height:1;
+  letter-spacing:-.04em;
+  font-weight:700;
+}
+h3{
+  margin-bottom:var(--s-3);
+  font-size:24px;
+  line-height:1.2;
+  letter-spacing:-.02em;
+  font-weight:700;
+}
+.lede{
+  max-width:30em;
+  color:var(--text-secondary);
+  font-size:20px;
+  line-height:1.5;
+}
+
+/* Actions */
+.actions{
+  display:flex;
+  align-items:baseline;
+  gap:var(--s-5);
+}
+.button{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:48px;
+  padding:0 var(--s-5);
+  border-radius:var(--radius);
+  background:var(--action);
+  color:hsl(0,0%,100%);
+  font-size:16px;
+  font-weight:700;
+  box-shadow:
+    inset 0 1px 0 var(--blue-400),
+    var(--shadow-1);
+}
+.button:hover{background:var(--action-hover)}
+.button:active{
+  transform:translateY(1px);
+  box-shadow:
+    inset 0 1px 0 var(--blue-500),
+    0 1px 2px hsla(0,0%,0%,.16);
+}
+.text-link{
+  color:var(--action);
+  font-size:16px;
+  font-weight:700;
+}
+.text-link::after{content:" \2192"}
+
+/* Hero */
+.hero{
+  padding:var(--s-9) 0 0;
+  background:var(--surface);
+  overflow:hidden;
+}
+.hero-copy{
+  max-width:896px;
+  margin-inline:auto;
+  text-align:center;
+}
+.hero-copy .lede{margin-inline:auto}
+.hero-copy .actions{
+  justify-content:center;
+  margin-top:var(--s-6);
+}
+.hero-visual{
+  position:relative;
+  max-width:1024px;
+  min-height:512px;
+  margin:var(--s-7) auto 0;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+}
+.hero-product{
+  width:min(896px,94%);
+  object-fit:contain;
+  filter:
+    drop-shadow(0 10px 20px hsla(0,0%,0%,.12))
+    drop-shadow(0 3px 6px hsla(0,0%,0%,.06));
+}
+.hero-phone{
+  position:absolute;
+  left:var(--s-5);
+  bottom:0;
+  width:192px;
+  filter:
+    drop-shadow(0 10px 20px hsla(0,0%,0%,.16))
+    drop-shadow(0 3px 6px hsla(0,0%,0%,.10));
+}
+
+.stats{
+  background:var(--surface-raised);
+}
+.stats-grid{
+  min-height:128px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+}
+.stat{
+  padding:var(--s-6) var(--s-5);
+  text-align:center;
+}
+.stat-value{
+  display:block;
+  margin-bottom:var(--s-2);
+  font-size:24px;
+  font-weight:700;
+}
+.stat-label{
+  display:block;
+  color:var(--text-secondary);
+  font-size:14px;
+}
+
+/* Section structure */
+.section{
+  padding:var(--s-10) 0;
+}
+.section-head{
+  max-width:768px;
+  margin:0 auto var(--s-8);
+  text-align:center;
+}
+.section-head .lede{margin-inline:auto}
+
+/* Flow */
+.flow-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:var(--s-6);
+}
+/* Each step is its own grid column, so headings of differing length used to
+   leave the art boxes at different heights. Letting the copy flex pushes every
+   art box to the bottom of its column, aligning them across the row. */
+.step{
+  display:flex;
+  flex-direction:column;
+}
+.step-copy{
+  flex:1;
+  margin-bottom:var(--s-5);
+}
+.step-number{
+  margin-bottom:var(--s-3);
+  color:var(--text-secondary);
+  font-size:14px;
+  font-weight:700;
+}
+.step p{
+  max-width:28em;
+  margin-bottom:0;
+  color:var(--text-secondary);
+  font-size:16px;
+}
+.step-art{
+  min-height:384px;
+  padding:var(--s-5) var(--s-5) 0;
+  display:grid;
+  place-items:end center;
+  overflow:hidden;
+  border-radius:var(--radius);
+  background:var(--surface-muted);
+}
+.step-art img{
+  max-height:360px;
+  object-fit:contain;
+  object-position:center bottom;
+}
+
+/* Why pets */
+.why{
+  background:var(--surface);
+}
+.why-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:var(--s-8);
+  align-items:center;
+}
+.why-image{
+  min-height:512px;
+  padding:var(--s-7);
+  display:grid;
+  place-items:center;
+  border-radius:var(--radius);
+  background:var(--surface-raised);
+}
+.why-image img{
+  max-height:448px;
+  object-fit:contain;
+}
+.why-copy .lede{font-size:18px}
+.reason-list{
+  margin:var(--s-6) 0 0;
+  padding:0;
+  list-style:none;
+}
+.reason-list li{
+  padding:var(--s-4) 0;
+  border-top:1px solid var(--line);
+  color:var(--grey-700);
+  font-size:16px;
+  font-weight:500;
+}
+.reason-list li:last-child{border-bottom:1px solid var(--line)}
+
+/* Any pet */
+.any-pet-row{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:var(--s-6);
+  margin-top:var(--s-7);
+}
+.any-pet figure{margin:0}
+.any-pet-art{
+  aspect-ratio:1;
+  overflow:hidden;
+  border-radius:var(--radius);
+  background:var(--surface-muted);
+}
+.any-pet-art img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+.any-pet figcaption{
+  margin-top:var(--s-3);
+  color:var(--text-secondary);
+  font-size:14px;
+  font-weight:500;
+}
+
+/* What's the catch — objection handling */
+.catch{
+  background:var(--surface);
+}
+.catch-list{
+  max-width:768px;
+  margin:0 auto;
+  padding:0;
+  list-style:none;
+}
+.catch-list li{
+  padding:var(--s-5) 0;
+  border-top:1px solid var(--line);
+}
+.catch-list li:last-child{
+  border-bottom:1px solid var(--line);
+}
+.catch-q{
+  margin-bottom:var(--s-2);
+  font-size:20px;
+  line-height:1.3;
+  letter-spacing:-.01em;
+  font-weight:700;
+}
+.catch-a{
+  max-width:62ch;
+  margin-bottom:0;
+  color:var(--text-secondary);
+  font-size:16px;
+}
+.catch-close{
+  max-width:768px;
+  margin:var(--s-7) auto 0;
+  text-align:center;
+  color:var(--text-secondary);
+  font-size:18px;
+}
+
+/* Products */
+.products-row{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:var(--s-6);
+}
+.product{
+  min-width:0;
+}
+.product-art{
+  height:320px;
+  margin-bottom:var(--s-5);
+  padding:var(--s-5);
+  display:grid;
+  place-items:center;
+  border-radius:var(--radius);
+  background:var(--surface-muted);
+}
+.product-art img{
+  width:100%;
+  height:272px;
+  object-fit:contain;
+}
+.product p{
+  max-width:26em;
+  margin-bottom:0;
+  color:var(--text-secondary);
+  font-size:14px;
+}
+
+/* Integration */
+.integration{
+  background:var(--grey-900);
+  color:hsl(240, 14%, 97%);
+}
+.integration .eyebrow{color:hsl(211, 40%, 72%)}
+.integration .section-head .lede{color:hsl(240, 8%, 72%)}
+.integration-grid{
+  display:grid;
+  grid-template-columns:384px 1fr;
+  gap:var(--s-8);
+  align-items:start;
+}
+.integration-copy h3{font-size:30px}
+.integration-copy p{
+  color:hsl(240, 8%, 72%);
+  font-size:16px;
+}
+.integration-list{
+  margin:var(--s-6) 0 0;
+  padding:0;
+  list-style:none;
+}
+.integration-list li{
+  display:flex;
+  justify-content:space-between;
+  gap:var(--s-5);
+  padding:var(--s-4) 0;
+  border-top:1px solid hsl(240, 6%, 24%);
+  font-size:14px;
+}
+.integration-list li:last-child{border-bottom:1px solid hsl(240, 6%, 24%)}
+.integration-list span:last-child{
+  color:hsl(211, 40%, 72%);
+  font-weight:700;
+}
+.code{
+  margin:0;
+  padding:var(--s-6);
+  overflow:auto;
+  border-radius:var(--radius);
+  background:var(--grey-800);
+  color:hsl(240, 14%, 97%);
+  font:14px/1.75 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  box-shadow:inset 0 2px 2px hsla(0,0%,0%,.24);
+}
+.code .keyword{color:hsl(280, 70%, 75%)}
+.code .property{color:hsl(195, 90%, 72%)}
+.code .value{color:hsl(140, 55%, 70%)}
+.code .string{color:hsl(48, 90%, 72%)}
+
+/* CTA */
+.cta{
+  padding:var(--s-10) 0;
+  background:var(--surface-raised);
+}
+.cta-inner{
+  max-width:704px;
+  margin-inline:auto;
+  text-align:center;
+}
+.cta-inner .lede{margin-inline:auto}
+.cta-inner .actions{
+  justify-content:center;
+  margin-top:var(--s-6);
+}
+.cta-meta{
+  margin-top:var(--s-4);
+  color:var(--text-secondary);
+  font-size:14px;
+}
+
+/* Footer */
+.site-footer{
+  padding:var(--s-5) 0;
+  background:var(--surface-muted);
+  color:var(--text-secondary);
+  font-size:12px;
+}
+.footer-inner{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:var(--s-5);
+}
+.footer-inner a:hover{color:var(--text-primary)}
+
+.mobile-bar{display:none}
+
+@media(max-width:960px){
+  .nav-links a:not(.nav-cta){display:none}
+  h1{font-size:60px}
+  h2{font-size:36px}
+  .hero{padding-top:var(--s-8)}
+  .hero-visual{min-height:448px}
+  .hero-phone{width:160px}
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .flow-grid,.products-row{grid-template-columns:1fr}
+  .step{
+    display:grid;
+    grid-template-columns:240px 1fr;
+    gap:var(--s-6);
+    align-items:start;
+  }
+  .step-art{min-height:320px}
+  .why-grid{grid-template-columns:1fr}
+  .why-image{min-height:448px}
+  .integration-grid{grid-template-columns:1fr}
+}
+
+@media(max-width:640px){
+  body{padding-bottom:64px}
+  .container{width:min(var(--max),calc(100% - var(--s-6)))}
+  .site-header{position:relative}
+  .nav{min-height:64px}
+  .nav-cta{display:none}
+
+  h1{
+    max-width:9em;
+    font-size:48px;
+    letter-spacing:-.04em;
+  }
+  h2{font-size:36px}
+  h3{font-size:24px}
+  .lede{font-size:18px}
+
+  .hero{padding-top:var(--s-8)}
+  .hero-copy .actions{gap:var(--s-4)}
+  .hero-visual{
+    min-height:320px;
+    margin-top:var(--s-6);
+  }
+  .hero-phone{
+    left:0;
+    width:128px;
+  }
+
+  .stats-grid{grid-template-columns:1fr}
+  .stat{
+    padding:var(--s-5) 0;
+    text-align:left;
+  }
+  .stat + .stat{border-top:1px solid var(--line)}
+
+  .section,.cta{padding:var(--s-9) 0}
+  .section-head{
+    margin-bottom:var(--s-7);
+    text-align:left;
+  }
+  .section-head .lede{margin-inline:0}
+
+  .flow-grid{gap:var(--s-8)}
+  .step{
+    display:block;
+  }
+  .step-copy{margin-bottom:var(--s-5)}
+  .step-art{
+    min-height:320px;
+    padding:var(--s-4) var(--s-4) 0;
+  }
+
+  .why-grid{gap:var(--s-7)}
+  .why-image{
+    min-height:384px;
+    padding:var(--s-5);
+  }
+  .any-pet-row{gap:var(--s-4)}
+  .catch-list li{padding:var(--s-4) 0}
+  .catch-q{font-size:18px}
+  .catch-close{text-align:left;font-size:16px}
+  .products-row{gap:var(--s-8)}
+  .product-art{
+    height:288px;
+    padding:var(--s-4);
+  }
+  .product-art img{height:256px}
+
+  .integration-grid{gap:var(--s-7)}
+  .code{padding:var(--s-5)}
+
+  .cta-inner{text-align:left}
+  .cta-inner .lede{margin-inline:0}
+  .cta-inner .actions{justify-content:flex-start}
+
+  .footer-inner{align-items:flex-start;flex-direction:column}
+
+  .mobile-bar{
+    position:fixed;
+    left:0;right:0;bottom:0;
+    z-index:30;
+    display:block;
+    padding:var(--s-2) var(--s-4);
+    background:hsla(0,0%,100%,.94);
+    backdrop-filter:blur(16px);
+    border-top:1px solid var(--line);
+  }
+  .mobile-bar .button{width:100%}
+}

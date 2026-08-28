@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   root "pages#home"
 
   get "about", to: "pages#about"
+  get "pets", to: "pages#pets"
   get "api-docs", to: "pages#api_docs"
   get "products", to: "products#index"
   get "products/:id", to: "products#show", as: :product
