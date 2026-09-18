@@ -1,6 +1,18 @@
 class WebhooksController < ApplicationController
   skip_before_action :verify_authenticity_token
 
+  # Printful renamed its webhook events in API v2 (shipment_sent etc.); the v1
+  # names are still accepted so an old registration keeps working.
+  PRINTFUL_EVENTS = {
+    "shipment_sent" => :handle_package_shipped,
+    "package_shipped" => :handle_package_shipped,
+    "shipment_returned" => :handle_package_returned,
+    "package_returned" => :handle_package_returned,
+    "order_failed" => :handle_order_failed,
+    "order_canceled" => :handle_order_canceled,
+    "order_put_hold" => :handle_order_failed
+  }.freeze
+
   def printful
     @raw_body = request.body.read
     request.body.rewind
@@ -16,15 +28,8 @@ class WebhooksController < ApplicationController
     event_type = payload["type"]
     order_data = payload["data"]
 
-    case event_type
-    when "package_shipped"
-      handle_package_shipped(order_data)
-    when "package_returned"
-      handle_package_returned(order_data)
-    when "order_failed"
-      handle_order_failed(order_data)
-    when "order_canceled"
-      handle_order_canceled(order_data)
+    if (handler = PRINTFUL_EVENTS[event_type])
+      send(handler, order_data)
     else
       Rails.logger.info "Unhandled Printful webhook event: #{event_type}"
     end
@@ -139,24 +144,28 @@ class WebhooksController < ApplicationController
 
   # --- Printful handlers ---
 
+  # Printful signs v2 webhooks with HMAC-SHA256 over the raw body and sends the
+  # hex digest in x-pf-webhook-signature. The secret comes back from
+  # POST /v2/webhooks (rake printful:register_webhook) as a hex string, so it
+  # has to be decoded to raw bytes before being used as the HMAC key.
   def verify_printful_signature
-    # Printful uses a webhook secret for verification
-    # The secret is sent in the X-Printful-Signature header
-    signature = request.headers["X-Printful-Signature"]
-    webhook_secret = ENV["PRINTFUL_WEBHOOK_SECRET"]
+    secret = ENV["PRINTFUL_WEBHOOK_SECRET"].to_s.strip
+    signature = request.headers["x-pf-webhook-signature"].to_s
 
-    # In development, skip verification if no secret is set
-    return true if Rails.env.development? && webhook_secret.blank?
+    if secret.blank?
+      return true if Rails.env.development?
+      Rails.logger.error "PRINTFUL_WEBHOOK_SECRET is not set — rejecting webhook"
+      return false
+    end
 
-    # Verify the signature matches
-    # Printful uses HMAC SHA256
-    expected_signature = OpenSSL::HMAC.hexdigest(
-      OpenSSL::Digest.new("sha256"),
-      webhook_secret,
-      @raw_body
-    )
+    return false if signature.blank?
 
-    ActiveSupport::SecurityUtils.secure_compare(signature.to_s, expected_signature)
+    expected = OpenSSL::HMAC.hexdigest("SHA256", decoded_webhook_secret(secret), @raw_body)
+    ActiveSupport::SecurityUtils.secure_compare(signature.downcase, expected)
+  end
+
+  def decoded_webhook_secret(secret)
+    secret.match?(/\A(?:\h\h)+\z/) ? [ secret ].pack("H*") : secret
   end
 
   def handle_package_shipped(order_data)
@@ -166,9 +175,11 @@ class WebhooksController < ApplicationController
     order = CustomOrder.find_by(printful_order_id: printful_order_id)
     return unless order
 
-    shipments = order_data.dig("shipment") || []
-    tracking_number = shipments.first&.dig("tracking_number")
-    tracking_url = shipments.first&.dig("tracking_url")
+    # v1 sent an array of shipments, v2 sends a single shipment object.
+    shipment = order_data["shipment"]
+    shipment = shipment.first if shipment.is_a?(Array)
+    tracking_number = shipment&.dig("tracking_number")
+    tracking_url = shipment&.dig("tracking_url")
 
     order.update(
       printful_status: "shipped",

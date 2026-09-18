@@ -1,0 +1,102 @@
+<%= render layout: "shared/legal", locals: { heading: "Terms of Service" } do %>
+  <% details = legal_details %>
+
+  <h2>1. Who we are</h2>
+  <p>
+    Appcessorise ("we", "us") provides the service described below. These terms apply to everyone who
+    uses the website, the API, or buys a product through us. By creating an account, generating an API
+    key, or placing an order, you agree to them.
+  </p>
+
+  <h2>2. What the service does</h2>
+  <p>
+    We let app developers add custom printed products to their apps. You send us artwork through our API,
+    we generate a product mockup, and if a customer buys it we produce and ship the item through our
+    print partner, Printful. Developers earn a commission on sales they refer.
+  </p>
+
+  <h2>3. Accounts and API keys</h2>
+  <ul>
+    <li>You are responsible for everything done with your API key. Keep it secret and never ship it in client-side code.</li>
+    <li>You can rotate your key at any time from your dashboard. Rotate it immediately if you think it has leaked.</li>
+    <li>We may suspend an account or key that is abusing the service, breaking these terms, or putting customers at risk.</li>
+    <li>You must be at least 18, or old enough to enter a contract where you live.</li>
+  </ul>
+
+  <h2>4. Your artwork and content</h2>
+  <p>
+    You keep ownership of the artwork you or your users upload. You grant us and our print partner a
+    licence to reproduce it for the purpose of making and delivering the ordered item, and to display a
+    mockup of it back to you.
+  </p>
+  <p>
+    You confirm that you have the right to use every image you send us. Do not upload anything that
+    infringes copyright or trademarks, uses someone's likeness without permission, or is unlawful,
+    hateful or sexually explicit. We may refuse or cancel any order, and pass on details to rights
+    holders where the law requires it.
+  </p>
+
+  <h2>5. Orders, prices and payment</h2>
+  <ul>
+    <li>Prices are shown in US dollars and are calculated by us at checkout. A price shown in an app is an invitation to order, not a binding offer.</li>
+    <li>Payment is taken by Stripe. We never see or store full card details.</li>
+    <li>A contract is formed when we confirm your order by email, not when payment is authorised.</li>
+    <li>Taxes and any import duties may be added depending on the delivery address, and are the customer's responsibility unless stated otherwise at checkout.</li>
+    <li>If an order cannot be produced, we cancel it and refund in full.</li>
+  </ul>
+
+  <h2>6. Production and delivery</h2>
+  <p>
+    Items are printed on demand by Printful and shipped directly to the customer. Delivery estimates are
+    estimates, not guarantees, and do not include customs delays. Risk passes to the customer on delivery.
+  </p>
+
+  <h2>7. Returns and refunds</h2>
+  <p>
+    Items are made to order, so our returns policy is limited. See the <%= link_to "Refunds & Returns Policy", refunds_path %>,
+    which forms part of these terms. Nothing in it removes statutory consumer rights that apply where you live.
+  </p>
+
+  <h2>8. Developer commissions</h2>
+  <ul>
+    <li>Developers earn <%= commission_percent %> of the product price on sales attributed to their API key.</li>
+    <li>Commission is earned once the order has shipped and the refund window has passed. Refunded, charged-back or fraudulent orders earn nothing, and commission already approved for such an order is reversed.</li>
+    <li>Referring your own purchases to earn commission on them, or generating orders you intend to refund, is not allowed and will result in forfeited commission and account suspension.</li>
+    <li>We may change the commission rate with reasonable notice. Changes are not retrospective.</li>
+    <li>You are responsible for your own taxes on commission you receive.</li>
+  </ul>
+
+  <h2>9. Acceptable use of the API</h2>
+  <p>
+    Do not attempt to break, overload or probe the service, bypass rate limits, resell raw API access, or
+    use it to build a directly competing print-on-demand API. We may apply rate limits and block traffic
+    that threatens reliability.
+  </p>
+
+  <h2>10. Availability</h2>
+  <p>
+    We do not promise uninterrupted service. We may change, suspend or discontinue features, and we will
+    give notice of material changes to the API where we reasonably can.
+  </p>
+
+  <h2>11. Liability</h2>
+  <p>
+    We provide the service "as is" to the extent the law allows. We are not liable for lost profits, lost
+    sales or indirect losses. Our total liability for any claim is limited to the amount you paid us in
+    the three months before the claim arose. Nothing here limits liability for death or personal injury
+    caused by negligence, fraud, or anything else that cannot legally be limited.
+  </p>
+
+  <h2>12. Ending your account</h2>
+  <p>
+    You may close your account at any time. We may end or suspend access if you break these terms. Orders
+    already placed and paid for are still fulfilled, and commission already earned is still paid.
+  </p>
+
+  <h2>13. Changes and governing law</h2>
+  <p>
+    We may update these terms; the "last updated" date above will change and continued use means you
+    accept the new version. These terms are governed by the laws of <%= details[:jurisdiction] %>, and its
+    courts have jurisdiction.
+  </p>
+<% end %>

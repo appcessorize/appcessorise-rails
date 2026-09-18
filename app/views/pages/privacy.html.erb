@@ -1,0 +1,75 @@
+<%= render layout: "shared/legal", locals: { heading: "Privacy Policy" } do %>
+  <p>
+    This policy explains what personal data we collect when you use Appcessorise, why we hold it, and
+    what you can ask us to do with it. We do not sell personal data.
+  </p>
+
+  <h2>What we collect</h2>
+  <ul>
+    <li><strong>Account details:</strong> your email address and password (stored only as a hash). If you sign in with Google we receive your email address and a Google account identifier, not your password.</li>
+    <li><strong>Developer data:</strong> your API key, and logs of requests made with it, including timestamps and error details.</li>
+    <li><strong>Order details:</strong> the customer's name, email address, delivery address and phone number where given, plus the order contents and status.</li>
+    <li><strong>Artwork:</strong> the image used for a product, and the generated mockup, stored as links to the image files.</li>
+    <li><strong>Payment data:</strong> handled by Stripe. We receive a payment reference and the result, never full card numbers.</li>
+    <li><strong>Contact form:</strong> the name, email, phone, company and message you send us.</li>
+    <li><strong>Technical data:</strong> server logs including IP address and browser type, kept for security and debugging.</li>
+  </ul>
+
+  <h2>Why we use it</h2>
+  <ul>
+    <li>To take payment, produce and deliver orders, and provide support — this is necessary to perform our contract with you.</li>
+    <li>To calculate and pay developer commissions.</li>
+    <li>To keep the service secure, detect fraud and abuse, and enforce limits — our legitimate interest in running a safe service.</li>
+    <li>To meet tax, accounting and other legal obligations.</li>
+    <li>To send service emails about your orders and account. Marketing email, if we ever send it, needs your consent and can be withdrawn at any time.</li>
+  </ul>
+
+  <h2>Who we share it with</h2>
+  <p>We use these providers, who process data on our behalf:</p>
+  <ul>
+    <li><strong>Stripe</strong> — payment processing and fraud checks.</li>
+    <li><strong>Printful</strong> — printing and shipping. They receive the delivery address and the artwork for the ordered item.</li>
+    <li><strong>Resend</strong> — sending transactional email.</li>
+    <li><strong>Google</strong> — optional sign-in, if you use it.</li>
+    <li><strong>Hetzner</strong> — hosting the application and database.</li>
+  </ul>
+  <p>
+    Some of these are based outside the UK and EEA, so data may be transferred internationally under the
+    safeguards those providers offer, such as standard contractual clauses. We also disclose data where
+    the law requires it.
+  </p>
+
+  <h2>How long we keep it</h2>
+  <ul>
+    <li>Account data: while your account is open, then deleted or anonymised within a reasonable period after closure.</li>
+    <li>Order and transaction records: kept as long as tax and accounting rules require.</li>
+    <li>Mockups that are never bought: deleted automatically after they expire.</li>
+    <li>Server logs: a short rolling window for security and debugging.</li>
+  </ul>
+
+  <h2>Your rights</h2>
+  <p>
+    Depending on where you live, you can ask for a copy of your data, ask us to correct or delete it,
+    object to or restrict how we use it, ask for it in a portable format, and withdraw any consent you
+    gave. <%= link_to "Contact us", contact_path %> and we will respond within the period the law allows.
+    You can also complain to your data protection regulator; in the UK that is the ICO.
+  </p>
+
+  <h2 id="cookies">Cookies</h2>
+  <p>
+    We use a small number of strictly necessary cookies: a session cookie to keep you signed in, a
+    "remember me" cookie if you choose it, and a security token that protects forms against cross-site
+    request forgery. Stripe may set cookies during checkout for fraud prevention. We do not use
+    advertising cookies, and we do not track you across other websites. Blocking essential cookies will
+    stop sign-in and checkout working.
+  </p>
+
+  <h2>Children</h2>
+  <p>The service is not intended for children, and accounts require you to be 18 or older.</p>
+
+  <h2>Changes</h2>
+  <p>
+    If we change this policy we will update the date above, and tell account holders by email if the
+    change is significant.
+  </p>
+<% end %>

@@ -14,4 +14,13 @@ class PagesController < ApplicationController
 
   def api_docs
   end
+
+  def terms
+  end
+
+  def privacy
+  end
+
+  def refunds
+  end
 end

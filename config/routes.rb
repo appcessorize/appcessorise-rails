@@ -20,6 +20,10 @@ Rails.application.routes.draw do
   get "about", to: "pages#about"
   get "pets", to: "pages#pets"
   get "api-docs", to: "pages#api_docs"
+  get "terms", to: "pages#terms"
+  get "privacy", to: "pages#privacy"
+  get "refunds", to: "pages#refunds"
+  get "cookies", to: redirect("/privacy#cookies")
   get "products", to: "products#index"
   get "products/:id", to: "products#show", as: :product
   get "dashboard", to: "dashboard#index"

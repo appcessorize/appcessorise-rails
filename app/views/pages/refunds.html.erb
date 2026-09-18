@@ -1,0 +1,69 @@
+<%= render layout: "shared/legal", locals: { heading: "Refunds & Returns" } do %>
+  <p>
+    Every item is printed to order with the artwork chosen for it, so it cannot be resold. That shapes
+    the policy below. Nothing here removes the statutory rights you have where you live — including
+    rights covering faulty goods, which apply whether or not an item was made to order.
+  </p>
+
+  <h2>Faulty, damaged or wrong items</h2>
+  <p>
+    If an item arrives damaged, misprinted, or is not what you ordered,
+    <%= link_to "contact us", contact_path %> within <strong>30 days of delivery</strong> with your order
+    number and photos of the item and the packaging. We will reprint it or refund it in full, whichever you prefer.
+    You will not normally need to send the item back.
+  </p>
+
+  <h2>Change of mind</h2>
+  <p>
+    Because items are personalised and made to order, we cannot accept returns simply because you changed
+    your mind, and the usual right to cancel a distance sale does not apply to custom-made goods. If you
+    contact us before production begins we will do our best to cancel or amend the order.
+  </p>
+
+  <h2>Cancelling an order</h2>
+  <p>
+    Orders usually go into production shortly after payment. Email us as soon as possible with your order
+    number: if production has not started we cancel and refund in full; if it has, we cannot cancel.
+  </p>
+
+  <h2>Wrong or incomplete delivery address</h2>
+  <p>
+    If a parcel is returned to us because the address was wrong or incomplete, we will reship it once the
+    correct address is confirmed, at the cost of reshipment. Please check the address carefully at
+    checkout.
+  </p>
+
+  <h2>Lost parcels</h2>
+  <p>
+    If tracking shows no movement, or a parcel is confirmed lost in transit, contact us and we will
+    reprint or refund the order. For unrecovered parcels marked delivered, we will investigate with the
+    carrier before deciding.
+  </p>
+
+  <h2>Orders we cannot produce</h2>
+  <p>
+    If an order fails in production, is cancelled by our print partner, or is returned as undeliverable,
+    we refund the full amount automatically to the original payment method and email you to explain.
+  </p>
+
+  <h2>How refunds are paid</h2>
+  <p>
+    Refunds go back to the original payment method through Stripe. We process them as soon as the outcome
+    is agreed; how quickly the money appears is up to your bank, typically within 5 to 10 business days.
+    Shipping costs are refunded when the fault is ours.
+  </p>
+
+  <h2>Chargebacks</h2>
+  <p>
+    Please contact us before raising a chargeback with your bank — it is almost always faster to resolve
+    directly. Where an order is refunded or charged back, any developer commission on that sale is
+    reversed.
+  </p>
+
+  <h2>For developers</h2>
+  <p>
+    Refunds triggered by production failures are automatic and do not count against your account. If your
+    users report a recurring print quality problem, tell us with order numbers and photos so we can raise
+    it with our print partner.
+  </p>
+<% end %>
